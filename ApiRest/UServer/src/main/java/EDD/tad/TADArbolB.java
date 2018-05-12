@@ -3,34 +3,69 @@ package EDD.tad;
 import DAO.DataStructure;
 
 public class TADArbolB extends DataStructure {
-    private int codigoCurso;
-    private String curso;
+    private int codigo;
+    private String verificacion;
+    private String emision;
+    private String devolucion;
+    private double valor;
+    private double saldo;
 
-    public TADArbolB(int codigoCurso, String curso) {
-        this.codigoCurso = codigoCurso;
-        this.curso = curso;
+    public TADArbolB(int codigo) {
+        this.codigo = codigo;
     }
 
-    public int getCodigoCurso() {
-        return codigoCurso;
+    public int getCodigo() {
+        return codigo;
     }
 
-    public void setCodigoCurso(int codigoCurso) {
-        this.codigoCurso = codigoCurso;
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
-    public String getCurso() {
-        return curso;
+    public String getVerificacion() {
+        return verificacion;
     }
 
-    public void setCurso(String curso) {
-        this.curso = curso;
+    public void setVerificacion(String verificacion) {
+        this.verificacion = verificacion;
+    }
+
+    public String getEmision() {
+        return emision;
+    }
+
+    public void setEmision(String emision) {
+        this.emision = emision;
+    }
+
+    public String getDevolucion() {
+        return devolucion;
+    }
+
+    public void setDevolucion(String devolucion) {
+        this.devolucion = devolucion;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
     }
 
     @Override
     public String toString() {
-        return String.format("%d\\n%s",
-                codigoCurso, curso);
+        return String.format("%d\\n%s\\n%s\\n%d\\n%d",
+                codigo, verificacion, emision, valor, saldo);
     }
 
     @Override
@@ -51,7 +86,7 @@ public class TADArbolB extends DataStructure {
     @Override
     public int compareTo(Object o) {
         TADArbolB value = (TADArbolB) o;
-        return Integer.compare(codigoCurso, value.getCodigoCurso());
+        return Integer.compare(codigo, value.getcodigo());
     }
 
     @Override
