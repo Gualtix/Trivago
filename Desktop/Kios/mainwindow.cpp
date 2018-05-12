@@ -6,8 +6,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    SERVER = "";
+    SERVER = "http://localhost:8080/UServer/api/urban";
     APPLICATION = "";
+    PATH = "/buyticket";
 }
 
 MainWindow::~MainWindow()
@@ -35,6 +36,8 @@ void MainWindow::on_btnTicketComprar_clicked()
     default:
         return;
     }
+
+    QString string = enviarPeticion(QString::number(codigo));
 }
 
 void MainWindow::on_btnDevolver_clicked()
@@ -54,7 +57,7 @@ QString MainWindow::enviarPeticion(QString string)
                      SLOT(quit())
                      );
 
-    QNetworkRequest request(QUrl(url + QString("/tickets")));
+    QNetworkRequest request(QUrl(SERVER + PATH));
     request.setRawHeader("Content-Type", "application/json");
 
     QNetworkReply *reply = accessManager.post(request, json.toUtf8());
@@ -63,11 +66,11 @@ QString MainWindow::enviarPeticion(QString string)
     if (reply->error() == QNetworkReply::NoError)
     {
         QByteArray response = reply->readAll();
-        QJsonDocument jsd = QJsonDocument::fromJson(response);
-        QJsonObject jso = jsd.object();
+//        QJsonDocument jsd = QJsonDocument::fromJson(response);
+//        QJsonObject jso = jsd.object();
 
-        ui->edtTicketCodigo->setText(QString::number(jso["codigo"].toString()));
-        ui->edtTicketVerificacion->setText(jso["verificacion"].toString());
+//        ui->edtTicketCodigo->setText(QString::number(jso["codigo"].toString()));
+//        ui->edtTicketVerificacion->setText(jso["verificacion"].toString());
 
         qDebug() << "Success\n" << response;
         delete reply;
