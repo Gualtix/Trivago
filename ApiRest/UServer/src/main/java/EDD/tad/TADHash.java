@@ -101,6 +101,11 @@ public class TADHash extends DataStructure {
     }
 
     @Override
+    public String getJSON() {
+        return null;
+    }
+
+    @Override
     public int compareTo(Object o) {
         TADHash value = (TADHash) o;
         return Integer.compare(id_ticket, value.getId_ticket());

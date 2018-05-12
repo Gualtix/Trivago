@@ -1,4 +1,4 @@
-package arbolb;
+package EDD.arbolb;
 
 import DAO.DataStructure;
 
@@ -23,7 +23,6 @@ public class BTree<T extends DataStructure> {
         }
     }
 
-    @Nullable
     private BNode<T> add(T data, BNode<T> current) {
         int i = 0;
         BNode<T> child;

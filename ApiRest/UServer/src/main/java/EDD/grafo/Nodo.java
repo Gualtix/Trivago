@@ -1,7 +1,8 @@
-package grafo;
+package EDD.grafo;
 
-import list.List;
-import tad.TADNodo;
+
+import EDD.list.List;
+import EDD.tad.TADNodo;
 
 public class Nodo implements Comparable {
 

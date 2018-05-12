@@ -1,8 +1,10 @@
-package grafo;
+package EDD.grafo;
 
-import list.List;
-import tad.TADArista;
-import tad.TADNodo;
+
+import EDD.list.List;
+import EDD.tad.TADArista;
+import EDD.tad.TADNodo;
+
 
 import java.util.Iterator;
 
@@ -47,13 +49,13 @@ public class Grafo {
         Nodo origen = nodos.get(new Nodo(valueOrigen));
 
         if (origen == null)
-            origen = nodos.push_back(new Nodo(valueOrigen));
+            nodos.push_back(new Nodo(valueOrigen));
 
 
         Nodo destino = nodos.get(new Nodo(valueDestino));
 
         if (destino == null) {
-            destino = nodos.push_back(new Nodo(valueDestino));
+            nodos.push_back(new Nodo(valueDestino));
         }
 
         valueArista.calcular(origen.getData().getLatitud(), origen.getData().getLongitud(),

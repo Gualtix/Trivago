@@ -1,6 +1,6 @@
-package grafo;
+package EDD.grafo;
 
-import list.List;
+import EDD.list.List;
 
 import java.util.Iterator;
 

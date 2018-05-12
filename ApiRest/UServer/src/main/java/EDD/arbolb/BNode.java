@@ -1,4 +1,4 @@
-package arbolb;
+package EDD.arbolb;
 
 import DAO.DataStructure;
 
@@ -120,7 +120,12 @@ public class BNode<T extends DataStructure> extends DataStructure {
     }
 
     @Override
-    public int compareTo(@NotNull Object o) {
+    public String getJSON() {
+        return null;
+    }
+
+    @Override
+    public int compareTo(Object o) {
         return 0;
     }
 

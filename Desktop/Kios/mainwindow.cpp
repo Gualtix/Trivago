@@ -47,7 +47,7 @@ void MainWindow::on_btnDevolver_clicked()
 
 QString MainWindow::enviarPeticion(QString string)
 {
-    QString json = tr("{\"kiosko\":\"K052336\",\"monto\":%1}").arg(codigo);
+    QString json = tr("{\"kiosko\":\"K052336\",\"monto\":%1}").arg(string);
 
     QEventLoop loop;
 

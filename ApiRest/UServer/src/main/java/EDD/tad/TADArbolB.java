@@ -44,7 +44,12 @@ public class TADArbolB extends DataStructure {
     }
 
     @Override
-    public int compareTo(@NotNull Object o) {
+    public String getJSON() {
+        return null;
+    }
+
+    @Override
+    public int compareTo(Object o) {
         TADArbolB value = (TADArbolB) o;
         return Integer.compare(codigoCurso, value.getCodigoCurso());
     }

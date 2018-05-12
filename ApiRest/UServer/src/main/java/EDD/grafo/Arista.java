@@ -1,6 +1,6 @@
-package grafo;
+package EDD.grafo;
 
-import tad.TADArista;
+import EDD.tad.TADArista;
 
 public class Arista implements Comparable {
 

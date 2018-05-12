@@ -1,6 +1,6 @@
-package hashTable;
+package EDD.hashTable;
 
-import daoStructure.DataStructure;
+import DAO.DataStructure;
 
 public class HashTable<T extends DataStructure> {
 

@@ -1,4 +1,4 @@
-package list;
+package EDD.list;
 
 public class NodeList<T extends Comparable> implements
         Comparable, Cloneable {

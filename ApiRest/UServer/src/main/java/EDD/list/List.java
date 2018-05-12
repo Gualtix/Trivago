@@ -1,4 +1,4 @@
-package list;
+package EDD.list;
 
 import java.util.Iterator;
 
@@ -28,14 +28,14 @@ public class List<T extends Comparable> {
     }
 
     public T front() {
-        return head.getData();
+        return isEmpty() ? null : head.getData();
     }
 
     public T back() {
-        return tail.getData();
+        return isEmpty() ? null : tail.getData();
     }
 
-    public void push_front(T data) {
+    public T push_front(T data) {
         if (isEmpty())
             head = tail = new NodeList<>(data);
         else {
@@ -44,9 +44,11 @@ public class List<T extends Comparable> {
             head.setPreview(node);
             head = node;
         }
+
+        return head.getData();
     }
 
-    public void push_back(T data) {
+    public T push_back(T data) {
         if (isEmpty())
             head = tail = new NodeList<>(data);
         else {
@@ -55,6 +57,7 @@ public class List<T extends Comparable> {
             node.setPreview(tail);
             tail = node;
         }
+        return tail.getData();
     }
 
     public void prepend(List<T> list) throws CloneNotSupportedException {
@@ -97,19 +100,19 @@ public class List<T extends Comparable> {
         }
     }
 
-    public void pop_front() {
-        if (!isEmpty()) {
-            head = head.getNext();
-            if (head != null)
-                head.setPreview(null);
-        }
-    }
-
     public void pop_back() {
         if (!isEmpty()) {
             tail = tail.getPreview();
             if (tail != null)
                 tail.setNext(null);
+        }
+    }
+
+    public void pop_front() {
+        if (!isEmpty()) {
+            head = head.getNext();
+            if (head != null)
+                head.setPreview(null);
         }
     }
 
@@ -180,6 +183,11 @@ public class List<T extends Comparable> {
             current = current.getNext();
 
             return response.getData();
+        }
+
+        @Override
+        public void remove() {
+
         }
     }
 }
