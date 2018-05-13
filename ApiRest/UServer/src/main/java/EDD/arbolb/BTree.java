@@ -2,6 +2,11 @@ package EDD.arbolb;
 
 import DAO.DataStructure;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class BTree<T extends DataStructure> {
 
     private int k;
@@ -94,8 +99,37 @@ public class BTree<T extends DataStructure> {
         return current;
     }
 
-    public String graph() {
-        return String.format("\n%s\n", graph(root));
+    public void graph() {
+
+        String filename = "arbolito";
+        String text = String.format("digraph %s {\n", filename);
+        text += "rankdir = TB\n";
+        text += "node [shape = record]";
+        text += graph(this.root);
+        text += "\n}";
+
+        File file = new File(filename + ".dot");
+        BufferedWriter writer;
+        try {
+            writer = new BufferedWriter(new FileWriter(file));
+            writer.write(text);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(file.getAbsolutePath());
+
+        String cmd = String.format("dot -Tpng %s.dot -o %s.png",
+                filename, filename);
+
+        try {
+            Runtime.getRuntime().exec(cmd);
+            Runtime.getRuntime().exec("xdg-open arbolito.png");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //return String.format("\n%s\n", graph(root));
     }
 
     private String graph(BNode<T> current) {

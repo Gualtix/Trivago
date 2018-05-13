@@ -1,10 +1,10 @@
 package EDD;
 
-import arbolb.BTree;
-import grafo.Grafo;
-import hashTable.HashTable;
-import tad.*;
-import list.List;
+import EDD.arbolb.BTree;
+import EDD.grafo.Grafo;
+import EDD.hashTable.HashTable;
+import EDD.tad.TADArbolB;
+import EDD.tad.TADHash;
 
 public class Singleton {
 
