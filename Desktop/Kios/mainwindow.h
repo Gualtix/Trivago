@@ -28,15 +28,14 @@ private:
     Ui::MainWindow *ui;
 
     QString SERVER;
-    QString APPLICATION;
-    QString PATH;
 
     enum
     {
         TRES, DIEZ, CINCUENTA, CIEN
     };
     
-    QString enviarPeticion(QString json);
+    QString enviarPeticion(QString path, QString json);
+    void limpiarCampo(int tab);
 };
 
 #endif // MAINWINDOW_H

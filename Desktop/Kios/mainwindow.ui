@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>482</width>
-    <height>319</height>
+    <width>483</width>
+    <height>385</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,10 +31,10 @@
            <string>Ticket generado</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
-           <item row="0" column="0">
-            <widget class="QLabel" name="lblTicketCodigo">
+           <item row="2" column="0">
+            <widget class="QLabel" name="lblTicketValor">
              <property name="text">
-              <string>Código</string>
+              <string>Valor</string>
              </property>
             </widget>
            </item>
@@ -45,45 +45,41 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="lblTicketVerificacion">
-             <property name="text">
-              <string>Verificación</string>
-             </property>
-            </widget>
-           </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="edtTicketVerificacion">
+            <widget class="QLineEdit" name="edtTicketFecha">
              <property name="readOnly">
               <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
+           <item row="0" column="0">
+            <widget class="QLabel" name="lblTicketCodigo">
+             <property name="text">
+              <string>Código</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="edtTicketValor">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="edtTicketSaldo"/>
+           </item>
+           <item row="1" column="0">
             <widget class="QLabel" name="lblTicketFecha">
              <property name="text">
               <string>Fecha emisión</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="edtFecha">
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
            <item row="3" column="0">
-            <widget class="QLabel" name="lblTicketValor">
+            <widget class="QLabel" name="lblTicketSaldo">
              <property name="text">
-              <string>Valor</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="edtValor">
-             <property name="readOnly">
-              <bool>true</bool>
+              <string>Saldo</string>
              </property>
             </widget>
            </item>
@@ -147,7 +143,7 @@
        <attribute name="title">
         <string>Devolución</string>
        </attribute>
-       <layout class="QFormLayout" name="formLayout">
+       <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="0">
          <widget class="QLabel" name="lblDevolverCodigo">
           <property name="text">
@@ -155,47 +151,100 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="lblDevolverMonto">
-          <property name="text">
-           <string>Monto a devolver</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLineEdit" name="edtDevolverCodigo"/>
-        </item>
-        <item row="1" column="1">
-         <layout class="QHBoxLayout" name="layoutDevolucion">
+        <item row="0" column="2" rowspan="4">
+         <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QLabel" name="lblDevolverQ">
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>16777215</height>
-             </size>
-            </property>
+           <widget class="QLabel" name="lblDevolverMonto">
             <property name="text">
-             <string>Q.</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             <string>Monto a devolver</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="lblDevolverMontoQ">
-            <property name="text">
-             <string>0.00</string>
+           <widget class="QGroupBox" name="groupBox">
+            <property name="title">
+             <string>GroupBox</string>
             </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
+            <layout class="QFormLayout" name="formLayout">
+             <item row="0" column="0">
+              <widget class="QLabel" name="lblDevolverVerificacion">
+               <property name="text">
+                <string>Verificacion</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="edtDevolverVerificacion">
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="lblDevolverEmision">
+               <property name="text">
+                <string>Emision</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="edtDevolverEmision">
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="lblDevolverDevulucion">
+               <property name="text">
+                <string>Devolucion</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="edtDevolverDevolucion">
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="lblDevolverValor">
+               <property name="text">
+                <string>Valor</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="edtDevolverValor">
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="lblDevolverSaldo">
+               <property name="text">
+                <string>Saldo</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QLineEdit" name="edtDevolverSaldo">
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
         </item>
-        <item row="2" column="0">
+        <item row="1" column="0" colspan="2">
+         <widget class="QLineEdit" name="edtDevolverCodigo"/>
+        </item>
+        <item row="2" column="0" colspan="2">
          <widget class="QPushButton" name="btnDevolver">
           <property name="layoutDirection">
            <enum>Qt::LeftToRight</enum>
@@ -204,6 +253,19 @@
            <string>Registrar devolución</string>
           </property>
          </widget>
+        </item>
+        <item row="3" column="1">
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>107</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -216,7 +278,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>482</width>
+     <width>483</width>
      <height>26</height>
     </rect>
    </property>

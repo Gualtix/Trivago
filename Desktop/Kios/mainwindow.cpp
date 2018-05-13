@@ -7,8 +7,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     SERVER = "http://localhost:8080/UServer/api/urban";
-    APPLICATION = "";
-    PATH = "/buyticket";
 }
 
 MainWindow::~MainWindow()
@@ -18,43 +16,68 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnTicketComprar_clicked()
 {
-    int codigo = ui->cmbTicketMonto->currentIndex();
+    int precio = ui->cmbTicketMonto->currentIndex();
 
-    switch (codigo) {
+    switch (precio) {
     case TRES:
-        codigo = 3;
+        precio = 3;
         break;
     case DIEZ:
-        codigo = 10;
+        precio = 10;
         break;
     case CINCUENTA:
-        codigo = 50;
+        precio = 50;
         break;
     case CIEN:
-        codigo = 100;
+        precio = 100;
         break;
     default:
         return;
     }
 
-    QString json = tr("{\"codigo\": 0,\"verificacion\":\"\",\"emision\":\"\",\"devolucion\":\"\",\"valor\":%1,\"saldo\":%1}").arg(codigo);
+    QString json = tr("{\"codigo\": 0,\"verificacion\":\"\",\"emision\":\"\",\"devolucion\":\"\",\"valor\":%1,\"saldo\":%1}").arg(precio);
+    QString path = "/buyticket";
 
-    QString response = enviarPeticion(json);
+    QString response = enviarPeticion(path, json);
 
     QJsonDocument jsd = QJsonDocument::fromJson(response.toLatin1());
-    QJsonObject jso = jsd.object();
+    if (jsd != NULL)
+    {
+        QJsonObject jso = jsd.object();
 
-    ui->edtTicketCodigo->setText(QString::number(jso["codigo"].toDouble()));
-    ui->edtFecha->setText(jso["emision"].toString());
-    ui->edtValor->setText(QString::number(jso["valor"].toDouble()));
+        ui->edtTicketCodigo->setText(QString::number(jso["codigo"].toDouble()));
+        ui->edtTicketFecha->setText(jso["emision"].toString());
+        ui->edtTicketSaldo->setText(QString::number(jso["valor"].toDouble()));
+        ui->edtTicketSaldo->setText(QString::number(jso["saldo"].toDouble()));
+    }
+    else
+        limpiarCampo(1);
 }
 
 void MainWindow::on_btnDevolver_clicked()
 {
     int codigo = ui->edtDevolverCodigo->text().toInt();
+    QString json = tr("{\"codigo\": %1,\"verificacion\":\"\",\"emision\":\"\",\"devolucion\":\"\",\"valor\":0.0,\"saldo\":0.0}").arg(codigo);
+    QString path = "/removeticket";
+
+    QString response = enviarPeticion(path, json);
+
+    QJsonDocument jsd = QJsonDocument::fromJson(response.toLatin1());
+    if (jsd != NULL)
+    {
+        QJsonObject jso = jsd.object();
+
+        ui->edtDevolverVerificacion->setText(QString::number(jso["verificacion"].toDouble()));
+        ui->edtDevolverEmision->setText(jso["emision"].toString());
+        ui->edtDevolverDevolucion->setText(jso["devolucion"].toString());
+        ui->edtDevolverValor->setText(QString::number(jso["valor"].toDouble()));
+        ui->edtDevolverSaldo->setText(QString::number(jso["saldo"].toDouble()));
+    }
+    else
+        limpiarCampo(2);
 }
 
-QString MainWindow::enviarPeticion(QString json)
+QString MainWindow::enviarPeticion(QString path, QString json)
 {
     QEventLoop loop;
 
@@ -64,7 +87,7 @@ QString MainWindow::enviarPeticion(QString json)
                      SLOT(quit())
                      );
 
-    QNetworkRequest request(QUrl(SERVER + PATH));
+    QNetworkRequest request(QUrl(SERVER + path));
     request.setRawHeader("Content-Type", "application/json");
 
     QNetworkReply *reply = accessManager.post(request, json.toUtf8());
@@ -82,5 +105,24 @@ QString MainWindow::enviarPeticion(QString json)
     {
         qDebug() << "Failure ";
         delete reply;
+    }
+}
+
+void MainWindow::limpiarCampo(int tab)
+{
+    if (tab == 1)
+    {
+        ui->edtTicketCodigo->clear();
+        ui->edtTicketFecha->clear();
+        ui->edtTicketSaldo->clear();
+        ui->edtTicketSaldo->clear();
+    }
+    else
+    {
+        ui->edtDevolverVerificacion->clear();
+        ui->edtDevolverEmision->clear();
+        ui->edtDevolverDevolucion->clear();
+        ui->edtDevolverValor->clear();
+        ui->edtDevolverSaldo->clear();
     }
 }
