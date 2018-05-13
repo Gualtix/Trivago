@@ -37,7 +37,14 @@ void MainWindow::on_btnTicketComprar_clicked()
         return;
     }
 
-    QString string = enviarPeticion(QString::number(codigo));
+    QByteArray response = enviarPeticion(QString::number(codigo));
+
+   QJsonDocument jsd = QJsonDocument::fromJson(response);
+   QJsonObject jso = jsd.object();
+
+   ui->edtTicketCodigo->setText(jso["codigo"].toString());
+   ui->edtFecha->setText(jso["emision"].toString());
+   ui->edtValor->setText(QString::number(jso["valor"].toDouble()));
 }
 
 void MainWindow::on_btnDevolver_clicked()
@@ -45,7 +52,7 @@ void MainWindow::on_btnDevolver_clicked()
     int codigo = ui->edtDevolverCodigo->text().toInt();
 }
 
-QString MainWindow::enviarPeticion(QString string)
+QByteArray MainWindow::enviarPeticion(QString string)
 {
     QString json = tr("{\"codigo\": 0,\"verificacion\":\"\",\"emision\":\"\",\"devolucion\":\"\",\"valor\":%1,\"saldo\":%1}").arg(string);
 
@@ -66,18 +73,14 @@ QString MainWindow::enviarPeticion(QString string)
     if (reply->error() == QNetworkReply::NoError)
     {
         QByteArray response = reply->readAll();
-//        QJsonDocument jsd = QJssonDocument::fromJson(response);
-//        QJsonObject jso = jsd.object();
+        return response;
 
-//        ui->edtTicketCodigo->setText(QString::number(jso["codigo"].toString()));
-//        ui->edtTicketVerificacion->setText(jso["verificacion"].toString());
-
-        qDebug() << "Success\n" << response;
+        qDebug() << "Success";
         delete reply;
     }
     else
     {
-        qDebug() << "Failure " << reply->errorString();
+        qDebug() << "Failure ";
         delete reply;
     }
 }
