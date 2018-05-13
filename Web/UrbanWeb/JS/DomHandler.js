@@ -57,6 +57,8 @@ function OnPageLoad(){
 //(^< ............ ............ ............ ............ ............ onClickbtnShowTree_IMG
 function onClickbtnShowTree_IMG() {
 
+
+    //window.location.href = "http://stackoverflow.com";
     
 
     const url = 'http://localhost:8080/UServer/api/urban/arbolito_img';
@@ -64,6 +66,8 @@ function onClickbtnShowTree_IMG() {
 
 
     $.getJSON(url,function (data){
+
+
         //sconsole.log(data);
         //myjson = data;
         //impis();
@@ -74,12 +78,15 @@ function onClickbtnShowTree_IMG() {
         
         var cnt = data.contenido;
         var tree_img_in_base64 = "data:image/png;base64,"+cnt;
+
+        var opened = window.open("");
+        opened.document.write("<html><head><link rel = \"stylesheet\" href = \"CSS/Style.css\"><title>T I K E T S</title></head><body> Arbol de Tickets <br> <img id = \"Tree_IMG_View\" src = "+tree_img_in_base64+" > </body></html>");
         //tree_img_in_base64.concat(data.contenido);
         //console.log(data.contenido);
         //console.log(tree_img_in_base64);
 
 
-        OpenIMG(tree_img_in_base64);
+        //OpenIMG(tree_img_in_base64);
         //$.each(data, function (key, entry) {           
             //dropAlumno.append($('<option></option>').attr('value', entry.abbreviation).text(entry.nombre));
 
@@ -146,6 +153,8 @@ function onClickbtnShowTree_IMG() {
 
 }
 
+
+/* This Function Downloads an 64_Base Image
 function OpenIMG(tree_img_in_base64) {
     var link = document.createElement('a');
     //link.href = '/sites/default/files/toy/jpeg/image-1419683919_4851.jpeg';  // use realtive url 
@@ -154,6 +163,7 @@ function OpenIMG(tree_img_in_base64) {
     document.body.appendChild(link);
     link.click();  
 }
+*/
 
 //(^< ............ ............ ............ ............ ............ onClickbtnUpdateStation
 function saveStationChanges() {

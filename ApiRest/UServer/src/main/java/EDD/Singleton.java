@@ -24,7 +24,7 @@ public class Singleton {
 
     private Singleton() {
         idTicket = 200;
-        arbol = new BTree<>(5);
+        arbol = new BTree<>(3);
         //grafo = new Grafo();
         //hash = new HashTable<>();
     }

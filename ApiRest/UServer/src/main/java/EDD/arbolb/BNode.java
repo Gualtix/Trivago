@@ -15,7 +15,7 @@ public class BNode<T extends DataStructure> extends DataStructure {
         this.k = k;
         size = 0;
         info = (T[]) new DataStructure[k + 1];
-        childs = new BNode[k + 1];
+        childs = new BNode[k + 2];
     }
 
     public int getK() {
@@ -77,11 +77,14 @@ public class BNode<T extends DataStructure> extends DataStructure {
             leftChild.pushInfo(info[i]);
             leftChild.pushChild(childs[i]);
         }
-        for (int i = med + 1, a = 0; i <= k; i++, a++)
+        leftChild.pushChild(childs[med]);
+
+        for (int i = med + 1, a = 0; i <= k + 1; i++, a++)
         {
             rightChild.pushInfo(info[i]);
             rightChild.pushChild(childs[i]);
         }
+        rightChild.pushChild(childs[k + 1]);
 
         result[0] = info[med];
         result[1] = leftChild;
