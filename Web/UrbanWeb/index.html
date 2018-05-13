@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link rel = "stylesheet" href = "CSS/Style.css">
+    <meta name = "viewport" content = "initial-scale=1.0, user-scalable=no">
+    <meta charset = "utf-8">
+    <title>U R B A N</title>
+  </head>
+
+  <body>
+
+    <script src="JS/DomHandler.js"></script>
+    <script src="JS/MapHandler.js"></script>
+    <script src="JS/jquery-3.3.1.js"></script>
+    <script src="JS/BLogic.js"></script>
+    
+    <script src="JS/Containers.js"></script>
+  
+    <header>
+
+    </header>
+
+    <div id = "TopMenu">
+      <button class="btn">Arbol B</button>
+      <button class="btn">Tabla Hash</button>
+      <button class="btn">Grafo Completo</button>
+      <button id = "NewStation" onclick = "Pick_New_Station()" class="btn">Estaciones</button>
+      <button id = "NewRoute" onclick = "Built_New_Route()" class="btn">Rutas</button>
+      <button id ="ShowStops" onclick = "Show_StopList_on_Map()" class = "btn">Estaciones</button>
+
+    </div>
+
+    <!-- ............ ............ ............ S E C T I O N:   M A P -->  
+    <div id = "map"></div>
+
+    <!-- ............ ............ ............ S E C T I O N:   S T A T I O N S -->
+    <fieldset id = "gboxEstaciones">
+      <legend>Estaciones</legend>
+
+      <div id = "tblEst">
+
+        <table id = tblEstaciones>
+          <tr>
+          <th>Codigo</th>
+          <th>Nombre</th> 
+          <th>Precio</th>
+          <th>Latitud</th>
+          <th>Longitud</th>
+          </tr>
+        </table>
+        
+      </div>
+
+      <div id = "frmEst">
+
+        <div>
+
+          Codigo:
+          <br>
+          <input id = "tboxCode" type = "text" name = "firstname" readonly>
+          <br>
+
+          Nombre:
+          <br>
+          <input id = "tboxName" type = "text">
+          <br>
+
+          Precio:
+          <br>
+          <input id = "tboxPrice" type = "text">
+          <br>
+
+          Latitud:
+          <br>
+          <input id = "tboxLatitude" type = "text" readonly>
+          <br>
+
+          Longitud:
+          <br>
+          <input id = "tboxLongitude" type="text" readonly>
+          <br>
+
+
+          <button id = "btmAddNewStation" class = "btnStop" onclick = "AddRow_to_Table()">Agregar</button>
+          <button id = "btnUpdateStation" class = "btnStop" onclick = "saveStationChanges()" disabled>Actualizar</button>
+          <br>
+          <!-- <button id = "btnTest" class = "btnStop" onclick = "UpdateStopTable()">Test</button> -->
+          
+        </div>
+        
+      </div>
+
+
+    </fieldset>
+
+    <!-- ............ ............ ............ S E C T I O N:   R O U T E S -->
+    <fieldset id = "gboxRutas">
+      <legend>Rutas</legend>
+
+
+      <div id = "tblRoutes">
+
+      </div>
+
+      <div id = "frmRoutes">
+
+        Latit:
+        <br>
+        <input id = "Latit" type = "text" name = "firstname" readonly>
+        <br>
+
+        Longit:
+        <br>
+        <input id = "Longit" type = "text">
+        <br>
+
+      </div>
+
+    </fieldset>
+
+    
+  
+    <footer>
+
+    </footer>
+    
+    <script async defer
+      src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyARj0TMHGcGsVpzMSFxFPzDJuEFzW-Ql_o&callback=initMap">
+    </script>
+  
+  </body>
+</html>
