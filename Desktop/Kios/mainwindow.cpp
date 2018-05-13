@@ -47,7 +47,7 @@ void MainWindow::on_btnDevolver_clicked()
 
 QString MainWindow::enviarPeticion(QString string)
 {
-    QString json = tr("{\"kiosko\":\"K052336\",\"monto\":%1}").arg(string);
+    QString json = tr("{\"codigo\": 0,\"verificacion\":\"\",\"emision\":\"\",\"devolucion\":\"\",\"valor\":%1,\"saldo\":%1}").arg(string);
 
     QEventLoop loop;
 
@@ -66,7 +66,7 @@ QString MainWindow::enviarPeticion(QString string)
     if (reply->error() == QNetworkReply::NoError)
     {
         QByteArray response = reply->readAll();
-//        QJsonDocument jsd = QJsonDocument::fromJson(response);
+//        QJsonDocument jsd = QJssonDocument::fromJson(response);
 //        QJsonObject jso = jsd.object();
 
 //        ui->edtTicketCodigo->setText(QString::number(jso["codigo"].toString()));

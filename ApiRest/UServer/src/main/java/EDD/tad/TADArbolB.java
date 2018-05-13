@@ -64,7 +64,7 @@ public class TADArbolB extends DataStructure {
 
     @Override
     public String toString() {
-        return String.format("%d\\n%s\\n%s\\n%d\\n%d",
+        return String.format("%d\\n%s\\n%s\\n%f\\n%f",
                 codigo, verificacion, emision, valor, saldo);
     }
 
@@ -86,7 +86,7 @@ public class TADArbolB extends DataStructure {
     @Override
     public int compareTo(Object o) {
         TADArbolB value = (TADArbolB) o;
-        return Integer.compare(codigo, value.getcodigo());
+        return Integer.compare(codigo, value.getCodigo());
     }
 
     @Override
