@@ -38,10 +38,10 @@ void MainWindow::on_btnTicketComprar_clicked()
     QString json = tr("{\"codigo\": 0,\"verificacion\":\"\",\"emision\":\"\",\"devolucion\":\"\",\"valor\":%1,\"saldo\":%1}").arg(precio);
     QString path = "/buyticket";
 
-    QString response = enviarPeticion(path, json);
+    QString response = enviarPeticion_post(path, json);
 
     QJsonDocument jsd = QJsonDocument::fromJson(response.toLatin1());
-    if (jsd != NULL)
+    if (!jsd.isEmpty())
     {
         QJsonObject jso = jsd.object();
 
@@ -58,14 +58,22 @@ void MainWindow::on_btnDevolver_clicked()
 {
     int codigo = ui->edtDevolverCodigo->text().toInt();
     QString json = tr("{\"codigo\": %1,\"verificacion\":\"\",\"emision\":\"\",\"devolucion\":\"\",\"valor\":0.0,\"saldo\":0.0}").arg(codigo);
-    QString path = "/removeticket";
+    QString path = "/devolucion";
 
-    QString response = enviarPeticion(path, json);
+    QString response = enviarPeticion_put(path, json);
 
     QJsonDocument jsd = QJsonDocument::fromJson(response.toLatin1());
-    if (jsd != NULL)
+    if (!jsd.isEmpty())
     {
         QJsonObject jso = jsd.object();
+
+        if (!jso["estado"].isNull())
+        {
+            QMessageBox message(this);
+            message.setText("Codigo de ticket no valido");
+            message.exec();
+            return;
+        }
 
         ui->edtDevolverVerificacion->setText(QString::number(jso["verificacion"].toDouble()));
         ui->edtDevolverEmision->setText(jso["emision"].toString());
@@ -77,7 +85,7 @@ void MainWindow::on_btnDevolver_clicked()
         limpiarCampo(2);
 }
 
-QString MainWindow::enviarPeticion(QString path, QString json)
+QString MainWindow::enviarPeticion_post(QString path, QString json)
 {
     QEventLoop loop;
 
@@ -91,6 +99,37 @@ QString MainWindow::enviarPeticion(QString path, QString json)
     request.setRawHeader("Content-Type", "application/json");
 
     QNetworkReply *reply = accessManager.post(request, json.toUtf8());
+    loop.exec();
+
+    if (reply->error() == QNetworkReply::NoError)
+    {
+        QByteArray response = reply->readAll();
+        return QString(response);
+
+        qDebug() << "Success";
+        delete reply;
+    }
+    else
+    {
+        qDebug() << "Failure ";
+        delete reply;
+    }
+}
+
+QString MainWindow::enviarPeticion_put(QString path, QString json)
+{
+    QEventLoop loop;
+
+    QNetworkAccessManager accessManager;
+    QObject::connect(&accessManager, SIGNAL(finished(QNetworkReply*)),
+                     &loop,
+                     SLOT(quit())
+                     );
+
+    QNetworkRequest request(QUrl(SERVER + path));
+    request.setRawHeader("Content-Type", "application/json");
+
+    QNetworkReply *reply = accessManager.put(request,json.toUtf8());
     loop.exec();
 
     if (reply->error() == QNetworkReply::NoError)

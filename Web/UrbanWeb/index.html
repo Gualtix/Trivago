@@ -10,6 +10,7 @@
 
   <body>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <script src="JS/DomHandler.js"></script>
     <script src="JS/MapHandler.js"></script>
     <script src="JS/jquery-3.3.1.js"></script>
@@ -18,11 +19,11 @@
     <script src="JS/Containers.js"></script>
   
     <header>
-
+      <img id = "img">
     </header>
 
     <div id = "TopMenu">
-      <button class="btn">Arbol B</button>
+      <button id = "ShowTree_IMG" onclick = "onClickbtnShowTree_IMG()" class="btn">Arbol B</button>
       <button class="btn">Tabla Hash</button>
       <button class="btn">Grafo Completo</button>
       <button id = "NewStation" onclick = "Pick_New_Station()" class="btn">Estaciones</button>

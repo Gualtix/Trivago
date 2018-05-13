@@ -2,10 +2,8 @@ package EDD.arbolb;
 
 import DAO.DataStructure;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import org.apache.commons.codec.binary.Base64;
 
 public class BTree<T extends DataStructure> {
 
@@ -57,7 +55,7 @@ public class BTree<T extends DataStructure> {
     }
 
     public T get(T data) {
-        get(data, root);
+        return get(data, root);
     }
 
     private T get(T data, BNode<T> current) {
@@ -122,7 +120,7 @@ public class BTree<T extends DataStructure> {
 
         try {
             Runtime.getRuntime().exec(cmd);
-            Runtime.getRuntime().exec("xdg-open arbolito.png");
+            //Runtime.getRuntime().exec("xdg-open Arbolito.png");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -148,7 +146,7 @@ public class BTree<T extends DataStructure> {
         return text;
     }
 
-    private String toBase64(String filename) {
+    public String toBase64(String filename) {
         filename += ".png";
         String encodedImage = "";
         File file = new File(filename);
@@ -156,7 +154,7 @@ public class BTree<T extends DataStructure> {
             FileInputStream stream = new FileInputStream(file);
             byte[] bytes = new byte[(int)file.length()];
             stream.read(bytes);
-            encodedImage = new String(Base64.encodedBase64(bytes), "UTF-8");
+            encodedImage = new String(Base64.encodeBase64(bytes), "UTF-8");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

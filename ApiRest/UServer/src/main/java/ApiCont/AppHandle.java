@@ -16,6 +16,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
+import java.lang.annotation.Target;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -24,19 +25,54 @@ import java.time.format.DateTimeFormatter;
 public class AppHandle extends Application {
 
     Singleton Sigi = Singleton.getInstance();
-    //BTree<TADArbolB> Ticket_Tree = new BTree<TADArbolB>(5);
-    //int ID_Ticket = 200;
-    //Employee ID_Ticket = Employee.getInstance();
+
+    @PUT
+    @Path("/devolucion")
+    @Produces("application/json")
+    public String updateTicket(String Tkk){
+
+        String TicketPrice = Tkk;
+        String TicketJs = "";
+        Gson Gs = new Gson();
+        TADArbolB Tk = Gs.fromJson(TicketPrice,TADArbolB.class);
+
+        TADArbolB NewTicket = Sigi.getArbol().get(Tk);
+
+        if(NewTicket == null){
+            return "{\"estado\":true}";
+        }
+
+        //Fecha
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LLLL/yyyy");
+        String formattedString = localDate.format(formatter);
+
+        NewTicket.setDevolucion(formattedString);
+
+        //Valor Actual
+        NewTicket.setSaldo(0);
+        TicketJs = Gs.toJson(NewTicket);
+
+        Sigi.getArbol().graph("Arbolito");
+
+        return TicketJs;
+    }
+
 
     @GET
-    @Path("/rutas")
+    @Path("/arbolito_img")
     @Produces("application/json")
     public String getRt(){
-        return "Rutas";
+
+        String Base64_Tree = Sigi.getArbol().toBase64("Arbolito");
+
+        String Rs = "{\"contenido\":\""+Base64_Tree+"   \"}";
+        //String Base64_Tree = Sigi.getArbol().toBase64("Nomams");
+        return Rs;
     }
 
     @GET
-    @Path("/tickets")
+    @Path("/rutas")
     @Produces("application/json")
     public String getTickets(){
         Gson Gs = new Gson();
@@ -86,7 +122,7 @@ public class AppHandle extends Application {
         //Employee Emp = new Employee("Walter",29,"waltix@gmail.com");
         //String Ps = Gs.toJson(Emp);
 
-        Sigi.getArbol().graph();
+        Sigi.getArbol().graph("Arbolito");
 
         return TicketJs;
     }

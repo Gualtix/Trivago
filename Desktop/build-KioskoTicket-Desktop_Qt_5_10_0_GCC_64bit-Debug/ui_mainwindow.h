@@ -17,7 +17,6 @@
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -28,6 +27,7 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QToolBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -42,27 +42,38 @@ public:
     QGridLayout *gridLayout_3;
     QGroupBox *grpTicketDetalle;
     QGridLayout *gridLayout_2;
-    QLabel *lblTicketCodigo;
-    QLineEdit *edtTicketCodigo;
-    QLabel *lblTicketVerificacion;
-    QLineEdit *edtTicketVerificacion;
-    QLabel *lblTicketFecha;
-    QLineEdit *edtFecha;
     QLabel *lblTicketValor;
-    QLineEdit *edtValor;
+    QLineEdit *edtTicketCodigo;
+    QLineEdit *edtTicketFecha;
+    QLabel *lblTicketCodigo;
+    QLineEdit *edtTicketValor;
+    QLineEdit *edtTicketSaldo;
+    QLabel *lblTicketFecha;
+    QLabel *lblTicketSaldo;
     QSpacerItem *verticalSpacer;
     QLabel *lblTicketMonto;
     QComboBox *cmbTicketMonto;
     QPushButton *btnTicketComprar;
     QWidget *tabDevolucion;
-    QFormLayout *formLayout;
+    QGridLayout *gridLayout_4;
     QLabel *lblDevolverCodigo;
+    QVBoxLayout *verticalLayout;
     QLabel *lblDevolverMonto;
+    QGroupBox *groupBox;
+    QFormLayout *formLayout;
+    QLabel *lblDevolverVerificacion;
+    QLineEdit *edtDevolverVerificacion;
+    QLabel *lblDevolverEmision;
+    QLineEdit *edtDevolverEmision;
+    QLabel *lblDevolverDevulucion;
+    QLineEdit *edtDevolverDevolucion;
+    QLabel *lblDevolverValor;
+    QLineEdit *edtDevolverValor;
+    QLabel *lblDevolverSaldo;
+    QLineEdit *edtDevolverSaldo;
     QLineEdit *edtDevolverCodigo;
-    QHBoxLayout *layoutDevolucion;
-    QLabel *lblDevolverQ;
-    QLabel *lblDevolverMontoQ;
     QPushButton *btnDevolver;
+    QSpacerItem *verticalSpacer_2;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -71,7 +82,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(482, 319);
+        MainWindow->resize(483, 385);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -92,10 +103,10 @@ public:
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        lblTicketCodigo = new QLabel(grpTicketDetalle);
-        lblTicketCodigo->setObjectName(QStringLiteral("lblTicketCodigo"));
+        lblTicketValor = new QLabel(grpTicketDetalle);
+        lblTicketValor->setObjectName(QStringLiteral("lblTicketValor"));
 
-        gridLayout_2->addWidget(lblTicketCodigo, 0, 0, 1, 1);
+        gridLayout_2->addWidget(lblTicketValor, 2, 0, 1, 1);
 
         edtTicketCodigo = new QLineEdit(grpTicketDetalle);
         edtTicketCodigo->setObjectName(QStringLiteral("edtTicketCodigo"));
@@ -103,38 +114,37 @@ public:
 
         gridLayout_2->addWidget(edtTicketCodigo, 0, 1, 1, 1);
 
-        lblTicketVerificacion = new QLabel(grpTicketDetalle);
-        lblTicketVerificacion->setObjectName(QStringLiteral("lblTicketVerificacion"));
+        edtTicketFecha = new QLineEdit(grpTicketDetalle);
+        edtTicketFecha->setObjectName(QStringLiteral("edtTicketFecha"));
+        edtTicketFecha->setReadOnly(true);
 
-        gridLayout_2->addWidget(lblTicketVerificacion, 1, 0, 1, 1);
+        gridLayout_2->addWidget(edtTicketFecha, 1, 1, 1, 1);
 
-        edtTicketVerificacion = new QLineEdit(grpTicketDetalle);
-        edtTicketVerificacion->setObjectName(QStringLiteral("edtTicketVerificacion"));
-        edtTicketVerificacion->setReadOnly(true);
+        lblTicketCodigo = new QLabel(grpTicketDetalle);
+        lblTicketCodigo->setObjectName(QStringLiteral("lblTicketCodigo"));
 
-        gridLayout_2->addWidget(edtTicketVerificacion, 1, 1, 1, 1);
+        gridLayout_2->addWidget(lblTicketCodigo, 0, 0, 1, 1);
+
+        edtTicketValor = new QLineEdit(grpTicketDetalle);
+        edtTicketValor->setObjectName(QStringLiteral("edtTicketValor"));
+        edtTicketValor->setReadOnly(true);
+
+        gridLayout_2->addWidget(edtTicketValor, 2, 1, 1, 1);
+
+        edtTicketSaldo = new QLineEdit(grpTicketDetalle);
+        edtTicketSaldo->setObjectName(QStringLiteral("edtTicketSaldo"));
+
+        gridLayout_2->addWidget(edtTicketSaldo, 3, 1, 1, 1);
 
         lblTicketFecha = new QLabel(grpTicketDetalle);
         lblTicketFecha->setObjectName(QStringLiteral("lblTicketFecha"));
 
-        gridLayout_2->addWidget(lblTicketFecha, 2, 0, 1, 1);
+        gridLayout_2->addWidget(lblTicketFecha, 1, 0, 1, 1);
 
-        edtFecha = new QLineEdit(grpTicketDetalle);
-        edtFecha->setObjectName(QStringLiteral("edtFecha"));
-        edtFecha->setReadOnly(true);
+        lblTicketSaldo = new QLabel(grpTicketDetalle);
+        lblTicketSaldo->setObjectName(QStringLiteral("lblTicketSaldo"));
 
-        gridLayout_2->addWidget(edtFecha, 2, 1, 1, 1);
-
-        lblTicketValor = new QLabel(grpTicketDetalle);
-        lblTicketValor->setObjectName(QStringLiteral("lblTicketValor"));
-
-        gridLayout_2->addWidget(lblTicketValor, 3, 0, 1, 1);
-
-        edtValor = new QLineEdit(grpTicketDetalle);
-        edtValor->setObjectName(QStringLiteral("edtValor"));
-        edtValor->setReadOnly(true);
-
-        gridLayout_2->addWidget(edtValor, 3, 1, 1, 1);
+        gridLayout_2->addWidget(lblTicketSaldo, 3, 0, 1, 1);
 
 
         gridLayout_3->addWidget(grpTicketDetalle, 0, 1, 4, 1);
@@ -165,49 +175,104 @@ public:
         tabWidget->addTab(tabComprar, QString());
         tabDevolucion = new QWidget();
         tabDevolucion->setObjectName(QStringLiteral("tabDevolucion"));
-        formLayout = new QFormLayout(tabDevolucion);
-        formLayout->setSpacing(6);
-        formLayout->setContentsMargins(11, 11, 11, 11);
-        formLayout->setObjectName(QStringLiteral("formLayout"));
+        gridLayout_4 = new QGridLayout(tabDevolucion);
+        gridLayout_4->setSpacing(6);
+        gridLayout_4->setContentsMargins(11, 11, 11, 11);
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
         lblDevolverCodigo = new QLabel(tabDevolucion);
         lblDevolverCodigo->setObjectName(QStringLiteral("lblDevolverCodigo"));
 
-        formLayout->setWidget(0, QFormLayout::LabelRole, lblDevolverCodigo);
+        gridLayout_4->addWidget(lblDevolverCodigo, 0, 0, 1, 1);
 
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setSpacing(6);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         lblDevolverMonto = new QLabel(tabDevolucion);
         lblDevolverMonto->setObjectName(QStringLiteral("lblDevolverMonto"));
 
-        formLayout->setWidget(0, QFormLayout::FieldRole, lblDevolverMonto);
+        verticalLayout->addWidget(lblDevolverMonto);
+
+        groupBox = new QGroupBox(tabDevolucion);
+        groupBox->setObjectName(QStringLiteral("groupBox"));
+        formLayout = new QFormLayout(groupBox);
+        formLayout->setSpacing(6);
+        formLayout->setContentsMargins(11, 11, 11, 11);
+        formLayout->setObjectName(QStringLiteral("formLayout"));
+        lblDevolverVerificacion = new QLabel(groupBox);
+        lblDevolverVerificacion->setObjectName(QStringLiteral("lblDevolverVerificacion"));
+
+        formLayout->setWidget(0, QFormLayout::LabelRole, lblDevolverVerificacion);
+
+        edtDevolverVerificacion = new QLineEdit(groupBox);
+        edtDevolverVerificacion->setObjectName(QStringLiteral("edtDevolverVerificacion"));
+        edtDevolverVerificacion->setReadOnly(true);
+
+        formLayout->setWidget(0, QFormLayout::FieldRole, edtDevolverVerificacion);
+
+        lblDevolverEmision = new QLabel(groupBox);
+        lblDevolverEmision->setObjectName(QStringLiteral("lblDevolverEmision"));
+
+        formLayout->setWidget(1, QFormLayout::LabelRole, lblDevolverEmision);
+
+        edtDevolverEmision = new QLineEdit(groupBox);
+        edtDevolverEmision->setObjectName(QStringLiteral("edtDevolverEmision"));
+        edtDevolverEmision->setReadOnly(true);
+
+        formLayout->setWidget(1, QFormLayout::FieldRole, edtDevolverEmision);
+
+        lblDevolverDevulucion = new QLabel(groupBox);
+        lblDevolverDevulucion->setObjectName(QStringLiteral("lblDevolverDevulucion"));
+
+        formLayout->setWidget(2, QFormLayout::LabelRole, lblDevolverDevulucion);
+
+        edtDevolverDevolucion = new QLineEdit(groupBox);
+        edtDevolverDevolucion->setObjectName(QStringLiteral("edtDevolverDevolucion"));
+        edtDevolverDevolucion->setReadOnly(true);
+
+        formLayout->setWidget(2, QFormLayout::FieldRole, edtDevolverDevolucion);
+
+        lblDevolverValor = new QLabel(groupBox);
+        lblDevolverValor->setObjectName(QStringLiteral("lblDevolverValor"));
+
+        formLayout->setWidget(3, QFormLayout::LabelRole, lblDevolverValor);
+
+        edtDevolverValor = new QLineEdit(groupBox);
+        edtDevolverValor->setObjectName(QStringLiteral("edtDevolverValor"));
+        edtDevolverValor->setReadOnly(true);
+
+        formLayout->setWidget(3, QFormLayout::FieldRole, edtDevolverValor);
+
+        lblDevolverSaldo = new QLabel(groupBox);
+        lblDevolverSaldo->setObjectName(QStringLiteral("lblDevolverSaldo"));
+
+        formLayout->setWidget(4, QFormLayout::LabelRole, lblDevolverSaldo);
+
+        edtDevolverSaldo = new QLineEdit(groupBox);
+        edtDevolverSaldo->setObjectName(QStringLiteral("edtDevolverSaldo"));
+        edtDevolverSaldo->setReadOnly(true);
+
+        formLayout->setWidget(4, QFormLayout::FieldRole, edtDevolverSaldo);
+
+
+        verticalLayout->addWidget(groupBox);
+
+
+        gridLayout_4->addLayout(verticalLayout, 0, 2, 4, 1);
 
         edtDevolverCodigo = new QLineEdit(tabDevolucion);
         edtDevolverCodigo->setObjectName(QStringLiteral("edtDevolverCodigo"));
 
-        formLayout->setWidget(1, QFormLayout::LabelRole, edtDevolverCodigo);
-
-        layoutDevolucion = new QHBoxLayout();
-        layoutDevolucion->setSpacing(6);
-        layoutDevolucion->setObjectName(QStringLiteral("layoutDevolucion"));
-        lblDevolverQ = new QLabel(tabDevolucion);
-        lblDevolverQ->setObjectName(QStringLiteral("lblDevolverQ"));
-        lblDevolverQ->setMaximumSize(QSize(16777215, 16777215));
-        lblDevolverQ->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-
-        layoutDevolucion->addWidget(lblDevolverQ);
-
-        lblDevolverMontoQ = new QLabel(tabDevolucion);
-        lblDevolverMontoQ->setObjectName(QStringLiteral("lblDevolverMontoQ"));
-        lblDevolverMontoQ->setAlignment(Qt::AlignCenter);
-
-        layoutDevolucion->addWidget(lblDevolverMontoQ);
-
-
-        formLayout->setLayout(1, QFormLayout::FieldRole, layoutDevolucion);
+        gridLayout_4->addWidget(edtDevolverCodigo, 1, 0, 1, 2);
 
         btnDevolver = new QPushButton(tabDevolucion);
         btnDevolver->setObjectName(QStringLiteral("btnDevolver"));
         btnDevolver->setLayoutDirection(Qt::LeftToRight);
 
-        formLayout->setWidget(2, QFormLayout::LabelRole, btnDevolver);
+        gridLayout_4->addWidget(btnDevolver, 2, 0, 1, 2);
+
+        verticalSpacer_2 = new QSpacerItem(20, 107, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout_4->addItem(verticalSpacer_2, 3, 1, 1, 1);
 
         tabWidget->addTab(tabDevolucion, QString());
 
@@ -216,7 +281,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 482, 26));
+        menuBar->setGeometry(QRect(0, 0, 483, 22));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -227,7 +292,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -237,10 +302,10 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
         grpTicketDetalle->setTitle(QApplication::translate("MainWindow", "Ticket generado", nullptr));
-        lblTicketCodigo->setText(QApplication::translate("MainWindow", "C\303\263digo", nullptr));
-        lblTicketVerificacion->setText(QApplication::translate("MainWindow", "Verificaci\303\263n", nullptr));
-        lblTicketFecha->setText(QApplication::translate("MainWindow", "Fecha emisi\303\263n", nullptr));
         lblTicketValor->setText(QApplication::translate("MainWindow", "Valor", nullptr));
+        lblTicketCodigo->setText(QApplication::translate("MainWindow", "C\303\263digo", nullptr));
+        lblTicketFecha->setText(QApplication::translate("MainWindow", "Fecha emisi\303\263n", nullptr));
+        lblTicketSaldo->setText(QApplication::translate("MainWindow", "Saldo", nullptr));
         lblTicketMonto->setText(QApplication::translate("MainWindow", "Seleccoinar Monto", nullptr));
         cmbTicketMonto->setItemText(0, QApplication::translate("MainWindow", "Q. 3", nullptr));
         cmbTicketMonto->setItemText(1, QApplication::translate("MainWindow", "Q. 10", nullptr));
@@ -251,8 +316,12 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(tabComprar), QApplication::translate("MainWindow", "Comprar", nullptr));
         lblDevolverCodigo->setText(QApplication::translate("MainWindow", "C\303\263digo", nullptr));
         lblDevolverMonto->setText(QApplication::translate("MainWindow", "Monto a devolver", nullptr));
-        lblDevolverQ->setText(QApplication::translate("MainWindow", "Q.", nullptr));
-        lblDevolverMontoQ->setText(QApplication::translate("MainWindow", "0.00", nullptr));
+        groupBox->setTitle(QApplication::translate("MainWindow", "GroupBox", nullptr));
+        lblDevolverVerificacion->setText(QApplication::translate("MainWindow", "Verificacion", nullptr));
+        lblDevolverEmision->setText(QApplication::translate("MainWindow", "Emision", nullptr));
+        lblDevolverDevulucion->setText(QApplication::translate("MainWindow", "Devolucion", nullptr));
+        lblDevolverValor->setText(QApplication::translate("MainWindow", "Valor", nullptr));
+        lblDevolverSaldo->setText(QApplication::translate("MainWindow", "Saldo", nullptr));
         btnDevolver->setText(QApplication::translate("MainWindow", "Registrar devoluci\303\263n", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tabDevolucion), QApplication::translate("MainWindow", "Devoluci\303\263n", nullptr));
     } // retranslateUi

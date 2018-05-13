@@ -6,6 +6,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QMessageBox>
 
 namespace Ui {
 class MainWindow;
@@ -34,7 +35,8 @@ private:
         TRES, DIEZ, CINCUENTA, CIEN
     };
     
-    QString enviarPeticion(QString path, QString json);
+    QString enviarPeticion_post(QString path, QString json);
+    QString enviarPeticion_put(QString path, QString json);
     void limpiarCampo(int tab);
 };
 
