@@ -1,6 +1,7 @@
 package ApiCont;
 
 import EDD.Employee;
+import EDD.Singleton;
 import EDD.arbolb.BTree;
 import EDD.tad.TADArbolB;
 import com.google.gson.Gson;
@@ -22,9 +23,10 @@ import java.time.format.DateTimeFormatter;
 @Path("/urban")
 public class AppHandle extends Application {
 
-    BTree<TADArbolB> Ticket_Tree = new BTree<TADArbolB>(5);
+    Singleton Sigi = Singleton.getInstance();
+    //BTree<TADArbolB> Ticket_Tree = new BTree<TADArbolB>(5);
     //int ID_Ticket = 200;
-    Employee ID_Ticket = Employee.getInstance();
+    //Employee ID_Ticket = Employee.getInstance();
 
     @GET
     @Path("/rutas")
@@ -55,8 +57,8 @@ public class AppHandle extends Application {
         TADArbolB Tk = Gs.fromJson(TicketPrice,TADArbolB.class);
 
         //Insertar Ticket al Arbol
-        ID_Ticket.Increment();
-        TADArbolB NewTicket = new TADArbolB(ID_Ticket.getID());
+        Sigi.incrementTicket();
+        TADArbolB NewTicket = new TADArbolB(Sigi.getIdTicket());
 
         //Fecha
         LocalDate localDate = LocalDate.now();//For reference
@@ -75,13 +77,16 @@ public class AppHandle extends Application {
         //LocalDate localDate = LocalDate.now();
         //System.out.println(dtf.format(localDate)); //2016/11/16
 
-        Ticket_Tree.add(NewTicket);
+        Sigi.getArbol().add(NewTicket);
+        //Sigi.getArbol().(NewTicket);
 
         TicketJs = Gs.toJson(NewTicket);
 
         //Retornat Ticket
         //Employee Emp = new Employee("Walter",29,"waltix@gmail.com");
         //String Ps = Gs.toJson(Emp);
+
+        Sigi.getArbol().graph();
 
         return TicketJs;
     }
