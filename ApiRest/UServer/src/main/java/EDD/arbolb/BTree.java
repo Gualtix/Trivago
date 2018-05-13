@@ -51,6 +51,30 @@ public class BTree<T extends DataStructure> {
         return current;
     }
 
+    public T get(T data) {
+        get(data, root);
+    }
+
+    private T get(T data, BNode<T> current) {
+        if (current == null) {
+            return null;
+        }
+
+        T result = null;
+        for (int i = 0; i < current.size(); i++) {
+            if (current.getInfo(i).compareTo(data) == 0)
+                return current.getInfo(i);
+            result = get(data, current.getChild(i));
+            if (result != null)
+                break;
+        }
+        
+        if (result != null)
+            result = get(data, current.getChild(current.size()));
+
+        return result;
+    }
+
     private BNode<T> split(BNode<T> current, BNode<T> child, int i) {
         Object[] o = child.divide();
         if (current != null)
