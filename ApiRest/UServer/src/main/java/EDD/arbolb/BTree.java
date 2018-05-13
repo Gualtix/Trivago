@@ -99,9 +99,7 @@ public class BTree<T extends DataStructure> {
         return current;
     }
 
-    public void graph() {
-
-        String filename = "arbolito";
+    public void graph(String filename) {
         String text = String.format("digraph %s {\n", filename);
         text += "rankdir = TB\n";
         text += "node [shape = record]";
@@ -128,8 +126,6 @@ public class BTree<T extends DataStructure> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //return String.format("\n%s\n", graph(root));
     }
 
     private String graph(BNode<T> current) {
@@ -150,5 +146,23 @@ public class BTree<T extends DataStructure> {
         }
 
         return text;
+    }
+
+    private String toBase64(String filename) {
+        filename += ".png";
+        String encodedImage = "";
+        File file = new File(filename);
+        try {
+            FileInputStream stream = new FileInputStream(file);
+            byte[] bytes = new byte[(int)file.length()];
+            stream.read(bytes);
+            encodedImage = new String(Base64.encodedBase64(bytes), "UTF-8");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return encodedImage;
     }
 }
