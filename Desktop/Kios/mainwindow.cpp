@@ -67,10 +67,10 @@ void MainWindow::on_btnDevolver_clicked()
     {
         QJsonObject jso = jsd.object();
 
-        if (!jso["estado"].isNull())
+        if ( jso["estado"].isUndefined() || jso["estado"].isNull())
         {
             QMessageBox message(this);
-            message.setText("Codigo de ticket no valido");
+            message.setText("Código de ticket no válido");
             message.exec();
             return;
         }
