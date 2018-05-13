@@ -1,4 +1,5 @@
 package ApiCont;
+
 import EDD.Employee;
 import EDD.arbolb.BTree;
 import EDD.tad.TADArbolB;
@@ -17,13 +18,13 @@ import javax.ws.rs.core.MediaType;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
 @ApplicationPath("/api")
 @Path("/urban")
 public class AppHandle extends Application {
 
     BTree<TADArbolB> Ticket_Tree = new BTree<TADArbolB>(5);
-    int ID_Ticket = 200;
+    //int ID_Ticket = 200;
+    Employee ID_Ticket = Employee.getInstance();
 
     @GET
     @Path("/rutas")
@@ -37,10 +38,10 @@ public class AppHandle extends Application {
     @Produces("application/json")
     public String getTickets(){
         Gson Gs = new Gson();
-        Employee Emp = new Employee("WAaaaaalter",29,"waltix@gmail.com");
-        String Ps = Gs.toJson(Emp);
+        //Employee Emp = new Employee("WAaaaaalter",29,"waltix@gmail.com");
+        //String Ps = Gs.toJson(Emp);
 
-        return Ps;
+        return "Hola";
     }
 
     @POST
@@ -54,8 +55,8 @@ public class AppHandle extends Application {
         TADArbolB Tk = Gs.fromJson(TicketPrice,TADArbolB.class);
 
         //Insertar Ticket al Arbol
-        TADArbolB NewTicket = new TADArbolB(ID_Ticket++);
-
+        ID_Ticket.Increment();
+        TADArbolB NewTicket = new TADArbolB(ID_Ticket.getID());
 
         //Fecha
         LocalDate localDate = LocalDate.now();//For reference

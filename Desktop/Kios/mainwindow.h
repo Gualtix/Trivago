@@ -36,7 +36,7 @@ private:
         TRES, DIEZ, CINCUENTA, CIEN
     };
     
-    QString enviarPeticion(QString string);
+    QString enviarPeticion(QString json);
 };
 
 #endif // MAINWINDOW_H
