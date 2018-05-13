@@ -1,0 +1,235 @@
+header
+{
+	margin: auto;
+	width: 832px;
+	height: 30px;
+
+	overflow: hidden;
+	background-color: #ffeb70;
+	padding: 20px 10px;
+
+	padding: 12px;
+	border-radius: 5px;
+}
+
+.btn {
+    border: none; 
+    background-color: #2197b5;
+
+    padding: 7px 12px; 
+    cursor: pointer; 
+    border-radius: 2px;
+    color: #090e16;
+    font-weight: bold;
+}
+
+.btnStop{
+
+	border: none; 
+    background-color: #2197b5;
+
+    padding: 5px; 
+    cursor: pointer; 
+    border-radius: 2px;
+    color: #090e16;
+    font-weight: bold;
+    width: 105px;
+
+}
+
+/*
+.ShowBTree {background-color: #4CAF50;} 
+.ShowBTree:hover {background-color: #46a049;}
+
+.ShowHashTable {background-color: #2196F3;} 
+.ShowHashTable:hover {background: #0b7dda;}
+*/
+
+#map
+{
+
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: auto;
+    margin-right: auto;
+
+	height:300px;
+	width: 850px;
+
+	border-radius: 5px;
+	background-color: #ffeb70;
+	border: 1px solid silver;
+
+}
+
+input{
+
+	width: 211px;
+	margin-bottom: 10px;
+}
+
+
+table{
+
+	border-collapse: collapse;
+    border: 2px solid black;
+    table-layout: fixed;
+    /*width: 150px;*/
+    background-color: #ffffff;
+}
+
+/*
+
+th, td {
+    border: 1px solid black;
+    width: 112px;
+    cursor: pointer;;
+}
+*/
+
+th, td  {
+	
+	border: 3px #DDD solid; 
+	padding: 5px; 
+	cursor: pointer;
+	width: 107px;
+}
+
+.selected {
+    background-color: brown;
+    color: #FFF;
+}
+
+
+#tblEst{
+
+
+
+	margin-right: 5px;
+	overflow: auto;
+	float: left;
+	height:300px;
+	width: 615px;
+
+	border-radius: 5px;
+	background-color: #77f442;
+	border: 1px solid silver;
+
+}
+
+#tblRoutes{
+
+
+
+	margin-right: 5px;
+	overflow: auto;
+	float: left;
+	height:300px;
+	width: 615px;
+
+	border-radius: 5px;
+	background-color: #77f442;
+	border: 1px solid silver;
+
+}
+
+
+#frmRoutes{
+
+	float: left;
+	height:290px;
+	width: 215px;
+
+	border-radius: 5px;
+	background-color: #ffeb70;
+	border: 1px solid silver;
+	padding: 5px;
+	
+
+}
+
+
+#frmEst{
+
+	
+	float: left;
+	height:290px;
+	width: 215px;
+
+	border-radius: 5px;
+	background-color: #ffeb70;
+	border: 1px solid silver;
+	padding: 5px;
+	
+
+}
+
+#TopMenu
+{
+
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: auto;
+    margin-right: auto;
+
+	height:29px;
+	width: 850px;
+	
+	border-radius: 5px;
+	background-color: #ffeb70;
+	border: 1px solid silver;
+
+}
+
+
+#gboxMap
+{
+	height:400px;
+}
+
+#gboxEstaciones{
+
+}
+
+
+fieldset 
+{
+
+
+
+	clear: both;
+
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: auto;
+    margin-right: auto;
+
+    width: 850px;
+    height: 325px;
+
+    border: 1px solid silver;
+    padding: 2px;    
+    border-radius: 5px;
+    border-width: 2px;
+
+}
+
+legend 
+{
+    padding: 2px;    
+}
+
+
+footer
+{
+	margin: auto;
+	width: 832px;
+	height: 75px;
+
+	overflow: hidden;
+	background-color: #ffeb70;
+	padding: 20px 10px;
+	
+	padding: 12px;
+	border-radius: 5px;
+}
