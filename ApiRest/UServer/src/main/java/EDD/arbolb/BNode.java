@@ -77,14 +77,14 @@ public class BNode<T extends DataStructure> extends DataStructure {
             leftChild.pushInfo(info[i]);
             leftChild.pushChild(childs[i]);
         }
-        leftChild.pushChild(childs[med]);
+        leftChild.pushChild(childs[med], med);
 
-        for (int i = med + 1, a = 0; i <= k + 1; i++, a++)
+        for (int i = med + 1; i <= k; i++)
         {
             rightChild.pushInfo(info[i]);
             rightChild.pushChild(childs[i]);
         }
-        rightChild.pushChild(childs[k + 1]);
+        rightChild.pushChild(childs[k + 1], rightChild.size());
 
         result[0] = info[med];
         result[1] = leftChild;

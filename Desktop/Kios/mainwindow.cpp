@@ -47,7 +47,7 @@ void MainWindow::on_btnTicketComprar_clicked()
 
         ui->edtTicketCodigo->setText(QString::number(jso["codigo"].toDouble()));
         ui->edtTicketFecha->setText(jso["emision"].toString());
-        ui->edtTicketSaldo->setText(QString::number(jso["valor"].toDouble()));
+        ui->edtTicketValor->setText(QString::number(jso["valor"].toDouble()));
         ui->edtTicketSaldo->setText(QString::number(jso["saldo"].toDouble()));
     }
     else
@@ -67,7 +67,7 @@ void MainWindow::on_btnDevolver_clicked()
     {
         QJsonObject jso = jsd.object();
 
-        if ( jso["estado"].isUndefined() || jso["estado"].isNull())
+        if (jso["codigo"].isUndefined() || jso["codigo"].isNull())
         {
             QMessageBox message(this);
             message.setText("Código de ticket no válido");
@@ -101,19 +101,12 @@ QString MainWindow::enviarPeticion_post(QString path, QString json)
     QNetworkReply *reply = accessManager.post(request, json.toUtf8());
     loop.exec();
 
+    QString result = "{}";
     if (reply->error() == QNetworkReply::NoError)
-    {
-        QByteArray response = reply->readAll();
-        return QString(response);
+        result = QString(reply->readAll());
 
-        qDebug() << "Success";
-        delete reply;
-    }
-    else
-    {
-        qDebug() << "Failure ";
-        delete reply;
-    }
+    delete reply;
+    return result;
 }
 
 QString MainWindow::enviarPeticion_put(QString path, QString json)
@@ -132,19 +125,12 @@ QString MainWindow::enviarPeticion_put(QString path, QString json)
     QNetworkReply *reply = accessManager.put(request,json.toUtf8());
     loop.exec();
 
+    QString result = "{}";
     if (reply->error() == QNetworkReply::NoError)
-    {
-        QByteArray response = reply->readAll();
-        return QString(response);
+        result = QString(reply->readAll());
 
-        qDebug() << "Success";
-        delete reply;
-    }
-    else
-    {
-        qDebug() << "Failure ";
-        delete reply;
-    }
+    delete reply;
+    return result;
 }
 
 void MainWindow::limpiarCampo(int tab)
