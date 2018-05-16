@@ -3,6 +3,7 @@ package EDD;
 import EDD.arbolb.BTree;
 import EDD.grafo.Grafo;
 import EDD.hashTable.HashTable;
+import EDD.list.List;
 import EDD.tad.TADArbolB;
 import EDD.tad.TADHash;
 
@@ -15,7 +16,7 @@ public class Singleton {
 
     private static Singleton instance = null;
 
-    public static Singleton getInstance() {
+    public static synchronized Singleton getInstance() {
         if (instance == null)
             instance = new Singleton();
         
@@ -25,10 +26,11 @@ public class Singleton {
     private Singleton() {
         idTicket = 200;
         arbol = new BTree<>(3);
-        //grafo = new Grafo();
-        //hash = new HashTable<>();
+        grafo = new Grafo();
+        hash = new HashTable<>();
     }
 
+    /* CONTADOR DE TICKETS */
     public int getIdTicket() {
         return idTicket;
     }
@@ -37,7 +39,18 @@ public class Singleton {
         idTicket++;
     }
 
+    /* MANEJO DE ARBOL */
     public BTree<TADArbolB> getArbol() {
         return arbol;
+    }
+
+    /* MANEJO DE GRAFO */
+    public Grafo getGrafo() {
+        return grafo;
+    }
+
+    /* MANEJO DE TABLA HASH */
+    public HashTable<TADHash> getHashTable() {
+        return hash;
     }
 }

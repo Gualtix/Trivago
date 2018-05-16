@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/res">
+        <file>ok</file>
+        <file>noOK.png</file>
+    </qresource>
+</RCC>

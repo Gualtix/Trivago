@@ -1,9 +1,9 @@
 package ApiCont;
 
-import EDD.Employee;
 import EDD.Singleton;
-import EDD.arbolb.BTree;
+import EDD.grafo.Grafo;
 import EDD.tad.TADArbolB;
+import EDD.tad.TADNodo;
 import com.google.gson.Gson;
 
 import javax.ws.rs.*;
@@ -15,8 +15,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
-import javax.ws.rs.core.MediaType;
-import java.lang.annotation.Target;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -58,7 +56,6 @@ public class AppHandle extends Application {
         return TicketJs;
     }
 
-
     @GET
     @Path("/arbolito_img")
     @Produces("application/json")
@@ -86,7 +83,6 @@ public class AppHandle extends Application {
     @Path("/buyticket")
     @Produces("application/json")
     public String NewTicket(String TicketPrice){
-
 
         String TicketJs = "";
         Gson Gs = new Gson();
@@ -127,4 +123,11 @@ public class AppHandle extends Application {
         return TicketJs;
     }
 
+    @POST
+    @Path("/createstation")
+    @Produces("application/json")
+    public void newStation(String station){
+        Gson gson = new Gson();
+        TADNodo nodo = gson.fromJson(station, TADNodo.class);
+    }
 }

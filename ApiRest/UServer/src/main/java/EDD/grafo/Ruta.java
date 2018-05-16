@@ -1,10 +1,11 @@
 package EDD.grafo;
 
+import DAO.DataStructure;
 import EDD.list.List;
 
 import java.util.Iterator;
 
-public class Ruta implements Comparable, Cloneable {
+public class Ruta extends DataStructure implements Comparable, Cloneable {
 
     private double costo;
     private List<Arista> aristaList;
@@ -65,7 +66,7 @@ public class Ruta implements Comparable, Cloneable {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    protected Object clone() {
         Ruta cloneRoute = new Ruta();
         cloneRoute.setCosto(costo);
 
@@ -76,5 +77,20 @@ public class Ruta implements Comparable, Cloneable {
         }
 
         return cloneRoute;
+    }
+
+    @Override
+    public String nodeName() {
+        return null;
+    }
+
+    @Override
+    public String createNode() {
+        return null;
+    }
+
+    @Override
+    public String getJSON() {
+        return null;
     }
 }

@@ -104,12 +104,7 @@ public class Grafo {
     private boolean djkstra(List<Ruta> listaRuta, Ruta rutaActual, Nodo nodoActual, Nodo destino) {
         boolean respuesta = true;
         Ruta rutaTemp = null;
-        try {
-            rutaTemp = (Ruta) rutaActual.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            rutaTemp = new Ruta();
-        }
+        rutaTemp = (Ruta) rutaActual.clone();
 
         Iterator<Arista> iterator = nodoActual.getAristas().iterator();
         while (iterator.hasNext()) {
