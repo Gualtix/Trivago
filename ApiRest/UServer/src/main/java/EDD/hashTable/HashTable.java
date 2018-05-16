@@ -1,6 +1,9 @@
 package EDD.hashTable;
 
 import DAO.DataStructure;
+import filesManager.FileManager;
+
+import java.io.IOException;
 
 public class HashTable<T extends DataStructure> {
 
@@ -8,6 +11,8 @@ public class HashTable<T extends DataStructure> {
     private int size;
     private double loadFactor;
     private NodeHash<T> nodes[];
+
+    private static String FILENAME = "hashTable";
 
     public HashTable() {
         capacity = 11;
@@ -121,7 +126,8 @@ public class HashTable<T extends DataStructure> {
         }
     }
 
-    public String graph() {
+    public void graph() {
+
         String text = "HASH [label = \"";
 
         for (int i = 0; i < nodes.length; i++) {
@@ -146,7 +152,29 @@ public class HashTable<T extends DataStructure> {
             text += "\n";
         }
 
-        return text;
+        String dot = String.format("digraph %s {\n" +
+                        "rankdir = LR\n" +
+                        "nodesep = .05\n" +
+                        "node [shape = record, width = 1.5, height = .5]\n" +
+                        "%s\n}",
+                FILENAME, text);
+
+        FileManager fileManager = new FileManager(FILENAME, text);
+        fileManager.createFile("dot");
+
+        String cmd = String.format("dot -Tpng %s.dot -o %s.png",
+                FILENAME, FILENAME);
+
+        try {
+            Runtime.getRuntime().exec(cmd);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String toBase64() {
+        FileManager fileManager = new FileManager(FILENAME);
+        return fileManager.getImageBase64(".png");
     }
 
     private double calculateLoadFactor() {
