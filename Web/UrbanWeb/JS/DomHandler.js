@@ -55,6 +55,33 @@ function OnPageLoad(){
 //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 
 //(^< ............ ............ ............ ............ ............ onClickbtnShowTree_IMG
+
+function Test() {
+
+    var data = "holasxD";
+
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/UServer/api/urban/createstation",
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        dataType: "json",
+        success: function (data, status, jqXHR) {
+
+        alert(success);
+        },
+
+        error: function (jqXHR, status) {
+        // error handler
+        console.log(jqXHR);
+        alert('fail' + status.code);
+        }
+    });
+
+}
+
+
 function onClickbtnShowTree_IMG() {
 
 

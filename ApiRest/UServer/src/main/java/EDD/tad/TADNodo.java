@@ -10,6 +10,13 @@ public class TADNodo implements Comparable {
     public TADNodo() {
     }
 
+    public TADNodo(int codigo) {
+        this.codigo = codigo;
+        this.nombre = null;
+        this.latitud = 0;
+        this.longitud = 0;
+    }
+
     public TADNodo(int codigo, String nombre, double latitud, double longitud) {
         this.codigo = codigo;
         this.nombre = nombre;

@@ -2,7 +2,10 @@ package ApiCont;
 
 import EDD.Singleton;
 import EDD.grafo.Grafo;
+import EDD.grafo.XRoute;
+import EDD.grafo.XStation;
 import EDD.tad.TADArbolB;
+import EDD.tad.TADArista;
 import EDD.tad.TADNodo;
 import com.google.gson.Gson;
 
@@ -17,6 +20,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import org.json.*;
 
 @ApplicationPath("/api")
 @Path("/urban")
@@ -123,11 +127,199 @@ public class AppHandle extends Application {
         return TicketJs;
     }
 
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    //(^< ............ ............ ............ ............ ............ Add New Route
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+
     @POST
-    @Path("/createstation")
+    @Path("/add_new_route")
     @Produces("application/json")
-    public void newStation(String station){
+    public void newRoute(String Rt){
+
+        XRoute Tmp = new XRoute();
+
+        JSONObject obj = new JSONObject(Rt);
+        int codigo = obj.getInt("codigo");
+        String nombre = obj.getString("nombre");
+        String color = obj.getString("color");
+        double precio = obj.getDouble("precio");
+
+        Tmp.codigo = codigo;
+        Tmp.nombre = nombre;
+        Tmp.color = color;
+        Tmp.precio = precio;
+
+
+        JSONArray arr = obj.getJSONArray("estaciones");
+
+        for (int i = 0; i < arr.length(); i++)
+        {
+            XStation Ts = new XStation();
+            JSONObject obj2 = arr.getJSONObject(i);
+            int Org = obj2.getInt("origen");
+            int Dest = obj2.getInt("destino");
+            double Traf = obj2.getDouble("trafico");
+
+            Ts.origen = Org;
+            Ts.destino = Dest;
+            Ts.trafico = Traf;
+
+            Tmp.estaciones.push_back(Ts);
+        }
+
+        Sigi.addXRoute(Tmp);
+
+    }
+
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    //(^< ............ ............ ............ ............ ............ Add New Station
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+
+    @POST
+    @Path("/add_new_station")
+    @Produces("application/json")
+    public void newStation(String St){
         Gson gson = new Gson();
-        TADNodo nodo = gson.fromJson(station, TADNodo.class);
+
+        TADNodo StInfo = gson.fromJson(St, TADNodo.class);
+        Sigi.addStation(StInfo);
+
+    }
+
+    @POST
+    @Path("/addstation")
+    @Produces("application/json")
+    public void addStation(String St){
+        int k = 0;
+        //Gson gson = new Gson();
+        //TADNodo nodo = gson.fromJson(station, TADNodo.class);
+        //------------------- Nueva Estacion
+
+        Gson gson = new Gson();
+
+        String St_0 = "{\n" +
+                "  \"codigo\":300,\n" +
+                "  \"nombre\":\"SanCarlos\",\n" +
+                "  \"latitud\":14.587910334,\n" +
+                "  \"longitud\":-90.55185482\n" +
+                "}";
+
+        String St_1 = "{\n" +
+                "  \"codigo\":301,\n" +
+                "  \"nombre\":\"Tikal\",\n" +
+                "  \"latitud\":14.598263997,\n" +
+                "  \"longitud\":-90.54333365\n" +
+                "}";
+
+
+        String St_2 = "{\n" +
+                "  \"codigo\":302,\n" +
+                "  \"nombre\":\"Recoleccion\",\n" +
+                "  \"latitud\":14.583486002,\n" +
+                "  \"longitud\":-90.54154280\n" +
+                "}";
+
+        String St_3 = "{\n" +
+                "  \"codigo\":303,\n" +
+                "  \"nombre\":\"Antigua\",\n" +
+                "  \"latitud\":14.577194855,\n" +
+                "  \"longitud\":-90.55962250\n" +
+                "}";
+
+        String St_4 = "{\n" +
+                "  \"codigo\":304,\n" +
+                "  \"nombre\":\"Miraflores\",\n" +
+                "  \"latitud\":14.570307820,\n" +
+                "  \"longitud\":-90.55095360\n" +
+                "}";
+
+        String St_5 = "{\n" +
+                "  \"codigo\":305,\n" +
+                "  \"nombre\":\"Castellana\",\n" +
+                "  \"latitud\":14.593571069,\n" +
+                "  \"longitud\":-90.53839839\n" +
+                "}";
+
+        String St_6 = "{\n" +
+                "  \"codigo\":306,\n" +
+                "  \"nombre\":\"Reforma\",\n" +
+                "  \"latitud\":14.582821478,\n" +
+                "  \"longitud\":-90.55107001\n" +
+                "}";
+
+        String St_7 = "{\n" +
+                "  \"codigo\":307,\n" +
+                "  \"nombre\":\"Alameda\",\n" +
+                "  \"latitud\":14.567394490,\n" +
+                "  \"longitud\":-90.56370946\n" +
+                "}";
+
+        String St_8 = "{\n" +
+                "  \"codigo\":308,\n" +
+                "  \"nombre\":\"Embajada\",\n" +
+                "  \"latitud\":14.573957036,\n" +
+                "  \"longitud\":-90.53980235\n" +
+                "}";
+
+        String St_9 = "{\n" +
+                "  \"codigo\":309,\n" +
+                "  \"nombre\":\"Trebol\",\n" +
+                "  \"latitud\":14.604334424,\n" +
+                "  \"longitud\":-90.55209998\n" +
+                "}";
+
+        TADNodo nodo_0 = gson.fromJson(St_0, TADNodo.class);
+        TADNodo nodo_1 = gson.fromJson(St_1, TADNodo.class);
+        TADNodo nodo_2 = gson.fromJson(St_2, TADNodo.class);
+        TADNodo nodo_3 = gson.fromJson(St_3, TADNodo.class);
+        TADNodo nodo_4 = gson.fromJson(St_4, TADNodo.class);
+        TADNodo nodo_5 = gson.fromJson(St_5, TADNodo.class);
+        TADNodo nodo_6 = gson.fromJson(St_6, TADNodo.class);
+        TADNodo nodo_7 = gson.fromJson(St_7, TADNodo.class);
+        TADNodo nodo_8 = gson.fromJson(St_8, TADNodo.class);
+        TADNodo nodo_9 = gson.fromJson(St_9, TADNodo.class);
+
+        Sigi.addStation(nodo_0);
+        Sigi.addStation(nodo_1);
+        Sigi.addStation(nodo_2);
+        Sigi.addStation(nodo_3);
+        Sigi.addStation(nodo_4);
+        Sigi.addStation(nodo_5);
+        Sigi.addStation(nodo_6);
+        Sigi.addStation(nodo_7);
+        Sigi.addStation(nodo_8);
+        Sigi.addStation(nodo_9);
+
+        Sigi.getGrafo().loadStations(Sigi.getStationList());
+
+        String RutaJs = "";
+
+        //Ruta 203
+        Sigi.getGrafo().addArista(new TADNodo(300),new TADArista(1),new TADNodo(306));
+        Sigi.getGrafo().addArista(new TADNodo(306),new TADArista(1),new TADNodo(303));
+        Sigi.getGrafo().addArista(new TADNodo(303),new TADArista(1),new TADNodo(307));
+        Sigi.getGrafo().addArista(new TADNodo(307),new TADArista(1),new TADNodo(304));
+        Sigi.getGrafo().addArista(new TADNodo(304),new TADArista(1),new TADNodo(308));
+
+        //Ruta 204
+        Sigi.getGrafo().addArista(new TADNodo(309),new TADArista(1),new TADNodo(301));
+        Sigi.getGrafo().addArista(new TADNodo(301),new TADArista(1),new TADNodo(305));
+        Sigi.getGrafo().addArista(new TADNodo(305),new TADArista(1),new TADNodo(302));
+        Sigi.getGrafo().addArista(new TADNodo(302),new TADArista(1),new TADNodo(308));
+        Sigi.getGrafo().addArista(new TADNodo(308),new TADArista(1),new TADNodo(303));
+
+        //Ruta 205
+        Sigi.getGrafo().addArista(new TADNodo(300),new TADArista(1),new TADNodo(302));
+        Sigi.getGrafo().addArista(new TADNodo(302),new TADArista(1),new TADNodo(309));
+
+        //Ruta 206
+        Sigi.getGrafo().addArista(new TADNodo(300),new TADArista(1),new TADNodo(309));
+
+        //Ruta 207
+        Sigi.getGrafo().addArista(new TADNodo(303),new TADArista(1),new TADNodo(309));
+
+        //RUta 208
+        Sigi.getGrafo().addArista(new TADNodo(303),new TADArista(1),new TADNodo(304));
+
     }
 }

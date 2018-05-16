@@ -41,6 +41,14 @@ public class Grafo {
         return nodo;
     }
 
+    public void loadStations(List<TADNodo> StList){
+        Iterator<TADNodo> It = StList.iterator();
+        while (It.hasNext()){
+            TADNodo Tmp = It.next();
+            this.addNodo(Tmp);
+        }
+    }
+
     public Nodo getNodo(TADNodo value) {
         return nodos.get(new Nodo(value));
     }
