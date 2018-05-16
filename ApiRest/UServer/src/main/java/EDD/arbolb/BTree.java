@@ -3,12 +3,15 @@ package EDD.arbolb;
 import DAO.DataStructure;
 
 import java.io.*;
-import org.apache.commons.codec.binary.Base64;
+
+import filesManager.FileManager;
 
 public class BTree<T extends DataStructure> {
 
     private int k;
     private BNode<T> root;
+
+    private static String FILENAME = "bTree";
 
     public BTree(int k) {
         this.k = k;
@@ -97,30 +100,21 @@ public class BTree<T extends DataStructure> {
         return current;
     }
 
-    public void graph(String filename) {
-        String text = String.format("digraph %s {\n", filename);
+    public void graph() {
+        String text = String.format("digraph %s {\n", FILENAME);
         text += "rankdir = TB\n";
         text += "node [shape = record]";
         text += graph(this.root);
         text += "\n}";
 
-        File file = new File(filename + ".dot");
-        BufferedWriter writer;
-        try {
-            writer = new BufferedWriter(new FileWriter(file));
-            writer.write(text);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(file.getAbsolutePath());
+        FileManager fileManager = new FileManager(FILENAME, text);
+        fileManager.createFile(".dot");
 
         String cmd = String.format("dot -Tpng %s.dot -o %s.png",
-                filename, filename);
+                FILENAME, FILENAME);
 
         try {
             Runtime.getRuntime().exec(cmd);
-            //Runtime.getRuntime().exec("xdg-open Arbolito.png");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -146,21 +140,8 @@ public class BTree<T extends DataStructure> {
         return text;
     }
 
-    public String toBase64(String filename) {
-        filename += ".png";
-        String encodedImage = "";
-        File file = new File(filename);
-        try {
-            FileInputStream stream = new FileInputStream(file);
-            byte[] bytes = new byte[(int)file.length()];
-            stream.read(bytes);
-            encodedImage = new String(Base64.encodeBase64(bytes), "UTF-8");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return encodedImage;
+    public String toBase64() {
+        FileManager fileManager = new FileManager(FILENAME);
+        return fileManager.getImageBase64(".png");
     }
 }
