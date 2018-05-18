@@ -1,11 +1,12 @@
 package EDD.grafo;
 
+import DAO.DataStructure;
 import EDD.list.List;
 import EDD.tad.TADNodo;
 
 import java.util.ArrayList;
 
-public class XRoute implements Comparable {
+public class XRoute extends DataStructure implements Comparable {
 
     public int codigo;
     public String nombre;
@@ -13,7 +14,6 @@ public class XRoute implements Comparable {
     public double precio;
 
     public List<XStation> estaciones;
-
 
     public XRoute(){
         estaciones = new List<>();
@@ -24,5 +24,20 @@ public class XRoute implements Comparable {
         XRoute Tmp = (XRoute)o;
 
         return (Integer.compare(codigo,Tmp.codigo));
+    }
+
+    @Override
+    public String nodeName() {
+        return null;
+    }
+
+    @Override
+    public String createNode() {
+        return null;
+    }
+
+    @Override
+    public String getJSON() {
+        return null;
     }
 }

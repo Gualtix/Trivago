@@ -53,7 +53,7 @@ public class Grafo {
         return nodos.get(new Nodo(value));
     }
 
-    public boolean addArista(TADNodo valueOrigen, TADArista valueArista, TADNodo valueDestino) {
+    public Arista addArista(TADNodo valueOrigen, TADArista valueArista, TADNodo valueDestino) {
         Nodo origen = nodos.get(new Nodo(valueOrigen));
 
         if (origen == null)
@@ -71,11 +71,12 @@ public class Grafo {
         Arista arista = new Arista(valueArista, destino);
 
         if(origen.getAristas().get(arista) != null)
-            return false;
+            return null;
 
         origen.addArista(arista);
 
-        return nodos.edit(origen);
+        //return nodos.edit(origen);
+        return arista;
     }
 
     public Ruta djkstra(TADNodo valueOrigen, TADNodo valueDestino) {

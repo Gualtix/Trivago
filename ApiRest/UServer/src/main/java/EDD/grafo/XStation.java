@@ -1,6 +1,8 @@
 package EDD.grafo;
 
-public class XStation implements Comparable {
+import DAO.DataStructure;
+
+public class XStation extends DataStructure implements Comparable {
 
     public int origen;
     public int destino;
@@ -13,5 +15,20 @@ public class XStation implements Comparable {
     @Override
     public int compareTo(Object o) {
         return 0;
+    }
+
+    @Override
+    public String nodeName() {
+        return null;
+    }
+
+    @Override
+    public String createNode() {
+        return null;
+    }
+
+    @Override
+    public String getJSON() {
+        return null;
     }
 }

@@ -8,7 +8,6 @@ public class FileManager {
 
     private String filename;
     private String text;
-    private int clave;
 
     public FileManager(String filename) {
         this.filename = filename;
@@ -31,22 +30,46 @@ public class FileManager {
         }
     }
 
-    public void createDecodeFile() {
-        clave = filename.length();
-        String cifrado = vernam();
+    public void encryptFile() {
+        String decodeText = "";
+        int clave = filename.length();
+        BufferedReader fileReader;
+        decodeText = cryptogram(decodeText, clave);
+
+        text = decodeText;
+        createFile(".txt");
+    }
+
+    private String cryptogram(String decodeText, int clave) {
+        BufferedReader fileReader;
+        try {
+            fileReader = new BufferedReader(new FileReader(filename + "txt"));
+            String leido;
+            while ((leido = fileReader.readLine()) != null) {
+                decodeText += vernam(leido, clave);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return decodeText;
     }
 
     public String getFile(String ext) {
         return "";
     }
 
-    public String getEncodeFile(String ext) {
-        return "";
+    public String decryptFile(String ext) {
+        String encodeText = "";
+        int clave = filename.length();
+        BufferedReader fileReader;
+        encodeText = cryptogram(encodeText, clave);
+
+        return encodeText;
     }
 
     public String getImageBase64(String ext) {
         String encodedImage = "";
-        File file = new File(filename);
+        File file = new File(filename + ext);
         try {
             FileInputStream stream = new FileInputStream(file);
             byte[] bytes = new byte[(int)file.length()];
@@ -59,7 +82,16 @@ public class FileManager {
         return encodedImage;
     }
 
-    private String vernam() {
-        return "";
+    private String vernam(String texto, int clave) {
+        char[] chars = texto.toCharArray();
+        String cifrado = "";
+
+        for (int i = 0; i < texto.length(); i++) {
+            int chars1 = chars[i] ^ clave;
+
+            cifrado += (char)chars1;
+        }
+
+        return cifrado;
     }
 }

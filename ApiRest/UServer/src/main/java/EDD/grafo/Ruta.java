@@ -7,10 +7,6 @@ import java.util.Iterator;
 
 public class Ruta extends DataStructure implements Comparable, Cloneable {
 
-    public String nombre;
-    public String codigo;
-    public String color;
-
     private double costo;
     private List<Arista> aristaList;
 

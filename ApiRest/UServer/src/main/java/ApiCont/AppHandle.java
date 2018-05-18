@@ -1,7 +1,6 @@
 package ApiCont;
 
 import EDD.Singleton;
-import EDD.grafo.Grafo;
 import EDD.grafo.XRoute;
 import EDD.grafo.XStation;
 import EDD.tad.TADArbolB;
@@ -55,7 +54,7 @@ public class AppHandle extends Application {
         NewTicket.setSaldo(0);
         TicketJs = Gs.toJson(NewTicket);
 
-        Sigi.getArbol().graph("Arbolito");
+        Sigi.getArbol().graph();
 
         return TicketJs;
     }
@@ -65,22 +64,11 @@ public class AppHandle extends Application {
     @Produces("application/json")
     public String getRt(){
 
-        String Base64_Tree = Sigi.getArbol().toBase64("Arbolito");
+        String Base64_Tree = Sigi.getArbol().toBase64();
 
         String Rs = "{\"contenido\":\""+Base64_Tree+"   \"}";
         //String Base64_Tree = Sigi.getArbol().toBase64("Nomams");
         return Rs;
-    }
-
-    @GET
-    @Path("/rutas")
-    @Produces("application/json")
-    public String getTickets(){
-        Gson Gs = new Gson();
-        //Employee Emp = new Employee("WAaaaaalter",29,"waltix@gmail.com");
-        //String Ps = Gs.toJson(Emp);
-
-        return "Hola";
     }
 
     @POST
@@ -122,9 +110,20 @@ public class AppHandle extends Application {
         //Employee Emp = new Employee("Walter",29,"waltix@gmail.com");
         //String Ps = Gs.toJson(Emp);
 
-        Sigi.getArbol().graph("Arbolito");
+        Sigi.getArbol().graph();
 
         return TicketJs;
+    }
+
+    @GET
+    @Path("/rutas")
+    @Produces("application/json")
+    public String getTickets(){
+        Gson Gs = new Gson();
+        //Employee Emp = new Employee("WAaaaaalter",29,"waltix@gmail.com");
+        //String Ps = Gs.toJson(Emp);
+
+        return "Hola";
     }
 
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............

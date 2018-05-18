@@ -1,92 +1,84 @@
 package EDD.tad;
 
 import DAO.DataStructure;
+import EDD.grafo.Arista;
+import EDD.grafo.Nodo;
+import EDD.grafo.Ruta;
+import EDD.list.List;
 
 public class TADHash extends DataStructure {
 
-    private int id_ticket;
-    private String codigo_verificacion;
-    private String fecha_emision;
-    private String hora_emision;
-    private String fecha_devolucion;
-    private double valor_inicial;
-    private double saldo_disponible;
+    private int codigo;
+    private String nombre;
+    private String color;
+    private double precio;
+
+    private Nodo origen;
+    Ruta estaciones;
 
     public TADHash() {
     }
 
-    public TADHash(int id_ticket, String codigo_verificacion, String fecha_emision, String hora_emision, String fecha_devolucion, double valor_inicial, double saldo_disponible) {
-        this.id_ticket = id_ticket;
-        this.codigo_verificacion = codigo_verificacion;
-        this.fecha_emision = fecha_emision;
-        this.hora_emision = hora_emision;
-        this.fecha_devolucion = fecha_devolucion;
-        this.valor_inicial = valor_inicial;
-        this.saldo_disponible = saldo_disponible;
+    public TADHash(int codigo, String nombre, String color, double precio, Nodo origen) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.color = color;
+        this.precio = precio;
+        this.origen = origen;
     }
 
-    public int getId_ticket() {
-        return id_ticket;
+    public int getCodigo() {
+        return codigo;
     }
 
-    public void setId_ticket(int id_ticket) {
-        this.id_ticket = id_ticket;
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
-    public String getCodigo_verificacion() {
-        return codigo_verificacion;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setCodigo_verificacion(String codigo_verificacion) {
-        this.codigo_verificacion = codigo_verificacion;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getFecha_emision() {
-        return fecha_emision;
+    public String getColor() {
+        return color;
     }
 
-    public void setFecha_emision(String fecha_emision) {
-        this.fecha_emision = fecha_emision;
+    public void setColor(String color) {
+        this.color = color;
     }
 
-    public String getHora_emision() {
-        return hora_emision;
+    public double getPrecio() {
+        return precio;
     }
 
-    public void setHora_emision(String hora_emision) {
-        this.hora_emision = hora_emision;
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
-    public String getFecha_devolucion() {
-        return fecha_devolucion;
+    public Nodo getOrigen() {
+        return origen;
     }
 
-    public void setFecha_devolucion(String fecha_devolucion) {
-        this.fecha_devolucion = fecha_devolucion;
+    public void setOrigen(Nodo origen) {
+        this.origen = origen;
     }
 
-    public double getValor_inicial() {
-        return valor_inicial;
+    public Ruta getEstaciones() {
+        return estaciones;
     }
 
-    public void setValor_inicial(double valor_inicial) {
-        this.valor_inicial = valor_inicial;
-    }
-
-    public double getSaldo_disponible() {
-        return saldo_disponible;
-    }
-
-    public void setSaldo_disponible(double saldo_disponible) {
-        this.saldo_disponible = saldo_disponible;
+    public void addRuta(Arista arista) {
+        this.estaciones.addArista(arista);
     }
 
     @Override
     public String toString() {
-        return "id_ticket=" + id_ticket +
-                "\nfecha_emision='" + fecha_emision +
-                "\nvalor_inicial=" + valor_inicial +
-                "\nsaldo_disponible=" + saldo_disponible;
+        return String.format("%d : %s\nQ. %.2f",
+                            codigo, nombre, precio);
     }
 
     @Override
@@ -107,7 +99,7 @@ public class TADHash extends DataStructure {
 
     @Override
     public int compareTo(Object o) {
-        TADHash value = (TADHash) o;
-        return Integer.compare(id_ticket, value.getId_ticket());
+        TADHash temp = (TADHash)o;
+        return Integer.compare(codigo, temp.getCodigo());
     }
 }

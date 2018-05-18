@@ -64,7 +64,7 @@ public class TADArbolB extends DataStructure {
 
     @Override
     public String toString() {
-        return String.format("%d\\n%s\\n%s\\n%f\\n%f",
+        return String.format("%d\\n%s\\n%s\\n%.2f\\n%.2f",
                 codigo, verificacion, emision, valor, saldo);
     }
 
