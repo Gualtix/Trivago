@@ -38,7 +38,31 @@ void MainWindow::setterRutas(QString json)
     QJsonDocument jsd = QJsonDocument::fromJson(json.toLatin1());
     if (!jsd.isEmpty())
     {
+        QJsonArray jsa = jsd.array();
+        for (int i = 0; i < jsa.size(); i++)
+        {
+            QJsonObject jso = jsa.at(i).toObject();
+            ui->cmbRutas->addItem(jso["codigo"].toInt());
+        }
+    }
+}
 
+void MainWindow::on_pushButton_clicked()
+{
+    QString ticket = ui->edtTicket->text();
+    QString ruta = ui->cmbRutas->currentText();
+
+    QString jsonTicket = tr("{\"codigo\":%d,\"verificacion\":null,\"emision\":null,\"devolucion\":null,\"valor\":0,\"saldo\":0}").arg(ticket);
+    QString jsonRuta = tr("{\"ruta\":%d,\"ticket\":%d}").arg(ruta, ticket);
+
+    jsonTicket = enviarPeticion_post("/verificar", ticket);
+    if (!QJsonDocument::fromJson(jsonTicket.toLatin1()).isEmpty())
+    {
+        jsonRuta = enviarPeticion_put("/comprar", ruta);
+        if (!QJsonDocument::fromJson(jsonRuta.toLatin1()).isEmpty())
+            qDebug() << "Compra de existoso";
+        else
+            qDebug() << "Compra en conflicto";
     }
 }
 
@@ -103,7 +127,7 @@ QString MainWindow::enviarPeticion_get(QString path, QString json)
     QNetworkRequest request(QUrl(SERVER + path));
     request.setRawHeader("Content-Type", "application/json");
 
-    QNetworkReply *reply = accessManager.get(request, json.toUtf8());
+    QNetworkReply *reply = accessManager.post(request, json.toUtf8());
     loop.exec();
 
     QString result = "{}";
