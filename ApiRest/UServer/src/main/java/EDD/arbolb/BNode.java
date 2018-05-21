@@ -128,6 +128,11 @@ public class BNode<T extends DataStructure> extends DataStructure {
     }
 
     @Override
+    public String graph() {
+        return null;
+    }
+
+    @Override
     public int compareTo(Object o) {
         return 0;
     }

@@ -37,4 +37,9 @@ public class XStation extends DataStructure implements Comparable {
 
         return object.toString();
     }
+
+    @Override
+    public String graph() {
+        return null;
+    }
 }

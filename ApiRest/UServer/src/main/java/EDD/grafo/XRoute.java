@@ -61,4 +61,9 @@ public class XRoute extends DataStructure implements Comparable {
 
         return root.toString();
     }
+
+    @Override
+    public String graph() {
+        return null;
+    }
 }

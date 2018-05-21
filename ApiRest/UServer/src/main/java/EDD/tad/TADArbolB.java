@@ -93,6 +93,11 @@ public class TADArbolB extends DataStructure {
     }
 
     @Override
+    public String graph() {
+        return null;
+    }
+
+    @Override
     public int compareTo(Object o) {
         TADArbolB value = (TADArbolB) o;
         return Integer.compare(codigo, value.getCodigo());
