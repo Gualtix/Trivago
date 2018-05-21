@@ -11,10 +11,13 @@ import EDD.tad.TADArbolB;
 import EDD.tad.TADArista;
 import EDD.tad.TADHash;
 import EDD.tad.TADNodo;
+import com.google.gson.Gson;
 import filesManager.FileManager;
+import jdk.nashorn.internal.ir.ReturnNode;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.json.JsonObject;
 import java.util.Iterator;
 
 public class Singleton {
@@ -164,5 +167,45 @@ public class Singleton {
 
         FileManager fileManager = new FileManager(FILENAME_RUTAS, array.toString());
         fileManager.createFile("json");
+    }
+
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    //(^< ............ ............ ............ ............ ............ L I S T   M A N A G E M E N T
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    public JSONArray getJson_RouteList(){
+        JSONArray Reply = new JSONArray();
+
+        Iterator<XRoute> iterator = XRouteList.iterator();
+        while (iterator.hasNext()) {
+            XRoute current = iterator.next();
+            Reply.put(new JSONObject(current.getJSON()));
+        }
+
+        return Reply;
+    }
+
+    public String getJson_StationList(){
+
+        String Reply = "[";
+
+        Iterator<TADNodo> iterator = this.getStationList().iterator();
+        while (iterator.hasNext()) {
+            TADNodo current = iterator.next();
+            Gson Gs = new Gson();
+            String Js = Gs.toJson(current,TADNodo.class);
+            Reply += Js;
+
+            Reply += ",";
+        }
+
+        int Pos = Reply.length();
+        StringBuilder Tmp = new StringBuilder(Reply);
+        Tmp.deleteCharAt(Pos - 1);
+        Reply = Tmp.toString();
+
+        Reply += "]";
+
+        return Reply;
+
     }
 }

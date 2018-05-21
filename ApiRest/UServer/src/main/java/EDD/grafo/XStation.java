@@ -9,6 +9,12 @@ public class XStation extends DataStructure implements Comparable {
     public int destino;
     public double trafico;
 
+    public XStation(int origen,int destino,double trafico){
+        this.origen = origen;
+        this.destino = destino;
+        this.trafico = trafico;
+    }
+
     public XStation(){
 
     }

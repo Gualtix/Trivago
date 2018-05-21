@@ -31,147 +31,56 @@ public class AppHandle extends Application {
     Singleton Sigi = Singleton.getInstance();
 
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
-    //(^< ............ ............ ............ ............ ............ getStations
+    //(^< ............ ............ ............ ............ ............ W E B   A P P
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 
+
+    //(^< ............ ............ ............ ............ ............ default_path
+    @GET
+    @Path("/default_path")
+    @Produces("application/json")
+    public String default_path(){
+        return "U R B A N   W E B   S E R V E R";
+    }
+
+    //(^< ............ ............ ............ ............ ............ add_new_station
+    @POST
+    @Path("/add_new_station")
+    @Produces("application/json")
+    public void newStation(String St){
+        Gson gson = new Gson();
+
+        TADNodo StInfo = gson.fromJson(St, TADNodo.class);
+        Sigi.addStation(StInfo);
+
+    }
+
+    //(^< ............ ............ ............ ............ ............ update_station
+    @POST
+    @Path("/update_station")
+    @Produces("application/json")
+    public void update_station(String St){
+
+    }
+
+    //(^< ............ ............ ............ ............ ............ getstations
     @GET
     @Path("/getstations")
     @Produces("application/json")
     public String getStations(){
 
         if(Sigi.getStationList().isEmpty()){
-            StationsLoader();
+            StationLoader();
         }
 
-        String Rs = "[";
-
-        Iterator<TADNodo> iterator = Sigi.getStationList().iterator();
-        while (iterator.hasNext()) {
-            TADNodo current = iterator.next();
-            Gson Gs = new Gson();
-            String Js = Gs.toJson(current,TADNodo.class);
-            Rs += Js;
-
-            Rs += ",";
-        }
-
-        int Pos = Rs.length();
-        StringBuilder Tmp = new StringBuilder(Rs);
-        Tmp.deleteCharAt(Pos - 1);
-        Rs = Tmp.toString();
-
-        Rs += "]";
-
-        return Rs;
+        String Reply = Sigi.getJson_StationList();
+        return Reply;
     }
 
-    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
-    //(^< ............ ............ ............ ............ ............ GetAvailableStations
-    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 
-    @PUT
-    @Path("/devolucion")
-    @Produces("application/json")
-    public String updateTicket(String Tkk){
 
-        String TicketPrice = Tkk;
-        String TicketJs = "";
-        Gson Gs = new Gson();
-        TADArbolB Tk = Gs.fromJson(TicketPrice,TADArbolB.class);
 
-        TADArbolB NewTicket = Sigi.getArbol().get(Tk);
-
-        if(NewTicket == null){
-            return "{\"estado\":true}";
-        }
-
-        //Fecha
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LLLL/yyyy");
-        String formattedString = localDate.format(formatter);
-
-        NewTicket.setDevolucion(formattedString);
-
-        //Valor Actual
-        NewTicket.setSaldo(0);
-        TicketJs = Gs.toJson(NewTicket);
-
-        Sigi.getArbol().graph();
-
-        return TicketJs;
-    }
-
-    @GET
-    @Path("/arbolito_img")
-    @Produces("application/json")
-    public String getRt(){
-
-        String Base64_Tree = Sigi.getArbol().toBase64();
-
-        String Rs = "{\"contenido\":\""+Base64_Tree+"   \"}";
-        //String Base64_Tree = Sigi.getArbol().toBase64("Nomams");
-        return Rs;
-    }
-
-    @POST
-    @Path("/buyticket")
-    @Produces("application/json")
-    public String NewTicket(String TicketPrice){
-
-        String TicketJs = "";
-        Gson Gs = new Gson();
-        TADArbolB Tk = Gs.fromJson(TicketPrice,TADArbolB.class);
-
-        //Insertar Ticket al Arbol
-        Sigi.incrementTicket();
-        TADArbolB NewTicket = new TADArbolB(Sigi.getIdTicket());
-
-        //Fecha
-        LocalDate localDate = LocalDate.now();//For reference
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LLLL/yyyy");
-        String formattedString = localDate.format(formatter);
-
-        NewTicket.setEmision(formattedString);
-
-        //Valor
-        NewTicket.setValor(Tk.getValor());
-
-        //Valor Actual
-        NewTicket.setSaldo(Tk.getValor());
-
-        //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        //LocalDate localDate = LocalDate.now();
-        //System.out.println(dtf.format(localDate)); //2016/11/16
-
-        Sigi.getArbol().add(NewTicket);
-        //Sigi.getArbol().(NewTicket);
-
-        TicketJs = Gs.toJson(NewTicket);
-
-        //Retornat Ticket
-        //Employee Emp = new Employee("Walter",29,"waltix@gmail.com");
-        //String Ps = Gs.toJson(Emp);
-
-        Sigi.getArbol().graph();
-
-        return TicketJs;
-    }
-
-    @GET
-    @Path("/rutas")
-    @Produces("application/json")
-    public String getTickets(){
-        Gson Gs = new Gson();
-        //Employee Emp = new Employee("WAaaaaalter",29,"waltix@gmail.com");
-        //String Ps = Gs.toJson(Emp);
-
-        return "Hola";
-    }
-
-    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
-    //(^< ............ ............ ............ ............ ............ Add New Route
-    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
-
+    //(^< ............ ............ ............ ............ ............ add_new_route
     @POST
     @Path("/add_new_route")
     @Produces("application/json")
@@ -209,263 +118,81 @@ public class AppHandle extends Application {
         }
 
         Sigi.addXRoute(Tmp);
-
     }
 
-    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
-    //(^< ............ ............ ............ ............ ............ Add New Station
-    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
-
+    //(^< ............ ............ ............ ............ ............ update_route
     @POST
-    @Path("/add_new_station")
+    @Path("/update_route")
     @Produces("application/json")
-    public void newStation(String St){
-        Gson gson = new Gson();
-
-        TADNodo StInfo = gson.fromJson(St, TADNodo.class);
-        Sigi.addStation(StInfo);
+    public void update_route(String St){
 
     }
 
-    @POST
-    @Path("/addstation")
+    //(^< ............ ............ ............ ............ ............ getroutes
+    @GET
+    @Path("/getroutes")
     @Produces("application/json")
-    public void addStation(String St){
+    public String getTickets(){
 
-        /*
-        int k = 0;
-        //Gson gson = new Gson();
-        //TADNodo nodo = gson.fromJson(station, TADNodo.class);
-        //------------------- Nueva Estacion
+        if(Sigi.getStationList().isEmpty()){
+            StationLoader();
+        }
 
-        Gson gson = new Gson();
+        String Reply = "";
 
-        String St_0 = "{\n" +
-                "  \"codigo\":0,\n" +
-                "  \"nombre\":\"SanCarlos\",\n" +
-                "  \"latitud\":14.587910334,\n" +
-                "  \"longitud\":-90.55185482\n" +
-                "}";
+        Reply = Sigi.getJson_RouteList().toString();
 
-        String St_1 = "{\n" +
-                "  \"codigo\":1,\n" +
-                "  \"nombre\":\"Tikal\",\n" +
-                "  \"latitud\":14.598263997,\n" +
-                "  \"longitud\":-90.54333365\n" +
-                "}";
-
-
-        String St_2 = "{\n" +
-                "  \"codigo\":2,\n" +
-                "  \"nombre\":\"Recoleccion\",\n" +
-                "  \"latitud\":14.583486002,\n" +
-                "  \"longitud\":-90.54154280\n" +
-                "}";
-
-        String St_3 = "{\n" +
-                "  \"codigo\":3,\n" +
-                "  \"nombre\":\"Antigua\",\n" +
-                "  \"latitud\":14.577194855,\n" +
-                "  \"longitud\":-90.55962250\n" +
-                "}";
-
-        String St_4 = "{\n" +
-                "  \"codigo\":4,\n" +
-                "  \"nombre\":\"Miraflores\",\n" +
-                "  \"latitud\":14.570307820,\n" +
-                "  \"longitud\":-90.55095360\n" +
-                "}";
-
-        String St_5 = "{\n" +
-                "  \"codigo\":5,\n" +
-                "  \"nombre\":\"Castellana\",\n" +
-                "  \"latitud\":14.593571069,\n" +
-                "  \"longitud\":-90.53839839\n" +
-                "}";
-
-        String St_6 = "{\n" +
-                "  \"codigo\":6,\n" +
-                "  \"nombre\":\"Reforma\",\n" +
-                "  \"latitud\":14.582821478,\n" +
-                "  \"longitud\":-90.55107001\n" +
-                "}";
-
-        String St_7 = "{\n" +
-                "  \"codigo\":7,\n" +
-                "  \"nombre\":\"Alameda\",\n" +
-                "  \"latitud\":14.567394490,\n" +
-                "  \"longitud\":-90.56370946\n" +
-                "}";
-
-        String St_8 = "{\n" +
-                "  \"codigo\":8,\n" +
-                "  \"nombre\":\"Embajada\",\n" +
-                "  \"latitud\":14.573957036,\n" +
-                "  \"longitud\":-90.53980235\n" +
-                "}";
-
-        String St_9 = "{\n" +
-                "  \"codigo\":9,\n" +
-                "  \"nombre\":\"Trebol\",\n" +
-                "  \"latitud\":14.604334424,\n" +
-                "  \"longitud\":-90.55209998\n" +
-                "}";
-
-        TADNodo nodo_0 = gson.fromJson(St_0, TADNodo.class);
-        TADNodo nodo_1 = gson.fromJson(St_1, TADNodo.class);
-        TADNodo nodo_2 = gson.fromJson(St_2, TADNodo.class);
-        TADNodo nodo_3 = gson.fromJson(St_3, TADNodo.class);
-        TADNodo nodo_4 = gson.fromJson(St_4, TADNodo.class);
-        TADNodo nodo_5 = gson.fromJson(St_5, TADNodo.class);
-        TADNodo nodo_6 = gson.fromJson(St_6, TADNodo.class);
-        TADNodo nodo_7 = gson.fromJson(St_7, TADNodo.class);
-        TADNodo nodo_8 = gson.fromJson(St_8, TADNodo.class);
-        TADNodo nodo_9 = gson.fromJson(St_9, TADNodo.class);
-
-        Sigi.addStation(nodo_0);
-        Sigi.addStation(nodo_1);
-        Sigi.addStation(nodo_2);
-        Sigi.addStation(nodo_3);
-        Sigi.addStation(nodo_4);
-        Sigi.addStation(nodo_5);
-        Sigi.addStation(nodo_6);
-        Sigi.addStation(nodo_7);
-        Sigi.addStation(nodo_8);
-        Sigi.addStation(nodo_9);
-        */
-
-        Sigi.getGrafo().loadStations(Sigi.getStationList());
-
-        String RutaJs = "";
-
-        //Ruta 203
-        Sigi.getGrafo().addArista(new TADNodo(300),new TADArista(1),new TADNodo(306));
-        Sigi.getGrafo().addArista(new TADNodo(306),new TADArista(1),new TADNodo(303));
-        Sigi.getGrafo().addArista(new TADNodo(303),new TADArista(1),new TADNodo(307));
-        Sigi.getGrafo().addArista(new TADNodo(307),new TADArista(1),new TADNodo(304));
-        Sigi.getGrafo().addArista(new TADNodo(304),new TADArista(1),new TADNodo(308));
-
-        //Ruta 204
-        Sigi.getGrafo().addArista(new TADNodo(309),new TADArista(1),new TADNodo(301));
-        Sigi.getGrafo().addArista(new TADNodo(301),new TADArista(1),new TADNodo(305));
-        Sigi.getGrafo().addArista(new TADNodo(305),new TADArista(1),new TADNodo(302));
-        Sigi.getGrafo().addArista(new TADNodo(302),new TADArista(1),new TADNodo(308));
-        Sigi.getGrafo().addArista(new TADNodo(308),new TADArista(1),new TADNodo(303));
-
-        //Ruta 205
-        Sigi.getGrafo().addArista(new TADNodo(300),new TADArista(1),new TADNodo(302));
-        Sigi.getGrafo().addArista(new TADNodo(302),new TADArista(1),new TADNodo(309));
-
-        //Ruta 206
-        Sigi.getGrafo().addArista(new TADNodo(300),new TADArista(1),new TADNodo(309));
-
-        //Ruta 207
-        Sigi.getGrafo().addArista(new TADNodo(303),new TADArista(1),new TADNodo(309));
-
-        //RUta 208
-        Sigi.getGrafo().addArista(new TADNodo(303),new TADArista(1),new TADNodo(304));
-
+        return  Reply;
     }
 
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
-    //(^< ............ ............ ............ ............ ............ Loader
+    //(^< ............ ............ ............ ............ ............ S H O R T E S T   R O U T E
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
-    public void StationsLoader(){
-        Gson gson = new Gson();
 
-        String St_0 = "{\n" +
-                "  \"codigo\":0,\n" +
-                "  \"nombre\":\"SanCarlos\",\n" +
-                "  \"latitud\":14.587910334,\n" +
-                "  \"longitud\":-90.55185482\n" +
-                "}";
+    @GET
+    @Path("/getshortestroute")
+    @Produces("application/json")
+    public String getshortestroute(){
 
-        String St_1 = "{\n" +
-                "  \"codigo\":1,\n" +
-                "  \"nombre\":\"Tikal\",\n" +
-                "  \"latitud\":14.598263997,\n" +
-                "  \"longitud\":-90.54333365\n" +
-                "}";
-
-
-        String St_2 = "{\n" +
-                "  \"codigo\":2,\n" +
-                "  \"nombre\":\"Recoleccion\",\n" +
-                "  \"latitud\":14.583486002,\n" +
-                "  \"longitud\":-90.54154280\n" +
-                "}";
-
-        String St_3 = "{\n" +
-                "  \"codigo\":3,\n" +
-                "  \"nombre\":\"Antigua\",\n" +
-                "  \"latitud\":14.577194855,\n" +
-                "  \"longitud\":-90.55962250\n" +
-                "}";
-
-        String St_4 = "{\n" +
-                "  \"codigo\":4,\n" +
-                "  \"nombre\":\"Miraflores\",\n" +
-                "  \"latitud\":14.570307820,\n" +
-                "  \"longitud\":-90.55095360\n" +
-                "}";
-
-        String St_5 = "{\n" +
-                "  \"codigo\":5,\n" +
-                "  \"nombre\":\"Castellana\",\n" +
-                "  \"latitud\":14.593571069,\n" +
-                "  \"longitud\":-90.53839839\n" +
-                "}";
-
-        String St_6 = "{\n" +
-                "  \"codigo\":6,\n" +
-                "  \"nombre\":\"Reforma\",\n" +
-                "  \"latitud\":14.582821478,\n" +
-                "  \"longitud\":-90.55107001\n" +
-                "}";
-
-        String St_7 = "{\n" +
-                "  \"codigo\":7,\n" +
-                "  \"nombre\":\"Alameda\",\n" +
-                "  \"latitud\":14.567394490,\n" +
-                "  \"longitud\":-90.56370946\n" +
-                "}";
-
-        String St_8 = "{\n" +
-                "  \"codigo\":8,\n" +
-                "  \"nombre\":\"Embajada\",\n" +
-                "  \"latitud\":14.573957036,\n" +
-                "  \"longitud\":-90.53980235\n" +
-                "}";
-
-        String St_9 = "{\n" +
-                "  \"codigo\":9,\n" +
-                "  \"nombre\":\"Trebol\",\n" +
-                "  \"latitud\":14.604334424,\n" +
-                "  \"longitud\":-90.55209998\n" +
-                "}";
-
-        TADNodo nodo_0 = gson.fromJson(St_0, TADNodo.class);
-        TADNodo nodo_1 = gson.fromJson(St_1, TADNodo.class);
-        TADNodo nodo_2 = gson.fromJson(St_2, TADNodo.class);
-        TADNodo nodo_3 = gson.fromJson(St_3, TADNodo.class);
-        TADNodo nodo_4 = gson.fromJson(St_4, TADNodo.class);
-        TADNodo nodo_5 = gson.fromJson(St_5, TADNodo.class);
-        TADNodo nodo_6 = gson.fromJson(St_6, TADNodo.class);
-        TADNodo nodo_7 = gson.fromJson(St_7, TADNodo.class);
-        TADNodo nodo_8 = gson.fromJson(St_8, TADNodo.class);
-        TADNodo nodo_9 = gson.fromJson(St_9, TADNodo.class);
-
-        Sigi.addStation(nodo_0);
-        Sigi.addStation(nodo_1);
-        Sigi.addStation(nodo_2);
-        Sigi.addStation(nodo_3);
-        Sigi.addStation(nodo_4);
-        Sigi.addStation(nodo_5);
-        Sigi.addStation(nodo_6);
-        Sigi.addStation(nodo_7);
-        Sigi.addStation(nodo_8);
-        Sigi.addStation(nodo_9);
+        return "Ruta mas Corta";
     }
+
+
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    //(^< ............ ............ ............ ............ ............ B A S E 6 4   I M G   M O D E L S
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+
+    //(^< ............ ............ ............ ............ ............ arbolito_img
+    @GET
+    @Path("/arbolito_img")
+    @Produces("application/json")
+    public String get_arbolito_img(){
+        String Base64_Tree = Sigi.getArbol().toBase64();
+        String Rs = "{\"contenido\":\""+Base64_Tree+"   \"}";
+        return Rs;
+    }
+
+    //(^< ............ ............ ............ ............ ............ tabla_hash_img
+    @GET
+    @Path("/tabla_hash_img")
+    @Produces("application/json")
+    public String get_tabla_hash_img(){
+        String Base64_Tree = Sigi.getArbol().toBase64();
+        String Rs = "{\"contenido\":\""+Base64_Tree+"   \"}";
+        return Rs;
+    }
+
+    //(^< ............ ............ ............ ............ ............ grafo_img
+    @GET
+    @Path("/grafo_img")
+    @Produces("application/json")
+    public String get_grafo_img(){
+        String Base64_Tree = Sigi.getArbol().toBase64();
+        String Rs = "{\"contenido\":\""+Base64_Tree+"   \"}";
+        return Rs;
+    }
+
+
 
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
     //(^< ............ ............ ............ ............ ............ C + +
@@ -475,9 +202,15 @@ public class AppHandle extends Application {
     @GET
     @Path("/getList_of_Routes_that_pass_through_a_Station")
     @Produces("application/json")
-    public String getList_of_Stations_that_pass_through_a_point(){
+    public String getList_of_Stations_that_pass_through_a_point(String St){
         String Reply = "";
 
+        Gson Gs = new Gson();
+        TADNodo TmpStation = Gs.fromJson(St,TADNodo.class);
+
+        JSONArray Jr = Sigi.possibleRoutes(TmpStation);
+
+        Reply = Jr.toString();
         return Reply;
     }
 
@@ -491,13 +224,238 @@ public class AppHandle extends Application {
         Gson Gs = new Gson();
         TADNodo TmpStation = Gs.fromJson(St,TADNodo.class);
 
-        TADNodo Fd = Sigi.getGrafo().getNodo(TmpStation).getData();
-        if(Fd == null){
-            Reply = "{}";
-        }
-        else{
-            Reply = Gs.toJson(Fd);
-        }
+        JSONObject Fd = Sigi.getStation(TmpStation);
+        Reply = Fd.toString();
         return Reply;
     }
+
+    //(^< ............ ............ ............ ............ ............ devolucion
+
+    @PUT
+    @Path("/devolucion")
+    @Produces("application/json")
+    public String updateTicket(String Tkk){
+
+        String TicketPrice = Tkk;
+        String TicketJs = "";
+        Gson Gs = new Gson();
+        TADArbolB Tk = Gs.fromJson(TicketPrice,TADArbolB.class);
+
+        TADArbolB NewTicket = Sigi.getArbol().get(Tk);
+
+        if(NewTicket == null){
+            return "{\"estado\":true}";
+        }
+
+        //Fecha
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LLLL/yyyy");
+        String formattedString = localDate.format(formatter);
+
+        NewTicket.setDevolucion(formattedString);
+
+        //Valor Actual
+        NewTicket.setSaldo(0);
+        TicketJs = Gs.toJson(NewTicket);
+
+        Sigi.getArbol().graph();
+
+        return TicketJs;
+    }
+
+    //(^< ............ ............ ............ ............ ............ buyticket
+    @POST
+    @Path("/buyticket")
+    @Produces("application/json")
+    public String NewTicket(String TicketPrice){
+
+        String TicketJs = "";
+        Gson Gs = new Gson();
+        TADArbolB Tk = Gs.fromJson(TicketPrice,TADArbolB.class);
+
+        //Insertar Ticket al Arbol
+        Sigi.incrementTicket();
+        TADArbolB NewTicket = new TADArbolB(Sigi.getIdTicket());
+
+        //Fecha
+        LocalDate localDate = LocalDate.now();//For reference
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LLLL/yyyy");
+        String formattedString = localDate.format(formatter);
+
+        NewTicket.setEmision(formattedString);
+
+        //Valor
+        NewTicket.setValor(Tk.getValor());
+
+        //Valor Actual
+        NewTicket.setSaldo(Tk.getValor());
+
+        Sigi.getArbol().add(NewTicket);
+
+        TicketJs = Gs.toJson(NewTicket);
+        Sigi.getArbol().graph();
+
+        return TicketJs;
+    }
+
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    //(^< ............ ............ ............ ............ ............ Loader
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+
+    //(^< ............ ............ ............ ............ ............ RouteLoader
+    public void RouteLoader(){
+
+        //Sigi.getGrafo().loadStations(Sigi.getStationList());
+
+        //Ruta 203
+        /*
+        Sigi.getGrafo().addArista(new TADNodo(300),new TADArista(1),new TADNodo(306));
+        Sigi.getGrafo().addArista(new TADNodo(306),new TADArista(1),new TADNodo(303));
+        Sigi.getGrafo().addArista(new TADNodo(303),new TADArista(1),new TADNodo(307));
+        Sigi.getGrafo().addArista(new TADNodo(307),new TADArista(1),new TADNodo(304));
+        Sigi.getGrafo().addArista(new TADNodo(304),new TADArista(1),new TADNodo(308));
+        */
+
+        XRoute R_0 = new XRoute(0,"Rojo","#473d3d",32.50);
+
+        R_0.estaciones.push_front(new XStation(300,306,1));
+        R_0.estaciones.push_front(new XStation(306,303,1));
+        R_0.estaciones.push_front(new XStation(303,307,1));
+        R_0.estaciones.push_front(new XStation(307,304,1));
+        R_0.estaciones.push_front(new XStation(304,308,1));
+
+        XRoute R_1 = new XRoute(1,"Azul","#3069e5",32.50);
+
+        R_1.estaciones.push_front(new XStation(309,301,1));
+        R_1.estaciones.push_front(new XStation(301,305,1));
+        R_1.estaciones.push_front(new XStation(305,302,1));
+        R_1.estaciones.push_front(new XStation(302,308,1));
+        R_1.estaciones.push_front(new XStation(308,303,1));
+
+
+        XRoute R_2 = new XRoute(2,"Verde","#45d326",32.50);
+        R_2.estaciones.push_front(new XStation(300,302,1));
+        R_2.estaciones.push_front(new XStation(302,309,1));
+
+        XRoute R_3 = new XRoute(3,"Amarillo","#f9db31",32.50);
+        R_3.estaciones.push_front(new XStation(300,309,1));
+
+        XRoute R_4 = new XRoute(4,"Celeste","#6bd3f9",32.50);
+        R_4.estaciones.push_front(new XStation(303,309,1));
+
+        XRoute R_5 = new XRoute(5,"Morado","#b254ff",32.50);
+        R_5.estaciones.push_front(new XStation(303,304,1));
+
+        Sigi.getXRouteList().push_front(R_0);
+        Sigi.getXRouteList().push_front(R_1);
+        Sigi.getXRouteList().push_front(R_2);
+        Sigi.getXRouteList().push_front(R_3);
+        Sigi.getXRouteList().push_front(R_4);
+        Sigi.getXRouteList().push_front(R_5);
+    }
+
+    //(^< ............ ............ ............ ............ ............ StationLoader
+    public void StationLoader(){
+        Gson gson = new Gson();
+
+        String St_0 = "{\n" +
+                "  \"codigo\":0,\n" +
+                "  \"nombre\":\"SanCarlos\",\n" +
+                "  \"latitud\":14.587910334,\n" +
+                "  \"longitud\":-90.55185482\n" +
+                "}";
+
+        String St_1 = "{\n" +
+                "  \"codigo\":1,\n" +
+                "  \"nombre\":\"Tikal\",\n" +
+                "  \"latitud\":14.598263997,\n" +
+                "  \"longitud\":-90.54333365\n" +
+                "}";
+
+
+        String St_2 = "{\n" +
+                "  \"codigo\":2,\n" +
+                "  \"nombre\":\"Recoleccion\",\n" +
+                "  \"latitud\":14.583486002,\n" +
+                "  \"longitud\":-90.54154280\n" +
+                "}";
+
+        String St_3 = "{\n" +
+                "  \"codigo\":3,\n" +
+                "  \"nombre\":\"Antigua\",\n" +
+                "  \"latitud\":14.577194855,\n" +
+                "  \"longitud\":-90.55962250\n" +
+                "}";
+
+        String St_4 = "{\n" +
+                "  \"codigo\":4,\n" +
+                "  \"nombre\":\"Miraflores\",\n" +
+                "  \"latitud\":14.570307820,\n" +
+                "  \"longitud\":-90.55095360\n" +
+                "}";
+
+        String St_5 = "{\n" +
+                "  \"codigo\":5,\n" +
+                "  \"nombre\":\"Castellana\",\n" +
+                "  \"latitud\":14.593571069,\n" +
+                "  \"longitud\":-90.53839839\n" +
+                "}";
+
+        String St_6 = "{\n" +
+                "  \"codigo\":6,\n" +
+                "  \"nombre\":\"Reforma\",\n" +
+                "  \"latitud\":14.582821478,\n" +
+                "  \"longitud\":-90.55107001\n" +
+                "}";
+
+        String St_7 = "{\n" +
+                "  \"codigo\":7,\n" +
+                "  \"nombre\":\"Alameda\",\n" +
+                "  \"latitud\":14.567394490,\n" +
+                "  \"longitud\":-90.56370946\n" +
+                "}";
+
+        String St_8 = "{\n" +
+                "  \"codigo\":8,\n" +
+                "  \"nombre\":\"Embajada\",\n" +
+                "  \"latitud\":14.573957036,\n" +
+                "  \"longitud\":-90.53980235\n" +
+                "}";
+
+        String St_9 = "{\n" +
+                "  \"codigo\":9,\n" +
+                "  \"nombre\":\"Trebol\",\n" +
+                "  \"latitud\":14.604334424,\n" +
+                "  \"longitud\":-90.55209998\n" +
+                "}";
+
+        TADNodo nodo_0 = gson.fromJson(St_0, TADNodo.class);
+        TADNodo nodo_1 = gson.fromJson(St_1, TADNodo.class);
+        TADNodo nodo_2 = gson.fromJson(St_2, TADNodo.class);
+        TADNodo nodo_3 = gson.fromJson(St_3, TADNodo.class);
+        TADNodo nodo_4 = gson.fromJson(St_4, TADNodo.class);
+        TADNodo nodo_5 = gson.fromJson(St_5, TADNodo.class);
+        TADNodo nodo_6 = gson.fromJson(St_6, TADNodo.class);
+        TADNodo nodo_7 = gson.fromJson(St_7, TADNodo.class);
+        TADNodo nodo_8 = gson.fromJson(St_8, TADNodo.class);
+        TADNodo nodo_9 = gson.fromJson(St_9, TADNodo.class);
+
+        Sigi.addStation(nodo_0);
+        Sigi.addStation(nodo_1);
+        Sigi.addStation(nodo_2);
+        Sigi.addStation(nodo_3);
+        Sigi.addStation(nodo_4);
+        Sigi.addStation(nodo_5);
+        Sigi.addStation(nodo_6);
+        Sigi.addStation(nodo_7);
+        Sigi.addStation(nodo_8);
+        Sigi.addStation(nodo_9);
+
+        RouteLoader();
+
+        Sigi.fillHashTable();
+
+    }
 }
+
+

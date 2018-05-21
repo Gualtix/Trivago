@@ -21,6 +21,17 @@ public class XRoute extends DataStructure implements Comparable {
         estaciones = new List<>();
     }
 
+    public XRoute(int codigo,String nombre,String color,double precio){
+
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.color = color;
+        this.precio = precio;
+
+        estaciones = new List<>();
+
+    }
+
     @Override
     public int compareTo(Object o) {
         XRoute Tmp = (XRoute)o;
