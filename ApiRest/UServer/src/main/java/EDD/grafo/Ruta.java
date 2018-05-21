@@ -93,4 +93,9 @@ public class Ruta extends DataStructure implements Comparable, Cloneable {
     public String getJSON() {
         return null;
     }
+
+    @Override
+    public String graph() {
+        return null;
+    }
 }

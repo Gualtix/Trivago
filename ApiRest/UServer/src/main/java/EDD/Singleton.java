@@ -165,4 +165,5 @@ public class Singleton {
         FileManager fileManager = new FileManager(FILENAME_RUTAS, array.toString());
         fileManager.createFile("json");
     }
+
 }

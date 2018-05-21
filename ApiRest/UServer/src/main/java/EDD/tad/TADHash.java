@@ -4,8 +4,11 @@ import DAO.DataStructure;
 import EDD.grafo.Arista;
 import EDD.grafo.Nodo;
 import EDD.grafo.Ruta;
+import EDD.list.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.Iterator;
 
 public class TADHash extends DataStructure {
 
@@ -103,6 +106,23 @@ public class TADHash extends DataStructure {
 
         JSONArray array = new JSONArray();
         return "";
+    }
+
+    @Override
+    public String graph() {
+        String text = String.format("%s\n", origen.getData().createNode());
+        List<Arista> aristaList = estaciones.getAristaList();
+
+        Iterator<Arista> iterator = aristaList.iterator();
+        while (iterator.hasNext()) {
+            Arista currentArista = iterator.next();
+            text += String.format("%s\n",
+                    currentArista.getDestino().getData().createNode());
+            text += String.format("%s -> %s [label = \"%s\"]\n",
+                    origen.getData().nodeName(), currentArista.getDestino().getData().nodeName(), color);
+        }
+
+        return text;
     }
 
     @Override

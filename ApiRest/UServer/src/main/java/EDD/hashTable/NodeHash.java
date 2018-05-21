@@ -42,6 +42,10 @@ public class NodeHash<T extends DataStructure> implements Comparable {
         return data.createNode();
     }
 
+    public String graphMap() {
+        return data.graph();
+    }
+
     @Override
     public String toString() {
         return data.toString();
