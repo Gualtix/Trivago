@@ -11,6 +11,9 @@ import EDD.tad.TADArbolB;
 import EDD.tad.TADArista;
 import EDD.tad.TADHash;
 import EDD.tad.TADNodo;
+import filesManager.FileManager;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.Iterator;
 
@@ -19,11 +22,12 @@ public class Singleton {
     private int idTicket;
     private BTree<TADArbolB> arbol;
     private Grafo grafo;
-    private HashTable<XRoute> hash;
+    private HashTable<TADHash> hash;
 
     private List<TADNodo> StationList;
     private List<XRoute>  XRouteList;
 
+    private static String FILENAME_RUTAS = "Rutas";
     private static Singleton instance = null;
 
     public static synchronized Singleton getInstance() {
@@ -61,12 +65,23 @@ public class Singleton {
         return grafo;
     }
 
-    private void fillGrafo() {
+    public JSONObject getStation(TADNodo data) {
+        JSONObject object = new JSONObject();
 
+        TADNodo node = grafo.getNodo(data).getData();
+
+        if (node != null) {
+            object.put("codigo", node.getCodigo());
+            object.put("nombre", node.getNombre());
+            object.put("longitud", node.getLongitud());
+            object.put("latitud", node.getLatitud());
+        }
+
+        return object;
     }
 
     /* MANEJO DE TABLA HASH */
-    public HashTable<XRoute> getHashTable() {
+    public HashTable<TADHash> getHashTable() {
         return hash;
     }
 
@@ -89,9 +104,35 @@ public class Singleton {
                 TADArista tadarista = new TADArista(station.trafico);
 
                 Arista arista = grafo.addArista(tadorigen, tadarista, taddestino);
+                tadHash.setOrigen(grafo.getNodo(tadorigen));
                 tadHash.addRuta(arista);
             }
+            hash.put(tadHash);
         }
+    }
+
+    public JSONArray possibleRoutes(TADNodo station) {
+        JSONArray array = new JSONArray();
+
+        Iterator<XRoute> iterator = XRouteList.iterator();
+        while (iterator.hasNext()) {
+            XRoute next = iterator.next();
+
+            Iterator<XStation> iterator1 = next.estaciones.iterator();
+            while (iterator1.hasNext()) {
+                XStation current = iterator1.next();
+
+                if (current.destino == station.getCodigo()) {
+                    JSONObject object = new JSONObject();
+                    object.put("codigo", next.codigo);
+                    object.put("nombre", next.nombre);
+                    array.put(object);
+                    break;
+                }
+            }
+        }
+
+        return array;
     }
 
     /* BACKUP RUTAS */
@@ -112,4 +153,16 @@ public class Singleton {
         return XRouteList;
     }
 
+    public void backupRutas() {
+        JSONArray array = new JSONArray();
+
+        Iterator<XRoute> iterator = XRouteList.iterator();
+        while (iterator.hasNext()) {
+            XRoute current = iterator.next();
+            array.put(new JSONObject(current.getJSON()));
+        }
+
+        FileManager fileManager = new FileManager(FILENAME_RUTAS, array.toString());
+        fileManager.createFile("json");
+    }
 }

@@ -1,6 +1,7 @@
 package EDD.tad;
 
 import DAO.DataStructure;
+import org.json.JSONObject;
 
 public class TADArbolB extends DataStructure {
     private int codigo;
@@ -80,7 +81,15 @@ public class TADArbolB extends DataStructure {
 
     @Override
     public String getJSON() {
-        return null;
+        JSONObject object = new JSONObject();
+        object.put("codigo", codigo);
+        object.put("verificacion", verificacion);
+        object.put("emision", emision);
+        object.put("devolucion", devolucion);
+        object.put("valor", valor);
+        object.put("saldo", saldo);
+
+        return object.toString();
     }
 
     @Override

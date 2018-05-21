@@ -1,9 +1,13 @@
 package EDD.hashTable;
 
 import DAO.DataStructure;
+import EDD.tad.TADHash;
 import filesManager.FileManager;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 public class HashTable<T extends DataStructure> {
 
@@ -12,7 +16,7 @@ public class HashTable<T extends DataStructure> {
     private double loadFactor;
     private NodeHash<T> nodes[];
 
-    private static String FILENAME = "hashTable";
+    private static String FILENAME = "ListaRutas";
 
     public HashTable() {
         capacity = 11;

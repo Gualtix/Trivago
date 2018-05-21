@@ -2,9 +2,11 @@ package EDD.grafo;
 
 import DAO.DataStructure;
 import EDD.list.List;
-import EDD.tad.TADNodo;
+import filesManager.FileManager;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 
 public class XRoute extends DataStructure implements Comparable {
 
@@ -38,6 +40,25 @@ public class XRoute extends DataStructure implements Comparable {
 
     @Override
     public String getJSON() {
-        return null;
+        JSONObject root = new JSONObject();
+        root.put("codigo", codigo);
+        root.put("nombre", nombre);
+        root.put("color", color);
+        root.put("precio", precio);
+
+        JSONArray array = new JSONArray();
+        Iterator<XStation> iterator = estaciones.iterator();
+        while (iterator.hasNext()) {
+            XStation current = iterator.next();
+            JSONObject object = new JSONObject();
+            object.put("origen", current.origen);
+            object.put("destino", current.destino);
+            object.put("trafico", current.trafico);
+
+            array.put(object);
+        }
+        root.put("estaciones", array);
+
+        return root.toString();
     }
 }

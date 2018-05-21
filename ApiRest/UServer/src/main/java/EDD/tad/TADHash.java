@@ -4,7 +4,8 @@ import DAO.DataStructure;
 import EDD.grafo.Arista;
 import EDD.grafo.Nodo;
 import EDD.grafo.Ruta;
-import EDD.list.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class TADHash extends DataStructure {
 
@@ -94,12 +95,25 @@ public class TADHash extends DataStructure {
 
     @Override
     public String getJSON() {
-        return null;
+        JSONObject object = new JSONObject();
+        object.put("codigo", codigo);
+        object.put("nombre", nombre);
+        object.put("color", color);
+        object.put("precio", precio);
+
+        JSONArray array = new JSONArray();
+        return "";
     }
 
     @Override
     public int compareTo(Object o) {
         TADHash temp = (TADHash)o;
         return Integer.compare(codigo, temp.getCodigo());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        TADHash temp = (TADHash)obj;
+        return nombre.equals(temp.getNombre());
     }
 }
