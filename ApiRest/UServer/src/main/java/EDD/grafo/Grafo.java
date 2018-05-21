@@ -4,6 +4,9 @@ package EDD.grafo;
 import EDD.list.List;
 import EDD.tad.TADArista;
 import EDD.tad.TADNodo;
+import filesManager.FileManager;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 import java.util.Iterator;
@@ -11,6 +14,8 @@ import java.util.Iterator;
 public class Grafo {
 
     private List<Nodo> nodos;
+
+    private static String FILENAME = "ListaEstaciones";
 
     public Grafo() {
         nodos = new List<>();
@@ -154,5 +159,24 @@ public class Grafo {
         }
 
         return ruta;
+    }
+
+    public void toJSON() {
+        JSONArray root = new JSONArray();
+
+        Iterator<Nodo> iterator = nodos.iterator();
+        while (iterator.hasNext()) {
+            Nodo current = iterator.next();
+            JSONObject object = new JSONObject();
+            object.put("codigo", current.getData().getCodigo());
+            object.put("nombre", current.getData().getNombre());
+            object.put("latitud", current.getData().getLatitud());
+            object.put("longitud", current.getData().getLongitud());
+
+            root.put(object);
+        }
+
+        FileManager fileManager = new FileManager(FILENAME, root.toString());
+        fileManager.createFile("json");
     }
 }

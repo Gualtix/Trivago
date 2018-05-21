@@ -3,8 +3,12 @@ package EDD.arbolb;
 import DAO.DataStructure;
 
 import java.io.*;
+import java.util.Iterator;
 
 import filesManager.FileManager;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.omg.CORBA.OBJ_ADAPTER;
 
 public class BTree<T extends DataStructure> {
 
@@ -138,6 +142,28 @@ public class BTree<T extends DataStructure> {
         }
 
         return text;
+    }
+
+    public void toJSON() {
+        JSONArray array = new JSONArray();
+        array = toJSON(root, array);
+
+        FileManager fileManager = new FileManager(FILENAME, array.toString());
+        fileManager.createFile("json");
+    }
+
+    private JSONArray toJSON(BNode<T> current, JSONArray array) {
+        if (current == null) {
+            return array;
+        }
+
+        for (int i = 0; i < current.size(); i++) {
+            array = toJSON(current.getChild(i), array);
+            array.put(new JSONObject(current.getInfo(i).getJSON()));
+        }
+        array = toJSON(current.getChild(current.size()), array);
+
+        return array;
     }
 
     public String toBase64() {
