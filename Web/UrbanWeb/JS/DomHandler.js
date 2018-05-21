@@ -253,6 +253,27 @@ function onClick_add_NewStation() {
         StopList[cnt] = new Stop(textCode,textName,textLatitude,textLongitude);
         updateAfter_NewStation_Added(table);
 
+        //(^< ............ To Server
+        var data = StopList[cnt];
+        $.ajax(
+        {
+            type: "POST",
+            url: "http://localhost:8080/UServer/api/urban/add_new_station",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            dataType: "json",
+            success: function (data, status, jqXHR) 
+            {
+                alert(success);
+            },
+
+            error: function (jqXHR, status)
+            {
+                console.log(jqXHR);
+                alert('fail' + status.code);
+            }
+        });
     }
 }
 
