@@ -5,6 +5,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    SERVER = "http://localhost:8080/UServer/api/urban";
     seterEstacion();
     ui->setupUi(this);
 }
@@ -17,18 +18,51 @@ MainWindow::~MainWindow()
 void MainWindow::seterEstacion()
 {
     bool ok;
-    QString rutas;
+    QString estacion;
     QString text = QInputDialog::getText(this, tr("Configuración"),
                                           tr("Codigo de estación:"), QLineEdit::Normal,
                                           QDir::home().dirName(), &ok);
     if (ok && !text.isEmpty())
-        rutas = enviarPeticion_get("/rutas", tr("{\"estacion\":%1}").arg(text));
+        estacion = enviarPeticion_get("/askIfStationExists", tr("{\"codigo\":%d,\"nombre\":null,\"latitud\":0.0,\"longitud\":0.0}").arg(text.toInt()));
 
-    QJsonDocument jsd = QJsonDocument::fromJson(rutas.toLatin1());
+    QJsonDocument jsd = QJsonDocument::fromJson(estacion.toLatin1());
     if (!jsd.isEmpty())
     {
-        QJsonObject jso = jsd.object();
-        /* SETER cmbRutas */
+        QString rutas = enviarPeticion_get("/getList_of_Routes_that_pass_through_a_Station", tr("{\"codigo\":%d,\"nombre\":null,\"latitud\":0.0,\"longitud\":0.0}").arg(text.toInt()));
+        setterRutas(ruta);
+    }
+}
+
+void MainWindow::setterRutas(QString json)
+{
+    QJsonDocument jsd = QJsonDocument::fromJson(json.toLatin1());
+    if (!jsd.isEmpty())
+    {
+        QJsonArray jsa = jsd.array();
+        for (int i = 0; i < jsa.size(); i++)
+        {
+            QJsonObject jso = jsa.at(i).toObject();
+            ui->cmbRutas->addItem(jso["codigo"].toInt());
+        }
+    }
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    QString ticket = ui->edtTicket->text();
+    QString ruta = ui->cmbRutas->currentText();
+
+    QString jsonTicket = tr("{\"codigo\":%d,\"verificacion\":null,\"emision\":null,\"devolucion\":null,\"valor\":0,\"saldo\":0}").arg(ticket);
+    QString jsonRuta = tr("{\"ruta\":%d,\"ticket\":%d}").arg(ruta, ticket);
+
+    jsonTicket = enviarPeticion_post("/verificar", ticket);
+    if (!QJsonDocument::fromJson(jsonTicket.toLatin1()).isEmpty())
+    {
+        jsonRuta = enviarPeticion_put("/comprar", ruta);
+        if (!QJsonDocument::fromJson(jsonRuta.toLatin1()).isEmpty())
+            qDebug() << "Compra de existoso";
+        else
+            qDebug() << "Compra en conflicto";
     }
 }
 
@@ -93,7 +127,7 @@ QString MainWindow::enviarPeticion_get(QString path, QString json)
     QNetworkRequest request(QUrl(SERVER + path));
     request.setRawHeader("Content-Type", "application/json");
 
-    QNetworkReply *reply = accessManager.get(request, json.toUtf8());
+    QNetworkReply *reply = accessManager.post(request, json.toUtf8());
     loop.exec();
 
     QString result = "{}";
