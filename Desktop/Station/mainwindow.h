@@ -29,6 +29,7 @@ private:
     QString enviarPeticion_post(QString path, QString json);
     QString enviarPeticion_put(QString path, QString json);
     QString enviarPeticion_get(QString path, QString json);
+    void setterRutas(QString json);
     void limpiarCampo();
 };
 

@@ -38,7 +38,7 @@ void MainWindow::setterRutas(QString json)
     QJsonDocument jsd = QJsonDocument::fromJson(json.toLatin1());
     if (!jsd.isEmpty())
     {
-
+        
     }
 }
 
