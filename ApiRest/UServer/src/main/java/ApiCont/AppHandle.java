@@ -8,6 +8,7 @@ import EDD.tad.TADArista;
 import EDD.tad.TADNodo;
 import com.google.gson.Gson;
 
+import javax.swing.text.TabableView;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
 
@@ -19,6 +20,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
+
 import org.json.*;
 
 @ApplicationPath("/api")
@@ -26,6 +29,45 @@ import org.json.*;
 public class AppHandle extends Application {
 
     Singleton Sigi = Singleton.getInstance();
+
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    //(^< ............ ............ ............ ............ ............ getStations
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+
+    @GET
+    @Path("/getstations")
+    @Produces("application/json")
+    public String getStations(){
+
+        if(Sigi.getStationList().isEmpty()){
+            StationsLoader();
+        }
+
+        String Rs = "[";
+
+        Iterator<TADNodo> iterator = Sigi.getStationList().iterator();
+        while (iterator.hasNext()) {
+            TADNodo current = iterator.next();
+            Gson Gs = new Gson();
+            String Js = Gs.toJson(current,TADNodo.class);
+            Rs += Js;
+
+            Rs += ",";
+        }
+
+        int Pos = Rs.length();
+        StringBuilder Tmp = new StringBuilder(Rs);
+        Tmp.deleteCharAt(Pos - 1);
+        Rs = Tmp.toString();
+
+        Rs += "]";
+
+        return Rs;
+    }
+
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    //(^< ............ ............ ............ ............ ............ GetAvailableStations
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 
     @PUT
     @Path("/devolucion")
@@ -189,6 +231,8 @@ public class AppHandle extends Application {
     @Path("/addstation")
     @Produces("application/json")
     public void addStation(String St){
+
+        /*
         int k = 0;
         //Gson gson = new Gson();
         //TADNodo nodo = gson.fromJson(station, TADNodo.class);
@@ -197,14 +241,14 @@ public class AppHandle extends Application {
         Gson gson = new Gson();
 
         String St_0 = "{\n" +
-                "  \"codigo\":300,\n" +
+                "  \"codigo\":0,\n" +
                 "  \"nombre\":\"SanCarlos\",\n" +
                 "  \"latitud\":14.587910334,\n" +
                 "  \"longitud\":-90.55185482\n" +
                 "}";
 
         String St_1 = "{\n" +
-                "  \"codigo\":301,\n" +
+                "  \"codigo\":1,\n" +
                 "  \"nombre\":\"Tikal\",\n" +
                 "  \"latitud\":14.598263997,\n" +
                 "  \"longitud\":-90.54333365\n" +
@@ -212,56 +256,56 @@ public class AppHandle extends Application {
 
 
         String St_2 = "{\n" +
-                "  \"codigo\":302,\n" +
+                "  \"codigo\":2,\n" +
                 "  \"nombre\":\"Recoleccion\",\n" +
                 "  \"latitud\":14.583486002,\n" +
                 "  \"longitud\":-90.54154280\n" +
                 "}";
 
         String St_3 = "{\n" +
-                "  \"codigo\":303,\n" +
+                "  \"codigo\":3,\n" +
                 "  \"nombre\":\"Antigua\",\n" +
                 "  \"latitud\":14.577194855,\n" +
                 "  \"longitud\":-90.55962250\n" +
                 "}";
 
         String St_4 = "{\n" +
-                "  \"codigo\":304,\n" +
+                "  \"codigo\":4,\n" +
                 "  \"nombre\":\"Miraflores\",\n" +
                 "  \"latitud\":14.570307820,\n" +
                 "  \"longitud\":-90.55095360\n" +
                 "}";
 
         String St_5 = "{\n" +
-                "  \"codigo\":305,\n" +
+                "  \"codigo\":5,\n" +
                 "  \"nombre\":\"Castellana\",\n" +
                 "  \"latitud\":14.593571069,\n" +
                 "  \"longitud\":-90.53839839\n" +
                 "}";
 
         String St_6 = "{\n" +
-                "  \"codigo\":306,\n" +
+                "  \"codigo\":6,\n" +
                 "  \"nombre\":\"Reforma\",\n" +
                 "  \"latitud\":14.582821478,\n" +
                 "  \"longitud\":-90.55107001\n" +
                 "}";
 
         String St_7 = "{\n" +
-                "  \"codigo\":307,\n" +
+                "  \"codigo\":7,\n" +
                 "  \"nombre\":\"Alameda\",\n" +
                 "  \"latitud\":14.567394490,\n" +
                 "  \"longitud\":-90.56370946\n" +
                 "}";
 
         String St_8 = "{\n" +
-                "  \"codigo\":308,\n" +
+                "  \"codigo\":8,\n" +
                 "  \"nombre\":\"Embajada\",\n" +
                 "  \"latitud\":14.573957036,\n" +
                 "  \"longitud\":-90.53980235\n" +
                 "}";
 
         String St_9 = "{\n" +
-                "  \"codigo\":309,\n" +
+                "  \"codigo\":9,\n" +
                 "  \"nombre\":\"Trebol\",\n" +
                 "  \"latitud\":14.604334424,\n" +
                 "  \"longitud\":-90.55209998\n" +
@@ -288,6 +332,7 @@ public class AppHandle extends Application {
         Sigi.addStation(nodo_7);
         Sigi.addStation(nodo_8);
         Sigi.addStation(nodo_9);
+        */
 
         Sigi.getGrafo().loadStations(Sigi.getStationList());
 
@@ -320,5 +365,139 @@ public class AppHandle extends Application {
         //RUta 208
         Sigi.getGrafo().addArista(new TADNodo(303),new TADArista(1),new TADNodo(304));
 
+    }
+
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    //(^< ............ ............ ............ ............ ............ Loader
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    public void StationsLoader(){
+        Gson gson = new Gson();
+
+        String St_0 = "{\n" +
+                "  \"codigo\":0,\n" +
+                "  \"nombre\":\"SanCarlos\",\n" +
+                "  \"latitud\":14.587910334,\n" +
+                "  \"longitud\":-90.55185482\n" +
+                "}";
+
+        String St_1 = "{\n" +
+                "  \"codigo\":1,\n" +
+                "  \"nombre\":\"Tikal\",\n" +
+                "  \"latitud\":14.598263997,\n" +
+                "  \"longitud\":-90.54333365\n" +
+                "}";
+
+
+        String St_2 = "{\n" +
+                "  \"codigo\":2,\n" +
+                "  \"nombre\":\"Recoleccion\",\n" +
+                "  \"latitud\":14.583486002,\n" +
+                "  \"longitud\":-90.54154280\n" +
+                "}";
+
+        String St_3 = "{\n" +
+                "  \"codigo\":3,\n" +
+                "  \"nombre\":\"Antigua\",\n" +
+                "  \"latitud\":14.577194855,\n" +
+                "  \"longitud\":-90.55962250\n" +
+                "}";
+
+        String St_4 = "{\n" +
+                "  \"codigo\":4,\n" +
+                "  \"nombre\":\"Miraflores\",\n" +
+                "  \"latitud\":14.570307820,\n" +
+                "  \"longitud\":-90.55095360\n" +
+                "}";
+
+        String St_5 = "{\n" +
+                "  \"codigo\":5,\n" +
+                "  \"nombre\":\"Castellana\",\n" +
+                "  \"latitud\":14.593571069,\n" +
+                "  \"longitud\":-90.53839839\n" +
+                "}";
+
+        String St_6 = "{\n" +
+                "  \"codigo\":6,\n" +
+                "  \"nombre\":\"Reforma\",\n" +
+                "  \"latitud\":14.582821478,\n" +
+                "  \"longitud\":-90.55107001\n" +
+                "}";
+
+        String St_7 = "{\n" +
+                "  \"codigo\":7,\n" +
+                "  \"nombre\":\"Alameda\",\n" +
+                "  \"latitud\":14.567394490,\n" +
+                "  \"longitud\":-90.56370946\n" +
+                "}";
+
+        String St_8 = "{\n" +
+                "  \"codigo\":8,\n" +
+                "  \"nombre\":\"Embajada\",\n" +
+                "  \"latitud\":14.573957036,\n" +
+                "  \"longitud\":-90.53980235\n" +
+                "}";
+
+        String St_9 = "{\n" +
+                "  \"codigo\":9,\n" +
+                "  \"nombre\":\"Trebol\",\n" +
+                "  \"latitud\":14.604334424,\n" +
+                "  \"longitud\":-90.55209998\n" +
+                "}";
+
+        TADNodo nodo_0 = gson.fromJson(St_0, TADNodo.class);
+        TADNodo nodo_1 = gson.fromJson(St_1, TADNodo.class);
+        TADNodo nodo_2 = gson.fromJson(St_2, TADNodo.class);
+        TADNodo nodo_3 = gson.fromJson(St_3, TADNodo.class);
+        TADNodo nodo_4 = gson.fromJson(St_4, TADNodo.class);
+        TADNodo nodo_5 = gson.fromJson(St_5, TADNodo.class);
+        TADNodo nodo_6 = gson.fromJson(St_6, TADNodo.class);
+        TADNodo nodo_7 = gson.fromJson(St_7, TADNodo.class);
+        TADNodo nodo_8 = gson.fromJson(St_8, TADNodo.class);
+        TADNodo nodo_9 = gson.fromJson(St_9, TADNodo.class);
+
+        Sigi.addStation(nodo_0);
+        Sigi.addStation(nodo_1);
+        Sigi.addStation(nodo_2);
+        Sigi.addStation(nodo_3);
+        Sigi.addStation(nodo_4);
+        Sigi.addStation(nodo_5);
+        Sigi.addStation(nodo_6);
+        Sigi.addStation(nodo_7);
+        Sigi.addStation(nodo_8);
+        Sigi.addStation(nodo_9);
+    }
+
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    //(^< ............ ............ ............ ............ ............ C + +
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+
+    //(^< ............ ............ ............ ............ ............ getList_of_Routes_that_pass_through_a_Station
+    @GET
+    @Path("/getList_of_Routes_that_pass_through_a_Station")
+    @Produces("application/json")
+    public String getList_of_Stations_that_pass_through_a_point(){
+        String Reply = "";
+
+        return Reply;
+    }
+
+    //(^< ............ ............ ............ ............ ............ askIfStationExists
+    @GET
+    @Path("/askIfStationExists")
+    @Produces("application/json")
+    public String askIfStationExists(String St){
+        String Reply = "";
+
+        Gson Gs = new Gson();
+        TADNodo TmpStation = Gs.fromJson(St,TADNodo.class);
+
+        TADNodo Fd = Sigi.getGrafo().getNodo(TmpStation).getData();
+        if(Fd == null){
+            Reply = "{}";
+        }
+        else{
+            Reply = Gs.toJson(Fd);
+        }
+        return Reply;
     }
 }

@@ -6,46 +6,13 @@
 
 var selected;
 var StopName = undefined;
-//var Fst = undefined;
-
 
 window.onload = OnPageLoad;
 function OnPageLoad(){
-    /*
+
     Pick_New_Station();
-
-    var Btn_U = $('#btnUpdateStation').get(0);
+    var Btn_U = $('#btn_update_Station').get(0);
     disableBtn(Btn_U);
-
-    //(^< ............ ............ ............ T E S T
-    $('#tboxName').val("Antigua");
-    $('#tboxPrice').val("Q34.75");
-    */
-
-/*
-    
-    var invocation = new XMLHttpRequest();
-    var username = "admin";
-    var password = "";
-    var url = 'http://localhost:8080/apiUrban/api/hola/mundo',username,password;  
-    invocation.open('GET', url, true, username,password);  
-    invocation.send();
-    console.log(invocation);  
-
-    //var data = invocation.responseText;
-    //var jsonResponse = JSON.parse(data);
-    //console.log(jsonResponse["ID"]);
-
-    //var PS = invocation.response;
-
-    //alert(invocation);  
-
-    //$('#tboxCode').val(PS);
-    //console.log(PS);
-    */
-
-    
-
 }
 
 
@@ -53,6 +20,39 @@ function OnPageLoad(){
 //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 //(^< ............ ............ ............ ............ ............ E V E N T S
 //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+
+//(^< ............ ............ ............ ............ ............ onClickcreateNewRoute
+
+function onClick_reateNewRoute(argument) {
+
+
+    if(PathList.length > 0){
+
+        var Origin = PathList[0].Begin_Point;
+        var Lm = PathList.length - 1;
+        var Destiny = PathList[Lm].End_Point;
+
+        var code = RouteList.length + 200;
+        var name = Origin.Name +"-"+ Destiny.Name;
+        var price = $('#tboxRtPrice').val();
+        var trafico = $('#tboxRtTraffic').val();
+        var color = $('#tboxRtColor').val();
+
+        
+
+    }
+    else{
+
+
+    }
+}
+
+function onClick_updateRoute(argument) {
+
+}
+
+
+
 
 //(^< ............ ............ ............ ............ ............ onClickbtnShowTree_IMG
 
@@ -192,25 +192,22 @@ function OpenIMG(tree_img_in_base64) {
 }
 */
 
-//(^< ............ ............ ............ ............ ............ onClickbtnUpdateStation
-function saveStationChanges() {
+//(^< ............ ............ ............ ............ ............ onClickbtn_update_Station
+function onClick_update_Station() {
 
-    var Btn_S = $('#btmAddNewStation').get(0);
+    var Btn_S = $('#btn_add_NewStation').get(0);
     enableBtn(Btn_S);
 
-    var Btn_U = $('#btnUpdateStation').get(0);
+    var Btn_U = $('#btn_update_Station').get(0);
     disableBtn(Btn_U);
 
     var cnt = $('#tboxCode').val();
 
-
-
     if(validateAddNewStation()){
 
-        StopList[cnt].Name = $('#tboxName').val();
-        StopList[cnt].Price = $('#tboxPrice').val();
-        StopList[cnt].Latitude = $('#tboxLatitude').val();
-        StopList[cnt].Longitude = $('#tboxLongitude').val();
+        StopList[cnt].nombre = $('#tboxName').val();
+        StopList[cnt].latitud = $('#tboxLatitude').val();
+        StopList[cnt].longitud = $('#tboxLongitude').val();
     }
 
     
@@ -222,8 +219,8 @@ function saveStationChanges() {
 }
 
 
-//(^< ............ ............ ............ ............ ............ onClickbtmAddNewStation
-function AddRow_to_Table() {
+//(^< ............ ............ ............ ............ ............ onClickbtn_add_NewStation
+function onClick_add_NewStation() {
 
     var isValid = validateAddNewStation();
 
@@ -236,13 +233,11 @@ function AddRow_to_Table() {
         var Cell_1 = row.insertCell(1);
         var Cell_2 = row.insertCell(2);
         var Cell_3 = row.insertCell(3);
-        var Cell_4 = row.insertCell(4);
 
         document.getElementById('tboxCode').value = StopList.length;
 
         var textCode = document.getElementById('tboxCode').value;
         var textName = document.getElementById('tboxName').value;
-        var textPrice = document.getElementById('tboxPrice').value;
         var textLatitude = document.getElementById('tboxLatitude').value;
         var textLongitude = document.getElementById('tboxLongitude').value;
 
@@ -251,26 +246,50 @@ function AddRow_to_Table() {
 
         Cell_0.innerHTML = textCode;
         Cell_1.innerHTML = textName;
-        Cell_2.innerHTML = textPrice;
-        Cell_3.innerHTML = textLatitude;
-        Cell_4.innerHTML = textLongitude;
+        Cell_2.innerHTML = textLatitude;
+        Cell_3.innerHTML = textLongitude;
 
         var cnt = StopList.length;
-        StopList[cnt] = new Stop(textCode,textName,textPrice,textLatitude,textLongitude);
+        StopList[cnt] = new Stop(textCode,textName,textLatitude,textLongitude);
+        updateAfter_NewStation_Added(table);
 
-        selected = table.getElementsByClassName('selected');
-        table.onclick = Highlight;
-        
-        CleanMap();
-        Show_StopList_on_Map();
-        CleanStopForm();
-        afterADD = true;
-
-        //(^< ............ ............ ............ T E S T
-        $('#tboxName').val("Antigua");
-        $('#tboxPrice').val("Q34.75");
     }
 }
+
+//(^< ............ ............ ............ ............ ............ onLoad_add_NewStation_from_Server
+
+function onLoad_add_NewStation_from_Server(code,name,lat,long) {
+
+    var table = document.getElementById('tblEstaciones');
+    var row = table.insertRow(1);
+
+    var Cell_0 = row.insertCell(0);
+    var Cell_1 = row.insertCell(1);
+    var Cell_2 = row.insertCell(2);
+    var Cell_3 = row.insertCell(3);
+
+    Cell_0.innerHTML = code;
+    Cell_1.innerHTML = name;
+    Cell_2.innerHTML = lat;
+    Cell_3.innerHTML = long;
+
+    var cnt = StopList.length;
+    StopList[cnt] = new Stop(code,name,lat,long);
+    updateAfter_NewStation_Added(table);
+
+}
+
+function updateAfter_NewStation_Added(table){
+    selected = table.getElementsByClassName('selected');
+    table.onclick = Highlight;
+    
+    CleanMap();
+    Show_StopList_on_Map();
+    CleanStopForm();
+    afterADD = true;
+}
+
+
 
 
 //(^< ............ ............ ............ ............ ............ onClickbtnNewStation
@@ -283,10 +302,10 @@ function Pick_New_Station() {
     var Btn_Pt = document.getElementById("NewRoute");
     disableBtn(Btn_St);
     enableBtn(Btn_Pt);
-    CleanMap();
+    //CleanMap();
     document.getElementById('gboxRutas').style.display = 'none';
     document.getElementById('gboxEstaciones').style.removeProperty('display');
-    Show_StopList_on_Map()
+    //Show_StopList_on_Map()
 }
 
 //(^< ............ ............ ............ ............ ............ onClickbtnNewRoute
@@ -309,10 +328,10 @@ function Built_New_Route() {
 function Highlight(e) {
 
 
-    var Btn_S = $('#btmAddNewStation').get(0);
+    var Btn_S = $('#btn_add_NewStation').get(0);
     disableBtn(Btn_S);
 
-    var Btn_U = $('#btnUpdateStation').get(0);
+    var Btn_U = $('#btn_update_Station').get(0);
     enableBtn(Btn_U);
 
 
@@ -334,7 +353,7 @@ function UpdateStopTable() {
     var Lm = StopList.length;
     while(cnt < Lm){
 
-        console.log(StopList[cnt]);
+        //console.log(StopList[cnt]);
         VisitRows_to_Update(StopList[cnt]);
 
         cnt++;
@@ -353,11 +372,10 @@ function enableBtn(Btn) {
 }
 
 function FillStopInfo(ID_Stop) {
-    document.getElementById('tboxCode').value = StopList[ID_Stop].Code;
-    document.getElementById('tboxName').value = StopList[ID_Stop].Name;
-    document.getElementById('tboxPrice').value = StopList[ID_Stop].Price;
-    document.getElementById('tboxLatitude').value = StopList[ID_Stop].Latitude;
-    document.getElementById('tboxLongitude').value = StopList[ID_Stop].Longitude;
+    document.getElementById('tboxCode').value = StopList[ID_Stop].codigo;
+    document.getElementById('tboxName').value = StopList[ID_Stop].nombre;
+    document.getElementById('tboxLatitude').value = StopList[ID_Stop].latitud;
+    document.getElementById('tboxLongitude').value = StopList[ID_Stop].longitud;
 }
 
 function DeleteRow_from_Tabled() {
@@ -392,13 +410,11 @@ function VisitRows_to_Update(Std_S) {
     var Cell_1 = row.insertCell(1);
     var Cell_2 = row.insertCell(2);
     var Cell_3 = row.insertCell(3);
-    var Cell_4 = row.insertCell(4);
 
-    Cell_0.innerHTML = Std_S.Code;
-    Cell_1.innerHTML = Std_S.Name;
-    Cell_2.innerHTML = Std_S.Price;
-    Cell_3.innerHTML = Std_S.Latitude;
-    Cell_4.innerHTML = Std_S.Longitude
+    Cell_0.innerHTML = Std_S.codigo;
+    Cell_1.innerHTML = Std_S.nombre;
+    Cell_2.innerHTML = Std_S.latitud;
+    Cell_3.innerHTML = Std_S.longitud;
 }
 
 
@@ -408,16 +424,7 @@ function VisitRows_to_Update(Std_S) {
 
 
 function CleanStopTable(){
-    /*
-    var Parent = document.getElementById('tblEstaciones');
-    while(Parent.hasChildNodes())
-    {
-       Parent.removeChild(Parent.firstChild);
-    }
-    */
-
     var table = document.getElementById('tblEstaciones');
-    //or use :  var table = document.all.tableid;
     for(var i = table.rows.length - 1; i > 0; i--)
     {
         table.deleteRow(i);
@@ -427,7 +434,6 @@ function CleanStopTable(){
 function CleanStopForm(){
     document.getElementById('tboxCode').value = "";
     document.getElementById('tboxName').value = "";
-    document.getElementById('tboxPrice').value = "";
     document.getElementById('tboxLatitude').value = "";
     document.getElementById('tboxLongitude').value = "";
 }
