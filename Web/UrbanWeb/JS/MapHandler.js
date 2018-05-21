@@ -1,7 +1,16 @@
 //(^< ............ ............ ............ ............ ............ G L O V A L S
 'use strict';
-var markers = [];
+
+//(^< ............ ............ ............ Routes
 var StopList = [];
+var RouteList = [];
+var PathList = [];
+
+//(^< ............ ............ ............ Map Stuff
+var markers = [];
+
+
+
 
 var map;
 var LatLong;
@@ -23,16 +32,55 @@ var Route_Test = [];
 
 function initMap() {
 
+	var styledMapType = new google.maps.StyledMapType(
+
+	[
+		{
+		"elementType": "labels",
+		"stylers": [
+		  {
+		    "visibility": "off"
+		  }
+		]
+		},
+		{
+		"featureType": "administrative.land_parcel",
+		"stylers": [
+		  {
+		    "visibility": "off"
+		  }
+		]
+		},
+		{
+		"featureType": "administrative.neighborhood",
+		"stylers": [
+		  {
+		    "visibility": "off"
+		  }
+		]
+		}
+	],
+	{
+		name:'Styled Map'
+	});
+
+
+
 	LatLong = null;
 	OldStop = null;
 	NewStop = null;
 
 	map = new google.maps.Map(document.getElementById('map'),
 	{
-		zoom: 15,
-		center: {lat: 14.636717, lng: -90.519040},
+		zoom: 14,
+		center: {lat: 14.580147798, lng: -90.54958838},
 		mapTypeId: 'roadmap'
 	});
+
+	map.mapTypes.set('styled_map', styledMapType);
+    map.setMapTypeId('styled_map');
+
+	LoadFromServer();
 
 	map.addListener('click',function(e) 
 	{
@@ -49,7 +97,6 @@ function initMap() {
 				//QuitMarker(OldStop);
 				if(!afterADD){
 					Quit_Last_Marker_Added();
-
 				}
 				NewStop = LatLong;
 				PlaceMarker(NewStop);
@@ -78,6 +125,56 @@ function initMap() {
 			*/
 		}
 	});
+
+
+}
+
+//(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+//(^< ............ ............ ............ ............ ............ LoadFromServer
+//(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+
+function LoadFromServer() {
+
+	const Dir = 'http://localhost:8080/UServer/api/urban/getstations';
+
+    $.ajax({ 
+        type: 'GET', 
+        url: Dir, 
+        data: { get_param: 'value' }, 
+        dataType: 'json',
+        success: function (data) { 
+
+
+
+            $.each(data, function(codigo,St) {
+
+                var cd = St.codigo;
+                var nm = St.nombre;
+                var lat = St.latitud;
+                var long = St.longitud;
+                onLoad_add_NewStation_from_Server(cd,nm,lat,long);
+
+                /*
+                console.log(nm);
+
+                StopName = nm;
+
+				var Lat_Lg = new google.maps.LatLng(lat,long);
+				PlaceMarker(Lat_Lg);
+
+
+				StopName = undefined;
+				*/
+
+
+            });
+        },
+        error: function (jqXHR, status) {
+        console.log(jqXHR);
+        alert('fail' + status.code);
+        }
+    });
+    
 }
 
 //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
@@ -90,11 +187,12 @@ function PlaceMarker(LatLong){
 	{
     	url: 'IMG/Bus_Stop.png',
     	size: new google.maps.Size(32,38),
-        scaledSize: new google.maps.Size(32, 38),
+        scaledSize: new google.maps.Size(22, 25),
         labelOrigin: new google.maps.Point(10,-8)
 	};
 
 	var cnt = markers.length;
+	console.log(cnt);
 	markers[cnt] = new google.maps.Marker({
 
 	    position: LatLong,
@@ -106,10 +204,12 @@ function PlaceMarker(LatLong){
 	    {
 	        text: StopName,
         	color: "#053054",
-	    	fontSize: "17px",
+	    	fontSize: "12px",
 	    	fontWeight: "bold"
 	    }
 	});
+
+	/*
 
 	markers[cnt].addListener('click', function(event) {     
 		var Ps = event.latLng;
@@ -117,12 +217,11 @@ function PlaceMarker(LatLong){
 		if(checkUniquePos(Ps.lat(),Ps.lng())){
 			$('#Latit').val(Ps.lat());  
 			$('#Longit').val(Ps.lng());    
-			Route_Test.push(new Stop("Si","Si","Si",Ps.lat(),Ps.lng()));
-			buildSubRoute();
-
-
+			//Route_Test.push(new Stop("Si","Si","Si",Ps.lat(),Ps.lng()));
+			//buildSubRoute();
 		}
 	});
+	*/
 
 	SetLatLong_to_TextBox(LatLong);
 }
@@ -269,10 +368,11 @@ function Show_StopList_on_Map() {
     var Lm = StopList.length;
     while(cnt < Lm){
 
-    	var Lat = StopList[cnt].Latitude;
-    	var Long = StopList[cnt].Longitude;
-    	StopName = StopList[cnt].Name;
+    	var Lat = StopList[cnt].latitud;
+    	var Long = StopList[cnt].longitud;
+    	StopName = StopList[cnt].nombre;
         var Lat_Lg = new google.maps.LatLng(Lat,Long);
+        console.log(StopName);
         PlaceMarker(Lat_Lg);
         cnt++;
     }
@@ -303,4 +403,3 @@ function RemovePolylines() {
 		flightPath.setMap(null);
 	}
 }
-

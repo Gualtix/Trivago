@@ -8,21 +8,15 @@ function validateAddNewStation() {
 	//Set
 	//$('#txt_name').val(bla);
 
-	
-
 	var Nm = $('#tboxName').val();
-	var Ps = $('#tboxPrice').val();
 	var Lat = $('#tboxLatitude').val();
 	var Long = $('#tboxLongitude').val();
 
 	var newNm = Nm.replace(/(^\s+|\s+$)/g,'');
-	var newPs = Ps.replace(/(^\s+|\s+$)/g,'');
 
+	if(newNm == ""){
 
-
-	if(newNm == "" || newPs == ""){
-
-		alert("Nombre y Precio NO pueden ir en Blanco");
+		alert("Nombre NO pueden ir en Blanco");
 		return false;
 	}
 

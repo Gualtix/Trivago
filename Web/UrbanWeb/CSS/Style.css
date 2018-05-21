@@ -18,16 +18,7 @@ header
 	border-radius: 5px;
 }
 
-.btn {
-    border: none; 
-    background-color: #2197b5;
 
-    padding: 7px 12px; 
-    cursor: pointer; 
-    border-radius: 2px;
-    color: #090e16;
-    font-weight: bold;
-}
 
 .btnStop{
 
@@ -51,27 +42,12 @@ header
 .ShowHashTable:hover {background: #0b7dda;}
 */
 
-#map
-{
 
-	margin-top: 5px;
-	margin-bottom: 5px;
-	margin-left: auto;
-    margin-right: auto;
-
-	height:300px;
-	width: 850px;
-
-	border-radius: 5px;
-	background-color: #ffeb70;
-	border: 1px solid silver;
-
-}
 
 input{
 
 	width: 211px;
-	margin-bottom: 10px;
+	margin-bottom: 3px;
 }
 
 
@@ -109,8 +85,6 @@ th, td  {
 
 #tblEst{
 
-
-
 	margin-right: 5px;
 	overflow: auto;
 	float: left;
@@ -124,8 +98,6 @@ th, td  {
 }
 
 #tblRoutes{
-
-
 
 	margin-right: 5px;
 	overflow: auto;
@@ -150,8 +122,6 @@ th, td  {
 	background-color: #ffeb70;
 	border: 1px solid silver;
 	padding: 5px;
-	
-
 }
 
 
@@ -170,22 +140,75 @@ th, td  {
 
 }
 
+
+
 #TopMenu
 {
+	float: left;
+	/*display:inline-block;
+	/*float:left;*/
 
-	margin-top: 5px;
+	/*display:inline-block;
+
+	
+
+	/*margin-top: 5px;
 	margin-bottom: 5px;
 	margin-left: auto;
-    margin-right: auto;
+    margin-right: auto;*/
 
-	height:29px;
-	width: 850px;
+	height:300px;
+	width: 170px;
 	
 	border-radius: 5px;
 	background-color: #ffeb70;
 	border: 1px solid silver;
 
+	margin-right:10px;
+	margin-top: 0px;
+
 }
+
+.btn {
+
+	width: 150px;
+	height: 35px;
+
+	margin-bottom: 5px;
+	float: none;
+	clear: left;
+	clear: right;
+    border: none; 
+    background-color: #2197b5;
+
+    /* padding: 7px 12px; */
+    cursor: pointer; 
+    border-radius: 2px;
+    color: #090e16;
+    font-weight: bold;
+}
+
+#map
+{
+	/*display:inline-block;
+	/*float:right;
+	display:inline-block;
+
+	/*margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: auto;
+    margin-right: auto;*/
+
+	height:390px;
+	width: 850px;
+
+	border-radius: 5px;
+	background-color: #ffeb70;
+	border: 1px solid silver;
+
+}
+
+
 
 
 #gboxMap
@@ -201,8 +224,6 @@ th, td  {
 fieldset 
 {
 
-
-
 	clear: both;
 
 	margin-top: 5px;
@@ -213,7 +234,7 @@ fieldset
     width: 850px;
     height: 325px;
 
-    border: 1px solid silver;
+    border: none;
     padding: 2px;    
     border-radius: 5px;
     border-width: 2px;

@@ -17,11 +17,8 @@
     <script src="JS/BLogic.js"></script>
     
     <script src="JS/Containers.js"></script>
-  
-    <header>
-      <img id = "img">
-    </header>
 
+  
     <div id = "TopMenu">
       <button id = "ShowTree_IMG" onclick = "onClickbtnShowTree_IMG()" class="btn">Arbol B</button>
       <button class="btn">Tabla Hash</button>
@@ -38,7 +35,8 @@
 
     <!-- ............ ............ ............ S E C T I O N:   S T A T I O N S -->
     <fieldset id = "gboxEstaciones">
-      <legend>Estaciones</legend>
+
+     <!--<legend>Estaciones</legend>-->
 
       <div id = "tblEst">
 
@@ -46,7 +44,6 @@
           <tr>
           <th>Codigo</th>
           <th>Nombre</th> 
-          <th>Precio</th>
           <th>Latitud</th>
           <th>Longitud</th>
           </tr>
@@ -68,11 +65,6 @@
           <input id = "tboxName" type = "text">
           <br>
 
-          Precio:
-          <br>
-          <input id = "tboxPrice" type = "text">
-          <br>
-
           Latitud:
           <br>
           <input id = "tboxLatitude" type = "text" readonly>
@@ -83,9 +75,8 @@
           <input id = "tboxLongitude" type="text" readonly>
           <br>
 
-
-          <button id = "btmAddNewStation" class = "btnStop" onclick = "AddRow_to_Table()">Agregar</button>
-          <button id = "btnUpdateStation" class = "btnStop" onclick = "saveStationChanges()" disabled>Actualizar</button>
+          <button id = "btn_add_NewStation" class = "btnStop" onclick = "onClick_add_NewStation()">Agregar</button>
+          <button id = "btn_update_Station" class = "btnStop" onclick = "onClick_update_Station()" disabled>Actualizar</button>
           <br>
           <!-- <button id = "btnTest" class = "btnStop" onclick = "UpdateStopTable()">Test</button> -->
           
@@ -98,31 +89,65 @@
 
     <!-- ............ ............ ............ S E C T I O N:   R O U T E S -->
     <fieldset id = "gboxRutas">
-      <legend>Rutas</legend>
 
+      <!--<legend>Rutas</legend>-->
 
       <div id = "tblRoutes">
 
+        <table id = tblEstaciones>
+          <tr>
+          <th>Origen</th>
+          <th>Destino</th> 
+          <th>Distancia</th>
+          <th>Trafico</th>
+          </tr>
+        </table>
+        
+      
       </div>
 
       <div id = "frmRoutes">
 
-        Latit:
-        <br>
-        <input id = "Latit" type = "text" name = "firstname" readonly>
+        Seleccione una Ruta:
         <br>
 
-        Longit:
+        <select id="ddlViewBy" class = "aspx">
+          <!-- 
+          <option value="1">test1</option>
+          <option value="2" selected="selected">test2</option>
+          <option value="3">test3</option>
+          -->
+        </select>
         <br>
-        <input id = "Longit" type = "text">
+
+        Nombre:
         <br>
+        <input  id = "tboxRtName" type = "text" name = "firstname">
+        <br>
+
+        Precio:
+        <br>
+        <input id = "tboxRtPrice" type = "text" name = "firstname">
+        <br>
+
+        Trafico:
+        <br>
+        <input id = "tboxRtTraffic" type = "text" name = "firstname">
+        <br>
+
+        Color:
+        <br>
+        <input id = "tboxRtColor" type = "text">
+        <br>
+
+        <button id = "btn_createNewRoute" class = "btnLong" onclick = "onClick_createNewRoute()">Crear Nueva Ruta</button>
+        <br>
+        <button id = "btn_updateRoute" class = "btnLong" onclick = "onClick_updateRoute()" disabled>Actualizar Ruta</button>
 
       </div>
 
     </fieldset>
 
-    
-  
     <footer>
 
     </footer>
