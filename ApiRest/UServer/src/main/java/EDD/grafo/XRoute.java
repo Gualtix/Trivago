@@ -1,6 +1,6 @@
 package EDD.grafo;
 
-import DAO.DataStructure;
+import EDD.DAO.DataStructure;
 import EDD.list.List;
 import filesManager.FileManager;
 import org.json.JSONArray;
@@ -19,6 +19,17 @@ public class XRoute extends DataStructure implements Comparable {
 
     public XRoute(){
         estaciones = new List<>();
+    }
+
+    public XRoute(int codigo,String nombre,String color,double precio){
+
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.color = color;
+        this.precio = precio;
+
+        estaciones = new List<>();
+
     }
 
     @Override

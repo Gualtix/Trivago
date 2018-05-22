@@ -1,6 +1,7 @@
 package filesManager;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 
@@ -15,6 +16,10 @@ public class FileManager {
 
     public FileManager(String filename, String text) {
         this.filename = filename;
+        this.text = text;
+    }
+
+    public void setText(String text) {
         this.text = text;
     }
 
@@ -55,7 +60,25 @@ public class FileManager {
     }
 
     public String getFile(String ext) {
-        return "";
+        String text = "";
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filename + ext));
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            text = sb.toString();
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return text;
     }
 
     public String decryptFile(String ext) {

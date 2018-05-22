@@ -1,14 +1,12 @@
 package EDD.arbolb;
 
-import DAO.DataStructure;
+import EDD.DAO.DataStructure;
 
 import java.io.*;
-import java.util.Iterator;
 
 import filesManager.FileManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.omg.CORBA.OBJ_ADAPTER;
 
 public class BTree<T extends DataStructure> {
 

@@ -1,8 +1,9 @@
 package EDD.tad;
 
-import com.sun.corba.se.spi.presentation.rmi.IDLNameTranslator;
 
-public class TADNodo extends DAO.DataStructure implements Comparable {
+import EDD.DAO.DataStructure;
+
+public class TADNodo extends DataStructure implements Comparable {
 
     private static final int SCALE = 500;
     private int codigo;
@@ -84,7 +85,7 @@ public class TADNodo extends DAO.DataStructure implements Comparable {
 
     @Override
     public String nodeName() {
-        return String.format("node%d", codigo);
+        return String.format("%s", nombre);
     }
 
     @Override
@@ -92,7 +93,7 @@ public class TADNodo extends DAO.DataStructure implements Comparable {
         double x, y;
         x = (latitud - 14) * SCALE;
         y = (longitud + 90) * -SCALE;
-        return String.format("%s [label = \"%s\", pos = \"%f,%f!\"]", nodeName(), x, y);
+        return nombre + " [label = \"" + nombre + "\", pos = \"" + x + ", " + y + "!\"]";
     }
 
     @Override

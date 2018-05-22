@@ -1,6 +1,6 @@
 package EDD.hashTable;
 
-import DAO.DataStructure;
+import EDD.DAO.DataStructure;
 
 public class NodeHash<T extends DataStructure> implements Comparable {
 

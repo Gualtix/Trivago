@@ -1,6 +1,6 @@
 package EDD.tad;
 
-import DAO.DataStructure;
+import EDD.DAO.DataStructure;
 import EDD.grafo.Arista;
 import EDD.grafo.Nodo;
 import EDD.grafo.Ruta;
@@ -21,6 +21,7 @@ public class TADHash extends DataStructure {
     Ruta estaciones;
 
     public TADHash() {
+        estaciones = new Ruta();
     }
 
     public TADHash(int codigo, String nombre, String color, double precio, Nodo origen) {
@@ -29,6 +30,7 @@ public class TADHash extends DataStructure {
         this.color = color;
         this.precio = precio;
         this.origen = origen;
+        estaciones = new Ruta();
     }
 
     public int getCodigo() {
@@ -110,16 +112,16 @@ public class TADHash extends DataStructure {
 
     @Override
     public String graph() {
-        String text = String.format("%s\n", origen.getData().createNode());
+        String text = "";
         List<Arista> aristaList = estaciones.getAristaList();
 
         Iterator<Arista> iterator = aristaList.iterator();
         while (iterator.hasNext()) {
             Arista currentArista = iterator.next();
-            text += String.format("%s\n",
-                    currentArista.getDestino().getData().createNode());
-            text += String.format("%s -> %s [label = \"%s\"]\n",
-                    origen.getData().nodeName(), currentArista.getDestino().getData().nodeName(), color);
+            text += String.format("%s\n", currentArista.getOrigen().getData().createNode());
+            text += String.format("%s\n", currentArista.getDestino().getData().createNode());
+            text += String.format("%s -> %s [color = \"%s\"]\n",
+                    currentArista.getOrigen().getData().nodeName(), currentArista.getDestino().getData().nodeName(), color);
         }
 
         return text;

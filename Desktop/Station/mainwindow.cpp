@@ -23,13 +23,19 @@ void MainWindow::seterEstacion()
                                           tr("Codigo de estación:"), QLineEdit::Normal,
                                           QDir::home().dirName(), &ok);
     if (ok && !text.isEmpty())
-        estacion = enviarPeticion_get("/askIfStationExists", tr("{\"codigo\":%d,\"nombre\":null,\"latitud\":0.0,\"longitud\":0.0}").arg(text.toInt()));
+    {
+        QString json = tr("{\"codigo\":%1,\"nombre\":null,\"latitud\":0.0,\"longitud\":0.0}").arg(text.toInt());
+        QString path = "/askIfStationExists";
+        estacion = enviarPeticion_post(path, json);
+    }
 
     QJsonDocument jsd = QJsonDocument::fromJson(estacion.toLatin1());
     if (!jsd.isEmpty())
     {
-        QString rutas = enviarPeticion_get("/getList_of_Routes_that_pass_through_a_Station", tr("{\"codigo\":%d,\"nombre\":null,\"latitud\":0.0,\"longitud\":0.0}").arg(text.toInt()));
-        setterRutas(ruta);
+        QString json = tr("{\"codigo\":%1,\"nombre\":null,\"latitud\":0.0,\"longitud\":0.0}").arg(text.toInt());
+        QString path = "/getList_of_Routes_that_pass_through_a_Station";
+        QString rutas = enviarPeticion_post(path, json);
+        setterRutas(rutas);
     }
 }
 
@@ -42,7 +48,8 @@ void MainWindow::setterRutas(QString json)
         for (int i = 0; i < jsa.size(); i++)
         {
             QJsonObject jso = jsa.at(i).toObject();
-            ui->cmbRutas->addItem(jso["codigo"].toInt());
+            QString item = QString::number(jso["codigo"].toInt());
+            ui->comboBox->addItem(item);
         }
     }
 }
@@ -50,7 +57,7 @@ void MainWindow::setterRutas(QString json)
 void MainWindow::on_pushButton_clicked()
 {
     QString ticket = ui->edtTicket->text();
-    QString ruta = ui->cmbRutas->currentText();
+    QString ruta = ui->comboBox->currentText();
 
     QString jsonTicket = tr("{\"codigo\":%d,\"verificacion\":null,\"emision\":null,\"devolucion\":null,\"valor\":0,\"saldo\":0}").arg(ticket);
     QString jsonRuta = tr("{\"ruta\":%d,\"ticket\":%d}").arg(ruta, ticket);
@@ -141,5 +148,5 @@ QString MainWindow::enviarPeticion_get(QString path, QString json)
 void MainWindow::limpiarCampo()
 {
     ui->edtTicket->clear();
-    ui->cmbRutas->clear();
+    ui->comboBox->clear();
 }

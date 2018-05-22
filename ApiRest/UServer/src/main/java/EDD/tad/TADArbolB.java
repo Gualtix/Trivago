@@ -1,6 +1,6 @@
 package EDD.tad;
 
-import DAO.DataStructure;
+import EDD.DAO.DataStructure;
 import org.json.JSONObject;
 
 public class TADArbolB extends DataStructure {

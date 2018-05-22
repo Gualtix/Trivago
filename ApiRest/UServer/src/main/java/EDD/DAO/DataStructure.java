@@ -1,4 +1,4 @@
-package DAO;
+package EDD.DAO;
 
 public abstract class DataStructure implements Comparable {
 

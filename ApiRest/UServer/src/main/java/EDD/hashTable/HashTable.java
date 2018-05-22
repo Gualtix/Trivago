@@ -1,6 +1,6 @@
 package EDD.hashTable;
 
-import DAO.DataStructure;
+import EDD.DAO.DataStructure;
 import filesManager.FileManager;
 
 import java.io.IOException;
@@ -230,7 +230,7 @@ public class HashTable<T extends DataStructure> {
     }
 
     /* GRAPH MAP */
-    public void graphMap() {
+    public String graphMap() {
         String text = String.format("digraph %s {\n" +
                 "graph [layout = neato, rankdir = LR]\n" +
                 "graph [bgcolor = white, fontname = Arial, fontcolor = blue]\n" +
@@ -244,6 +244,8 @@ public class HashTable<T extends DataStructure> {
             if (currentNode != null)
                 text += currentNode.graphMap();
         }
+
+        return text + "}";
     }
 
     @Override

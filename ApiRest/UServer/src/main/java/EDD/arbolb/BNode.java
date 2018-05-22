@@ -1,6 +1,6 @@
 package EDD.arbolb;
 
-import DAO.DataStructure;
+import EDD.DAO.DataStructure;
 
 import java.util.Arrays;
 

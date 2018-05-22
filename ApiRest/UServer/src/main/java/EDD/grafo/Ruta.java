@@ -1,6 +1,6 @@
 package EDD.grafo;
 
-import DAO.DataStructure;
+import EDD.DAO.DataStructure;
 import EDD.list.List;
 
 import java.util.Iterator;
@@ -96,6 +96,18 @@ public class Ruta extends DataStructure implements Comparable, Cloneable {
 
     @Override
     public String graph() {
-        return null;
+        String text = "";
+        List<Arista> aristaList = this.aristaList;
+
+        Iterator<Arista> iterator = aristaList.iterator();
+        while (iterator.hasNext()) {
+            Arista currentArista = iterator.next();
+            text += String.format("%s\n", currentArista.getOrigen().getData().createNode());
+            text += String.format("%s\n", currentArista.getDestino().getData().createNode());
+            text += String.format("%s -> %s [color = \"#c61328\", style=\"dashed\"]\n",
+                    currentArista.getOrigen().getData().nodeName(), currentArista.getDestino().getData().nodeName());
+        }
+
+        return text;
     }
 }
