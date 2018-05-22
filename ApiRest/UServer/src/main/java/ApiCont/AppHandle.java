@@ -49,7 +49,6 @@ public class AppHandle extends Application {
     @Path("/add_new_station")
     @Produces("application/json")
     public String newStation(String St){
-        Gson gson = new Gson();
 
         TADNodo StInfo = gson.fromJson(St, TADNodo.class);
         Sigi.addStation(StInfo);
@@ -209,7 +208,7 @@ public class AppHandle extends Application {
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 
     //(^< ............ ............ ............ ............ ............ getList_of_Routes_that_pass_through_a_Station
-    @GET
+    @POST
     @Path("/getList_of_Routes_that_pass_through_a_Station")
     @Produces("application/json")
     public String getList_of_Stations_that_pass_through_a_point(String St){
@@ -225,7 +224,7 @@ public class AppHandle extends Application {
     }
 
     //(^< ............ ............ ............ ............ ............ askIfStationExists
-    @GET
+    @POST
     @Path("/askIfStationExists")
     @Produces("application/json")
     public String askIfStationExists(String St){
@@ -344,7 +343,9 @@ public class AppHandle extends Application {
 
 
         XRoute R_2 = new XRoute(2,"Verde","#45d326",32.50);
-        R_2.estaciones.push_front(new XStation(3,2,1));
+
+
+        R_2.estaciones.push_front(new XStation(0,2,1));
         R_2.estaciones.push_front(new XStation(2,9,1));
 
         XRoute R_3 = new XRoute(3,"Amarillo","#f9db31",32.50);
@@ -463,8 +464,9 @@ public class AppHandle extends Application {
 
         RouteLoader();
 
-        //Sigi.fillHashTable();
-
+        Sigi.fillHashTable();
+        Sigi.graphvizGraph();
+        Sigi.shortRoute(nodo_0, nodo_7);
     }
 }
 

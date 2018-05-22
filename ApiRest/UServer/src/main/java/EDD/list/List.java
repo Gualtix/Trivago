@@ -147,7 +147,7 @@ public class List<T extends Comparable> {
         NodeList<T> node = head;
 
         while (node != null) {
-            if (node.compareTo(data) == 0)
+            if (node.equals(data))
                 break;
             node = node.getNext();
         }

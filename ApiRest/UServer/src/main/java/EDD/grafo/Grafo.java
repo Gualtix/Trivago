@@ -74,6 +74,7 @@ public class Grafo {
         valueArista.calcular(origen.getData().getLatitud(), origen.getData().getLongitud(),
                 destino.getData().getLatitud(), destino.getData().getLongitud());
         Arista arista = new Arista(valueArista, destino);
+        arista.setOrigen(origen);
 
         if(origen.getAristas().get(arista) != null)
             return null;
@@ -179,4 +180,5 @@ public class Grafo {
         FileManager fileManager = new FileManager(FILENAME, root.toString());
         fileManager.createFile("json");
     }
+
 }

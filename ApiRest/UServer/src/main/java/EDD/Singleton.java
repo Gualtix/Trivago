@@ -1,10 +1,7 @@
 package EDD;
 
 import EDD.arbolb.BTree;
-import EDD.grafo.Arista;
-import EDD.grafo.Grafo;
-import EDD.grafo.XRoute;
-import EDD.grafo.XStation;
+import EDD.grafo.*;
 import EDD.hashTable.HashTable;
 import EDD.list.List;
 import EDD.tad.TADArbolB;
@@ -13,11 +10,10 @@ import EDD.tad.TADHash;
 import EDD.tad.TADNodo;
 import com.google.gson.Gson;
 import filesManager.FileManager;
-import jdk.nashorn.internal.ir.ReturnNode;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.json.JsonObject;
+import java.io.IOException;
 import java.util.Iterator;
 
 public class Singleton {
@@ -31,6 +27,7 @@ public class Singleton {
     private List<XRoute>  XRouteList;
 
     private static String FILENAME_RUTAS = "Rutas";
+    private static final String FILENAME_GRAPH = "Mapa";
     private static Singleton instance = null;
 
     public static synchronized Singleton getInstance() {
@@ -71,13 +68,14 @@ public class Singleton {
     public JSONObject getStation(TADNodo data) {
         JSONObject object = new JSONObject();
 
-        TADNodo node = grafo.getNodo(data).getData();
+        Nodo nodo = grafo.getNodo(data);
+        data = (nodo != null) ? nodo.getData() : null;
 
-        if (node != null) {
-            object.put("codigo", node.getCodigo());
-            object.put("nombre", node.getNombre());
-            object.put("longitud", node.getLongitud());
-            object.put("latitud", node.getLatitud());
+        if (data != null) {
+            object.put("codigo", data.getCodigo());
+            object.put("nombre", data.getNombre());
+            object.put("longitud", data.getLongitud());
+            object.put("latitud", data.getLatitud());
         }
 
         return object;
@@ -125,7 +123,7 @@ public class Singleton {
             while (iterator1.hasNext()) {
                 XStation current = iterator1.next();
 
-                if (current.destino == station.getCodigo()) {
+                if (current.destino == station.getCodigo() || current.origen == station.getCodigo()) {
                     JSONObject object = new JSONObject();
                     object.put("codigo", next.codigo);
                     object.put("nombre", next.nombre);
@@ -207,5 +205,40 @@ public class Singleton {
 
         return Reply;
 
+    }
+
+    /* GRAPHVIZ GRAFO - RUTAS */
+    public void graphvizGraph() {
+        String text = hash.graphMap();
+
+        FileManager fileManager = new FileManager(FILENAME_GRAPH, text);
+        fileManager.createFile(".dot");
+
+        try {
+            Runtime.getRuntime().exec(String.format("dot -Tpng %s.dot -o %s.png", FILENAME_GRAPH, FILENAME_GRAPH));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void shortRoute(TADNodo origen, TADNodo destino) {
+        Ruta ruta = grafo.djkstra(origen, destino);
+        String text = ruta.graph();
+
+        FileManager fileManager = new FileManager(FILENAME_GRAPH, text);
+        String original = fileManager.getFile(".dot");
+
+        StringBuilder builder = new StringBuilder(original);
+        builder.deleteCharAt(builder.lastIndexOf("}"));
+        builder.append(text + "}");
+
+        fileManager.setText(builder.toString());
+        fileManager.createFile(".dot");
+
+        try {
+            Runtime.getRuntime().exec(String.format("dot -Tpng %s.dot -o %s.png", FILENAME_GRAPH, FILENAME_GRAPH));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -5,6 +5,7 @@ import EDD.tad.TADArista;
 public class Arista implements Comparable {
 
     private TADArista data;
+    private Nodo origen;
     private Nodo destino;
 
     public Arista() {
@@ -29,6 +30,14 @@ public class Arista implements Comparable {
 
     public void setData(TADArista data) {
         this.data = data;
+    }
+
+    public Nodo getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(Nodo origen) {
+        this.origen = origen;
     }
 
     public Nodo setDestino(Nodo value) {

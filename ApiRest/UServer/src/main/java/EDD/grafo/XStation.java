@@ -1,6 +1,6 @@
 package EDD.grafo;
 
-import DAO.DataStructure;
+import EDD.DAO.DataStructure;
 import org.json.JSONObject;
 
 public class XStation extends DataStructure implements Comparable {
@@ -42,5 +42,10 @@ public class XStation extends DataStructure implements Comparable {
         object.put("trafico", trafico);
 
         return object.toString();
+    }
+
+    @Override
+    public String graph() {
+        return null;
     }
 }

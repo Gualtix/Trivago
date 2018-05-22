@@ -1,7 +1,11 @@
 package EDD.tad;
 
-public class TADNodo implements Comparable {
 
+import EDD.DAO.DataStructure;
+
+public class TADNodo extends DataStructure implements Comparable {
+
+    private static final int SCALE = 500;
     private int codigo;
     private String nombre;
     private double latitud;
@@ -77,5 +81,28 @@ public class TADNodo implements Comparable {
     public String toString() {
         return String.format("Codigo: %d\nNombre: %s\nLatitud: %4.3f\nLongitud: %4.3f",
                 codigo, nombre, latitud, longitud);
+    }
+
+    @Override
+    public String nodeName() {
+        return String.format("%s", nombre);
+    }
+
+    @Override
+    public String createNode() {
+        double x, y;
+        x = (latitud - 14) * SCALE;
+        y = (longitud + 90) * -SCALE;
+        return nombre + " [label = \"" + nombre + "\", pos = \"" + x + ", " + y + "!\"]";
+    }
+
+    @Override
+    public String getJSON() {
+        return null;
+    }
+
+    @Override
+    public String graph() {
+        return null;
     }
 }

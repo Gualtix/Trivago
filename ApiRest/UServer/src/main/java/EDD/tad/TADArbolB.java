@@ -1,6 +1,6 @@
 package EDD.tad;
 
-import DAO.DataStructure;
+import EDD.DAO.DataStructure;
 import org.json.JSONObject;
 
 public class TADArbolB extends DataStructure {
@@ -90,6 +90,11 @@ public class TADArbolB extends DataStructure {
         object.put("saldo", saldo);
 
         return object.toString();
+    }
+
+    @Override
+    public String graph() {
+        return null;
     }
 
     @Override

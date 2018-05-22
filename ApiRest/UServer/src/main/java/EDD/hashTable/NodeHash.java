@@ -1,6 +1,6 @@
 package EDD.hashTable;
 
-import DAO.DataStructure;
+import EDD.DAO.DataStructure;
 
 public class NodeHash<T extends DataStructure> implements Comparable {
 
@@ -40,6 +40,10 @@ public class NodeHash<T extends DataStructure> implements Comparable {
     public String createNode()
     {
         return data.createNode();
+    }
+
+    public String graphMap() {
+        return data.graph();
     }
 
     @Override

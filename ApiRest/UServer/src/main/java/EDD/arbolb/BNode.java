@@ -1,6 +1,6 @@
 package EDD.arbolb;
 
-import DAO.DataStructure;
+import EDD.DAO.DataStructure;
 
 import java.util.Arrays;
 
@@ -124,6 +124,11 @@ public class BNode<T extends DataStructure> extends DataStructure {
 
     @Override
     public String getJSON() {
+        return null;
+    }
+
+    @Override
+    public String graph() {
         return null;
     }
 

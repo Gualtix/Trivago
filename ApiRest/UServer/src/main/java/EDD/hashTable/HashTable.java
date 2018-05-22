@@ -1,16 +1,13 @@
 package EDD.hashTable;
 
-import DAO.DataStructure;
-import EDD.tad.TADHash;
+import EDD.DAO.DataStructure;
 import filesManager.FileManager;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 public class HashTable<T extends DataStructure> {
 
+    private static final String FILENAME_MAP = "Mapa";
     private int capacity;
     private int size;
     private double loadFactor;
@@ -230,6 +227,25 @@ public class HashTable<T extends DataStructure> {
         }
 
         return x;
+    }
+
+    /* GRAPH MAP */
+    public String graphMap() {
+        String text = String.format("digraph %s {\n" +
+                "graph [layout = neato, rankdir = LR]\n" +
+                "graph [bgcolor = white, fontname = Arial, fontcolor = blue]\n" +
+                "node  [shape = circle, fontname = MathJax_SansSerif, fontsize = 22, margin = 0, style = filled, fillcolor = \"#ccff66\"]\n" +
+                "node  [fixedsize = true,width = 0.5, labelloc = top, margin = 1.5]\n" +
+                "edge  [penwidth = 5, fontname = MathJax_SansSerif, fontcolor = red, fontsize = 22]\n", FILENAME_MAP);
+
+        for (int i = 0; i < capacity; i++) {
+            NodeHash<T> currentNode = nodes[i];
+
+            if (currentNode != null)
+                text += currentNode.graphMap();
+        }
+
+        return text + "}";
     }
 
     @Override

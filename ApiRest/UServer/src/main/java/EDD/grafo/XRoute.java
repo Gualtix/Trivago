@@ -1,6 +1,6 @@
 package EDD.grafo;
 
-import DAO.DataStructure;
+import EDD.DAO.DataStructure;
 import EDD.list.List;
 import filesManager.FileManager;
 import org.json.JSONArray;
@@ -71,5 +71,10 @@ public class XRoute extends DataStructure implements Comparable {
         root.put("estaciones", array);
 
         return root.toString();
+    }
+
+    @Override
+    public String graph() {
+        return null;
     }
 }
