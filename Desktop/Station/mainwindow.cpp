@@ -22,9 +22,11 @@ void MainWindow::seterEstacion()
     QString text = QInputDialog::getText(this, tr("Configuración"),
                                           tr("Codigo de estación:"), QLineEdit::Normal,
                                           QDir::home().dirName(), &ok);
+    codEstacion = text.toInt();
+
     if (ok && !text.isEmpty())
     {
-        QString json = tr("{\"codigo\":%1,\"nombre\":null,\"latitud\":0.0,\"longitud\":0.0}").arg(text.toInt());
+        QString json = tr("{\"codigo\":%1,\"nombre\":null,\"latitud\":0.0,\"longitud\":0.0}").arg(codEstacion);
         QString path = "/askIfStationExists";
         estacion = enviarPeticion_post(path, json);
     }
@@ -32,7 +34,7 @@ void MainWindow::seterEstacion()
     QJsonDocument jsd = QJsonDocument::fromJson(estacion.toLatin1());
     if (!jsd.isEmpty())
     {
-        QString json = tr("{\"codigo\":%1,\"nombre\":null,\"latitud\":0.0,\"longitud\":0.0}").arg(text.toInt());
+        QString json = tr("{\"codigo\":%1,\"nombre\":null,\"latitud\":0.0,\"longitud\":0.0}").arg(codEstacion);
         QString path = "/getList_of_Routes_that_pass_through_a_Station";
         QString rutas = enviarPeticion_post(path, json);
         setterRutas(rutas);
@@ -48,28 +50,41 @@ void MainWindow::setterRutas(QString json)
         for (int i = 0; i < jsa.size(); i++)
         {
             QJsonObject jso = jsa.at(i).toObject();
-            QString item = QString::number(jso["codigo"].toInt());
-            ui->comboBox->addItem(item);
+            QString cod = QString::number(jso["codigo"].toInt());
+            QString nombre = jso["nombre"].toString();
+
+            int y = ui->tblRoutes->rowCount();
+            ui->tblRoutes->insertRow(y);
+            ui->tblRoutes->setItem(y, 0, new QTableWidgetItem(cod));
+            ui->tblRoutes->setItem(y, 1, new QTableWidgetItem(nombre));
         }
     }
 }
 
 void MainWindow::on_pushButton_clicked()
 {
+    int y = ui->tblRoutes->currentRow();
     QString ticket = ui->edtTicket->text();
-    QString ruta = ui->comboBox->currentText();
+    QString ruta = ui->tblRoutes->item(y, 0)->text();
 
-    QString jsonTicket = tr("{\"codigo\":%d,\"verificacion\":null,\"emision\":null,\"devolucion\":null,\"valor\":0,\"saldo\":0}").arg(ticket);
-    QString jsonRuta = tr("{\"ruta\":%d,\"ticket\":%d}").arg(ruta, ticket);
+    QString jsonCompra = tr("{\"ruta\":%1,\"ticket\":%2,\"estacion\":%3}").arg(ruta, ticket, QString::number(codEstacion));
 
-    jsonTicket = enviarPeticion_post("/verificar", ticket);
-    if (!QJsonDocument::fromJson(jsonTicket.toLatin1()).isEmpty())
+    jsonCompra = enviarPeticion_post("/buy_urban_ride", jsonCompra);
+    QJsonDocument jsd = QJsonDocument::fromJson(jsonCompra.toLatin1());
+    if (!jsd.isEmpty())
     {
-        jsonRuta = enviarPeticion_put("/comprar", ruta);
-        if (!QJsonDocument::fromJson(jsonRuta.toLatin1()).isEmpty())
-            qDebug() << "Compra de existoso";
-        else
-            qDebug() << "Compra en conflicto";
+        QJsonObject jso = jsd.object();
+        if (jso["le_alcanza"].toBool())
+        {
+            QPixmap pixmap(":/res/ok.png");
+            ui->lblState->setPixmap(pixmap);
+        }
+    }
+    else
+    {
+        QMessageBox msg(this);
+        msg.setText("Ingrese un ticket válido");
+        msg.exec();
     }
 }
 
@@ -148,5 +163,6 @@ QString MainWindow::enviarPeticion_get(QString path, QString json)
 void MainWindow::limpiarCampo()
 {
     ui->edtTicket->clear();
-    ui->comboBox->clear();
+    ui->tblRoutes->setRowCount(0);
+    ui->tblRoutes->clear();
 }
