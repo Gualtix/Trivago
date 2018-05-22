@@ -20,12 +20,12 @@
 
   
     <div id = "TopMenu">
-      <button id = "ShowTree_IMG" onclick = "onClickbtnShowTree_IMG()" class="btn">Arbol B</button>
-      <button class="btn">Tabla Hash</button>
-      <button class="btn">Grafo Completo</button>
+      <button id = "btnShow_Tree_IMG" onclick = "onClickbtnbtnShow_Tree_IMG()" class="btn">Arbol B</button>
+      <button id = "btnShow_Hash_IMG" onclick = "onClickbtnbtnShow_Hash_IMG()" class="btn">Tabla Hash</button>
+      <button id = "btnShow_Graph_IMG" onclick = "onClickbtnbtnShow_Graph_IMG()" class="btn">Grafo Completo</button>
       <button id = "test"  onclick = "Test()" class="btn">Test</button>
-      <button id = "NewStation" onclick = "Pick_New_Station()" class="btn">Estaciones</button>
-      <button id = "NewRoute" onclick = "Built_New_Route()" class="btn">Rutas</button>
+      <button id = "btnStations_Management" onclick = "Pick_New_Station()" class="btn">Estaciones</button>
+      <button id = "btnRoutes_Management" onclick = "Built_New_Route()" class="btn">Rutas</button>
       <button id ="ShowStops" onclick = "Show_StopList_on_Map()" class = "btn">Estaciones</button>
 
     </div>
@@ -75,7 +75,7 @@
           <input id = "tboxLongitude" type="text" readonly>
           <br>
 
-          <button id = "btn_add_NewStation" class = "btnStop" onclick = "onClick_add_NewStation()">Agregar</button>
+          <button id = "btn_add_btnStations_Management" class = "btnStop" onclick = "onClick_add_btnStations_Management()">Agregar</button>
           <button id = "btn_update_Station" class = "btnStop" onclick = "onClick_update_Station()" disabled>Actualizar</button>
           <br>
           <!-- <button id = "btnTest" class = "btnStop" onclick = "UpdateStopTable()">Test</button> -->
@@ -140,7 +140,7 @@
         <input id = "tboxRtColor" type = "text">
         <br>
 
-        <button id = "btn_createNewRoute" class = "btnLong" onclick = "onClick_createNewRoute()">Crear Nueva Ruta</button>
+        <button id = "btn_createbtnRoutes_Management" class = "btnLong" onclick = "onClick_createbtnRoutes_Management()">Crear Nueva Ruta</button>
         <br>
         <button id = "btn_updateRoute" class = "btnLong" onclick = "onClick_updateRoute()" disabled>Actualizar Ruta</button>
 

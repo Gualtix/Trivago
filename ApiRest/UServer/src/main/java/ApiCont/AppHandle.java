@@ -18,6 +18,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
+import javax.ws.rs.core.Response;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
@@ -47,20 +48,32 @@ public class AppHandle extends Application {
     @POST
     @Path("/add_new_station")
     @Produces("application/json")
-    public void newStation(String St){
+    public String newStation(String St){
         Gson gson = new Gson();
 
         TADNodo StInfo = gson.fromJson(St, TADNodo.class);
         Sigi.addStation(StInfo);
 
+        //return Response.ok("{\"mensaje\":\"Ok\"}").build();
+        return "{\"mensaje\":\"Ok\"}";
     }
 
     //(^< ............ ............ ............ ............ ............ update_station
     @POST
     @Path("/update_station")
     @Produces("application/json")
-    public void update_station(String St){
+    public String update_station(String St){
+        Gson gson = new Gson();
 
+        TADNodo StInfo = gson.fromJson(St, TADNodo.class);
+
+        TADNodo Tmp = Sigi.getStationList().get(StInfo);
+
+        Tmp.setNombre(StInfo.getNombre());
+        Tmp.setLatitud(StInfo.getLatitud());
+        Tmp.setLongitud(StInfo.getLongitud());
+
+        return "{\"mensaje\":\"Ok\"}";
     }
 
     //(^< ............ ............ ............ ............ ............ getstations
@@ -76,8 +89,6 @@ public class AppHandle extends Application {
         String Reply = Sigi.getJson_StationList();
         return Reply;
     }
-
-
 
 
     //(^< ............ ............ ............ ............ ............ add_new_route
@@ -187,12 +198,11 @@ public class AppHandle extends Application {
     @Path("/grafo_img")
     @Produces("application/json")
     public String get_grafo_img(){
-        String Base64_Tree = Sigi.getArbol().toBase64();
-        String Rs = "{\"contenido\":\""+Base64_Tree+"   \"}";
+
+        String Base64_graph = "";
+        String Rs = "{\"contenido\":\""+Base64_graph+"\"}";
         return Rs;
     }
-
-
 
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
     //(^< ............ ............ ............ ............ ............ C + +
@@ -318,33 +328,33 @@ public class AppHandle extends Application {
 
         XRoute R_0 = new XRoute(0,"Rojo","#473d3d",32.50);
 
-        R_0.estaciones.push_front(new XStation(300,306,1));
-        R_0.estaciones.push_front(new XStation(306,303,1));
-        R_0.estaciones.push_front(new XStation(303,307,1));
-        R_0.estaciones.push_front(new XStation(307,304,1));
-        R_0.estaciones.push_front(new XStation(304,308,1));
+        R_0.estaciones.push_front(new XStation(0,6,1));
+        R_0.estaciones.push_front(new XStation(6,3,1));
+        R_0.estaciones.push_front(new XStation(3,7,1));
+        R_0.estaciones.push_front(new XStation(7,4,1));
+        R_0.estaciones.push_front(new XStation(4,8,1));
 
         XRoute R_1 = new XRoute(1,"Azul","#3069e5",32.50);
 
-        R_1.estaciones.push_front(new XStation(309,301,1));
-        R_1.estaciones.push_front(new XStation(301,305,1));
-        R_1.estaciones.push_front(new XStation(305,302,1));
-        R_1.estaciones.push_front(new XStation(302,308,1));
-        R_1.estaciones.push_front(new XStation(308,303,1));
+        R_1.estaciones.push_front(new XStation(9,1,1));
+        R_1.estaciones.push_front(new XStation(1,5,1));
+        R_1.estaciones.push_front(new XStation(5,2,1));
+        R_1.estaciones.push_front(new XStation(2,8,1));
+        R_1.estaciones.push_front(new XStation(8,3,1));
 
 
         XRoute R_2 = new XRoute(2,"Verde","#45d326",32.50);
-        R_2.estaciones.push_front(new XStation(300,302,1));
-        R_2.estaciones.push_front(new XStation(302,309,1));
+        R_2.estaciones.push_front(new XStation(3,2,1));
+        R_2.estaciones.push_front(new XStation(2,9,1));
 
         XRoute R_3 = new XRoute(3,"Amarillo","#f9db31",32.50);
-        R_3.estaciones.push_front(new XStation(300,309,1));
+        R_3.estaciones.push_front(new XStation(0,9,1));
 
         XRoute R_4 = new XRoute(4,"Celeste","#6bd3f9",32.50);
-        R_4.estaciones.push_front(new XStation(303,309,1));
+        R_4.estaciones.push_front(new XStation(3,9,1));
 
         XRoute R_5 = new XRoute(5,"Morado","#b254ff",32.50);
-        R_5.estaciones.push_front(new XStation(303,304,1));
+        R_5.estaciones.push_front(new XStation(3,4,1));
 
         Sigi.getXRouteList().push_front(R_0);
         Sigi.getXRouteList().push_front(R_1);
@@ -453,7 +463,7 @@ public class AppHandle extends Application {
 
         RouteLoader();
 
-        Sigi.fillHashTable();
+        //Sigi.fillHashTable();
 
     }
 }

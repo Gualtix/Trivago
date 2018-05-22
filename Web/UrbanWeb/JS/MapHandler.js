@@ -8,6 +8,7 @@ var PathList = [];
 
 //(^< ............ ............ ............ Map Stuff
 var markers = [];
+var Mypolylines = [];
 
 
 
@@ -82,6 +83,7 @@ function initMap() {
 
 	LoadFromServer();
 
+
 	map.addListener('click',function(e) 
 	{
 
@@ -144,29 +146,14 @@ function LoadFromServer() {
         dataType: 'json',
         success: function (data) { 
 
-
-
             $.each(data, function(codigo,St) {
 
                 var cd = St.codigo;
                 var nm = St.nombre;
                 var lat = St.latitud;
                 var long = St.longitud;
-                onLoad_add_NewStation_from_Server(cd,nm,lat,long);
-
-                /*
-                console.log(nm);
-
-                StopName = nm;
-
-				var Lat_Lg = new google.maps.LatLng(lat,long);
-				PlaceMarker(Lat_Lg);
-
-
-				StopName = undefined;
-				*/
-
-
+                onLoad_add_btnStations_Management_from_Server(cd,nm,lat,long);
+                
             });
         },
         error: function (jqXHR, status) {
@@ -183,6 +170,12 @@ function LoadFromServer() {
 
 function PlaceMarker(LatLong){
 
+	var Lat = LatLong.lat();
+	var Long = LatLong.lng();
+
+	Lat = Lat - 0.0012;
+	Long = Long + 0.00050;
+
 	var MyIcon = 
 	{
     	url: 'IMG/Bus_Stop.png',
@@ -192,10 +185,11 @@ function PlaceMarker(LatLong){
 	};
 
 	var cnt = markers.length;
-	console.log(cnt);
+	//console.log(cnt);
 	markers[cnt] = new google.maps.Marker({
 
-	    position: LatLong,
+	    //position: LatLong,
+	    position: {lat: Lat, lng: Long},
 	    map: map,
 	    icon: MyIcon,
 	    draggable: false,
@@ -278,7 +272,7 @@ function Quit_Last_Marker_Added() {
 }
 
 
-function LinkStops(Bgn_Lat,Bgn_Long,End_Lat,End_Long){
+function LinkStops(Bgn_Lat,Bgn_Long,End_Lat,End_Long,color){
 
 	var flightPlanCoordinates =
 	[
@@ -291,7 +285,7 @@ function LinkStops(Bgn_Lat,Bgn_Long,End_Lat,End_Long){
 		path: flightPlanCoordinates,
 		geodesic: true,
 
-		strokeColor: '#09f429',
+		strokeColor: color,
 		strokeOpacity: 1.0,
 		strokeWeight: 2,
 		icons:
@@ -303,8 +297,16 @@ function LinkStops(Bgn_Lat,Bgn_Long,End_Lat,End_Long){
 	
 	});
 
-	flightPath.setMap(map);
-	animateCircle(flightPath);
+	var cnt = Mypolylines.length;
+	Mypolylines[cnt] = flightPath;
+
+	Mypolylines[cnt].setMap(map);
+
+
+
+	//flightPath.setMap(map);
+	//animateCircle(flightPath);
+	animateCircle(Mypolylines[cnt]);
 }
 
 
@@ -372,7 +374,7 @@ function Show_StopList_on_Map() {
     	var Long = StopList[cnt].longitud;
     	StopName = StopList[cnt].nombre;
         var Lat_Lg = new google.maps.LatLng(Lat,Long);
-        console.log(StopName);
+        //console.log(StopName);
         PlaceMarker(Lat_Lg);
         cnt++;
     }
@@ -399,7 +401,12 @@ function RemoveMarkers(){
 
 function RemovePolylines() {
 
-	if(typeof flightPath !== "undefined") {
-		flightPath.setMap(null);
+	var cnt = 0;
+	var Lm = Mypolylines.length;
+	while(cnt < Lm){
+		console.log(Mypolylines[cnt]);
+		Mypolylines[cnt].setMap(null);
+		cnt++;
 	}
+	Mypolylines = [];
 }

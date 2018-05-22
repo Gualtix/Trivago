@@ -21,9 +21,9 @@ function OnPageLoad(){
 //(^< ............ ............ ............ ............ ............ E V E N T S
 //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 
-//(^< ............ ............ ............ ............ ............ onClickcreateNewRoute
+//(^< ............ ............ ............ ............ ............ onClickcreatebtnRoutes_Management
 
-function onClick_reateNewRoute(argument) {
+function onClick_reatebtnRoutes_Management(argument) {
 
 
     if(PathList.length > 0){
@@ -54,10 +54,13 @@ function onClick_updateRoute(argument) {
 
 
 
-//(^< ............ ............ ............ ............ ............ onClickbtnShowTree_IMG
+//(^< ............ ............ ............ ............ ............ onClickbtnbtnShow_Tree_IMG
 
 function Test() {
 
+    RemovePolylines();
+
+    /*
     var data = "holasxD";
 
     $.ajax({
@@ -67,22 +70,25 @@ function Test() {
         contentType: "application/json; charset=utf-8",
         crossDomain: true,
         dataType: "json",
-        success: function (data, status, jqXHR) {
+        success: function (data, status, jqXHR) 
+        {
 
-        alert(success);
+            //alert(success);
         },
 
-        error: function (jqXHR, status) {
-        // error handler
-        console.log(jqXHR);
-        alert('fail' + status.code);
+        error: function (jqXHR, status) 
+        {
+            // error handler
+            //console.log(jqXHR);
+            alert('fail' + status.code);
         }
     });
+    */
 
 }
 
 
-function onClickbtnShowTree_IMG() {
+function onClickbtnbtnShow_Tree_IMG() {
 
 
     //window.location.href = "http://stackoverflow.com";
@@ -174,7 +180,7 @@ function onClickbtnShowTree_IMG() {
     //$("#img").attr("src",tree_img_in_base64);
 
    // $(document).ready(function (){
-       // $('#ShowTree_IMG').click(function(){
+       // $('#btnShow_Tree_IMG').click(function(){
                
     //});
 
@@ -195,7 +201,7 @@ function OpenIMG(tree_img_in_base64) {
 //(^< ............ ............ ............ ............ ............ onClickbtn_update_Station
 function onClick_update_Station() {
 
-    var Btn_S = $('#btn_add_NewStation').get(0);
+    var Btn_S = $('#btn_add_btnStations_Management').get(0);
     enableBtn(Btn_S);
 
     var Btn_U = $('#btn_update_Station').get(0);
@@ -203,12 +209,38 @@ function onClick_update_Station() {
 
     var cnt = $('#tboxCode').val();
 
-    if(validateAddNewStation()){
+    if(validateAddbtnStations_Management()){
 
         StopList[cnt].nombre = $('#tboxName').val();
         StopList[cnt].latitud = $('#tboxLatitude').val();
         StopList[cnt].longitud = $('#tboxLongitude').val();
+
+        //(^< ............ To Server
+        var data = StopList[cnt];
+        $.ajax(
+        {
+            type: "POST",
+            url: "http://localhost:8080/UServer/api/urban/update_station",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            dataType: "json",
+            success: function (data, status, jqXHR) 
+            {
+                //alert(success);
+                alert("Estacion Actualizada Exitosamente");
+            },
+
+            error: function (jqXHR, status)
+            {
+                alert("Error: Estacion NO Actualizada");
+                //console.log(jqXHR);
+                //alert('fail' + status.code);
+            }
+        });
     }
+
+    
 
     
     UpdateStopTable();
@@ -219,10 +251,10 @@ function onClick_update_Station() {
 }
 
 
-//(^< ............ ............ ............ ............ ............ onClickbtn_add_NewStation
-function onClick_add_NewStation() {
+//(^< ............ ............ ............ ............ ............ onClickbtn_add_btnStations_Management
+function onClick_add_btnStations_Management() {
 
-    var isValid = validateAddNewStation();
+    var isValid = validateAddbtnStations_Management();
 
     if(isValid){
 
@@ -251,7 +283,7 @@ function onClick_add_NewStation() {
 
         var cnt = StopList.length;
         StopList[cnt] = new Stop(textCode,textName,textLatitude,textLongitude);
-        updateAfter_NewStation_Added(table);
+        updateAfter_btnStations_Management_Added(table);
 
         //(^< ............ To Server
         var data = StopList[cnt];
@@ -265,21 +297,23 @@ function onClick_add_NewStation() {
             dataType: "json",
             success: function (data, status, jqXHR) 
             {
-                alert(success);
+                //alert(success);
+                alert("Nueva Estacion Creada Exitosamente");
             },
 
             error: function (jqXHR, status)
             {
-                console.log(jqXHR);
-                alert('fail' + status.code);
+                alert("Error: Estacion NO Creada");
+                //console.log(jqXHR);
+                //alert('fail' + status.code);
             }
         });
     }
 }
 
-//(^< ............ ............ ............ ............ ............ onLoad_add_NewStation_from_Server
+//(^< ............ ............ ............ ............ ............ onLoad_add_btnStations_Management_from_Server
 
-function onLoad_add_NewStation_from_Server(code,name,lat,long) {
+function onLoad_add_btnStations_Management_from_Server(code,name,lat,long) {
 
     var table = document.getElementById('tblEstaciones');
     var row = table.insertRow(1);
@@ -296,11 +330,11 @@ function onLoad_add_NewStation_from_Server(code,name,lat,long) {
 
     var cnt = StopList.length;
     StopList[cnt] = new Stop(code,name,lat,long);
-    updateAfter_NewStation_Added(table);
+    updateAfter_btnStations_Management_Added(table);
 
 }
 
-function updateAfter_NewStation_Added(table){
+function updateAfter_btnStations_Management_Added(table){
     selected = table.getElementsByClassName('selected');
     table.onclick = Highlight;
     
@@ -313,14 +347,14 @@ function updateAfter_NewStation_Added(table){
 
 
 
-//(^< ............ ............ ............ ............ ............ onClickbtnNewStation
+//(^< ............ ............ ............ ............ ............ onClickbtnbtnStations_Management
 function Pick_New_Station() {
     
     wantNewStop = true;
     wantNewPath = false;
 
-    var Btn_St = document.getElementById("NewStation");
-    var Btn_Pt = document.getElementById("NewRoute");
+    var Btn_St = document.getElementById("btnStations_Management");
+    var Btn_Pt = document.getElementById("btnRoutes_Management");
     disableBtn(Btn_St);
     enableBtn(Btn_Pt);
     //CleanMap();
@@ -329,27 +363,30 @@ function Pick_New_Station() {
     //Show_StopList_on_Map()
 }
 
-//(^< ............ ............ ............ ............ ............ onClickbtnNewRoute
+//(^< ............ ............ ............ ............ ............ onClickbtnbtnRoutes_Management
 function Built_New_Route() {
 
     wantNewStop = false;
     wantNewPath = true;
 
-    var Btn_St = document.getElementById("NewStation");
-    var Btn_Pt = document.getElementById("NewRoute");
+    var Btn_St = document.getElementById("btnStations_Management");
+    var Btn_Pt = document.getElementById("btnRoutes_Management");
     disableBtn(Btn_Pt);
     enableBtn(Btn_St);
     CleanMap();
     document.getElementById('gboxEstaciones').style.display = 'none';
     document.getElementById('gboxRutas').style.removeProperty('display');
     Show_StopList_on_Map();
+    LoadRoutes_from_Server();
+    
+
 }
 
 //(^< ............ ............ ............ ............ ............ tblItemClick
 function Highlight(e) {
 
 
-    var Btn_S = $('#btn_add_NewStation').get(0);
+    var Btn_S = $('#btn_add_btnStations_Management').get(0);
     disableBtn(Btn_S);
 
     var Btn_U = $('#btn_update_Station').get(0);
@@ -365,22 +402,77 @@ function Highlight(e) {
 
 
 //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
-//(^< ............ ............ ............ ............ ............ A C T I O N S
+//(^< ............ ............ ............ ............ ............ R O U T E   H A N D L E
 //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+
+function LoadRoutes_from_Server(){
+
+    const Dir = 'http://localhost:8080/UServer/api/urban/getroutes';
+
+    $.ajax({ 
+        type: 'GET', 
+        url: Dir, 
+        data: { get_param: 'value' }, 
+        dataType: 'json',
+        success: function (data) { 
+
+            $.each(data, function(codigo,Rt) {
+
+                var Rt_codigo = Rt.codigo;
+                var Rt_nombre = Rt.nombre;
+                var Rt_color = Rt.color;
+                var Rt_precio = Rt.precio;
+                var Rt_estaciones = Rt.estaciones;
+
+                var Tmp_PathList = [];
+
+                $.each(Rt_estaciones, function(codigo,Pt) {
+
+                    var Pt_origen = Pt.origen;
+                    var Pt_destino = Pt.destino;
+                    var Pt_trafico = Pt.trafico;
+
+                    var Org = StopList[Pt_origen];
+                    var Des = StopList[Pt_destino];
+
+                    LinkStops(Org.latitud,Org.longitud,Des.latitud,Des.longitud,Rt_color);
+
+                    var MyPath = new Path(Org,Des,Pt_trafico);
+
+                    var cnt = Tmp_PathList.length;
+                    Tmp_PathList[cnt] = MyPath;
+
+                });
+
+                var MyRoute = new Route(Rt_codigo,Rt_nombre,Rt_color,Rt_precio,Tmp_PathList);
+
+                var amt =  RouteList.length;
+                RouteList[amt] = MyRoute;
+            });
+        },
+        error: function (jqXHR, status) {
+        console.log(jqXHR);
+        alert('fail' + status.code);
+        }
+    });
+}
+//(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+//(^< ............ ............ ............ ............ ............ S T A T I O N   H A N D L E
+//(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+
+
+
+//(^< ............ ............ ............ ............ ............ A C T I O N S
 
 function UpdateStopTable() {
     CleanStopTable();
     var cnt = 0;
     var Lm = StopList.length;
     while(cnt < Lm){
-
-        //console.log(StopList[cnt]);
         VisitRows_to_Update(StopList[cnt]);
-
         cnt++;
     }
 }
-
 
 function disableBtn(Btn) {
     Btn.style.background = '#c2c6ce';
@@ -439,11 +531,33 @@ function VisitRows_to_Update(Std_S) {
 }
 
 
+
+
+
+
 //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 //(^< ............ ............ ............ ............ ............ C L E A N
 //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 
 
+//(^< ............ ............ ............ ............ ............ R O U T E
+
+function CleanRouteTable(){
+    var table = $('#tblRoutes');
+    while(table.rows.length > 0){
+        table.deleteRow(i);
+    }
+}
+
+function CleanRouteForm(){
+
+    $('#tboxRtName').val("");
+    $('#tboxRtPrice').val("");
+    $('#tboxRtTraffic').val("");
+    $('#tboxRtColor').val("");
+}
+
+//(^< ............ ............ ............ ............ ............ S T O P
 function CleanStopTable(){
     var table = document.getElementById('tblEstaciones');
     for(var i = table.rows.length - 1; i > 0; i--)
