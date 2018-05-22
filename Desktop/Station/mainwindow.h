@@ -30,6 +30,7 @@ private slots:
 private:
     QString SERVER;
     Ui::MainWindow *ui;
+    int codEstacion;
 
     void seterEstacion();
     QString enviarPeticion_post(QString path, QString json);
