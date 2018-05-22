@@ -13,18 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    TAD/tadrow.cpp
+        mainwindow.cpp
 
-HEADERS  += mainwindow.h \
-    DoubleList/doublenode.h \
-    DoubleList/doublelist.h \
-    TAD/tadrow.h
+HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
 
 DISTFILES += \
     .gitignore
-
-RESOURCES += \
-    res.qrc

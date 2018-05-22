@@ -2,15 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QtNetwork>
+#include <QtNetwork/QtNetwork>
+#include <QInputDialog>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonValue>
-#include <QMessageBox>
-#include <QInputDialog>
-
-//#include "TAD/tadrow.h"
-//#include "DoubleList/doublelist.h"
+#include <QJsonArray>
+#include <QDebug>
 
 namespace Ui {
 class MainWindow;
@@ -25,19 +22,17 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_btnComprar_clicked();
 
 private:
-    QString SERVER;
     Ui::MainWindow *ui;
-    int codEstacion;
+    QString SERVER;
+    int codStation;
 
-    void seterEstacion();
+    void seterStation();
+    void setterRoutes(QString jsonRoutes);
     QString enviarPeticion_post(QString path, QString json);
     QString enviarPeticion_put(QString path, QString json);
-    QString enviarPeticion_get(QString path, QString json);
-    void setterRutas(QString json);
-    void limpiarCampo();
 };
 
 #endif // MAINWINDOW_H

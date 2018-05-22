@@ -247,7 +247,8 @@ public class AppHandle extends Application {
 
         JSONObject Ob = new JSONObject(Tk);
 
-        int Ruta = Ob.getInt("ruta");
+        int codRuta = Ob.getInt("codigo_ruta");
+        String ruta = Ob.getString("ruta");
         int Ticket = Ob.getInt("ticket");
         int Estacion = Ob.getInt("estacion");
 
@@ -257,14 +258,14 @@ public class AppHandle extends Application {
             return "{}";
         }
 
-        TADHash Hs = Sigi.getHashTable().get(new TADHash(Ruta));
+        TADHash Hs = Sigi.getHashTable().get(new TADHash(codRuta, ruta));
 
         double PrecioRuta = Hs.getPrecio();
         double SaldoDisponible = Tmp.getSaldo();
 
         if(Tmp.getSaldo() >= PrecioRuta){
             Tmp.setSaldo(SaldoDisponible - PrecioRuta);
-            Sigi.getTransList().push_back(new Transaction_H(Ruta,Ticket,Estacion,PrecioRuta));
+            Sigi.getTransList().push_back(new Transaction_H(codRuta,Ticket,Estacion,PrecioRuta));
             return "{\"le_alcanza\":true}";
         }
         else{
