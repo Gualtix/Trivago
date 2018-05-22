@@ -4,10 +4,7 @@ import EDD.arbolb.BTree;
 import EDD.grafo.*;
 import EDD.hashTable.HashTable;
 import EDD.list.List;
-import EDD.tad.TADArbolB;
-import EDD.tad.TADArista;
-import EDD.tad.TADHash;
-import EDD.tad.TADNodo;
+import EDD.tad.*;
 import com.google.gson.Gson;
 import filesManager.FileManager;
 import org.json.JSONArray;
@@ -25,6 +22,8 @@ public class Singleton {
 
     private List<TADNodo> StationList;
     private List<XRoute>  XRouteList;
+
+    private List<Transaction_H> TransList;
 
     private static String FILENAME_RUTAS = "Rutas";
     private static final String FILENAME_GRAPH = "Mapa";
@@ -44,6 +43,11 @@ public class Singleton {
         hash = new HashTable<>();
         StationList = new List<>();
         XRouteList = new List<>();
+        TransList = new List<>();
+    }
+
+    public List<Transaction_H> getTransList(){
+        return TransList;
     }
 
     /* CONTADOR DE TICKETS */

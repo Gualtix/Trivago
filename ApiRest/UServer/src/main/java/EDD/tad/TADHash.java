@@ -20,6 +20,10 @@ public class TADHash extends DataStructure {
     private Nodo origen;
     Ruta estaciones;
 
+    public TADHash(int codigo) {
+        this.codigo = codigo;
+    }
+
     public TADHash() {
         estaciones = new Ruta();
     }

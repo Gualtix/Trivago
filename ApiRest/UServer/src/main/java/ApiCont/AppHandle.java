@@ -3,9 +3,7 @@ package ApiCont;
 import EDD.Singleton;
 import EDD.grafo.XRoute;
 import EDD.grafo.XStation;
-import EDD.tad.TADArbolB;
-import EDD.tad.TADArista;
-import EDD.tad.TADNodo;
+import EDD.tad.*;
 import com.google.gson.Gson;
 
 import javax.swing.text.TabableView;
@@ -49,6 +47,8 @@ public class AppHandle extends Application {
     @Path("/add_new_station")
     @Produces("application/json")
     public String newStation(String St){
+
+        Gson gson = new Gson();
 
         TADNodo StInfo = gson.fromJson(St, TADNodo.class);
         Sigi.addStation(StInfo);
@@ -236,6 +236,40 @@ public class AppHandle extends Application {
         JSONObject Fd = Sigi.getStation(TmpStation);
         Reply = Fd.toString();
         return Reply;
+    }
+
+
+    //(^< ............ ............ ............ ............ ............ buy_urban_ride
+    @PUT
+    @Path("/buy_urban_ride")
+    @Produces("application/json")
+    public String buy_urban_ride(String Tk){
+
+        JSONObject Ob = new JSONObject(Tk);
+
+        int Ruta = Ob.getInt("ruta");
+        int Ticket = Ob.getInt("ticket");
+        int Estacion = Ob.getInt("estacion");
+
+        TADArbolB Tmp = Sigi.getArbol().get(new TADArbolB(Ticket));
+
+        if(Tmp == null){
+            return "{}";
+        }
+
+        TADHash Hs = Sigi.getHashTable().get(new TADHash(Ruta));
+
+        double PrecioRuta = Hs.getPrecio();
+        double SaldoDisponible = Tmp.getSaldo();
+
+        if(Tmp.getSaldo() >= PrecioRuta){
+            Tmp.setSaldo(SaldoDisponible - PrecioRuta);
+            Sigi.getTransList().push_back(new Transaction_H(Ruta,Ticket,Estacion,PrecioRuta));
+            return "{\"le_alcanza\":true}";
+        }
+        else{
+            return "{\"le_alcanza\":false}";
+        }
     }
 
     //(^< ............ ............ ............ ............ ............ devolucion
