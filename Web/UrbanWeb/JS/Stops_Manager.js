@@ -177,7 +177,6 @@ function updateAfter_btnStations_Management_Added(table){
 //(^< ............ ............ ............ ............ ............ tblItemClick
 function Highlight(e) {
 
-
     var Btn_S = $('#btn_add_btnStations_Management').get(0);
     disableBtn(Btn_S);
 

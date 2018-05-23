@@ -21,7 +21,6 @@
     <script src="JS/Stops_Manager.js"></script>
     <script src="JS/Routes_Manager.js"></script>
 
-  
     <div id = "TopMenu">
       <button id = "btnShow_Tree_IMG" onclick = "onClickbtnbtnShow_Tree_IMG()" class="btn">Arbol B</button>
       <button id = "btnShow_Hash_IMG" onclick = "onClickbtnbtnShow_Hash_IMG()" class="btn">Tabla Hash</button>
@@ -31,6 +30,26 @@
       <button id = "btnRoutes_Management" onclick = "Built_New_Route()" class="btn">Rutas</button>
       <button id ="ShowStops" onclick = "Show_StopList_on_Map()" class = "btn">Estaciones</button>
 
+      <br>
+      <br>
+      
+      O R I G E N
+      <br>
+      <select id="OriginSelector" class = "Special">
+          
+      </select>
+    
+      D E S T I N O
+      <br>
+      <select id="DestinySelector" class = "Special">
+          
+      </select>
+      
+      <button id ="btnCalculateShortest" onclick = "onClickCalculateShortestRoute()" class = "btn"> Ruta mas Corta</button>
+
+    </div>
+
+    </div>
     </div>
 
     <!-- ............ ............ ............ S E C T I O N:   M A P -->  
