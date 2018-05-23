@@ -20,6 +20,10 @@ public class BTree<T extends DataStructure> {
         root = new BNode<>(k);
     }
 
+    public int getK() {
+        return k;
+    }
+
     public void add(T data) {
         if (root.size() == 0)
             root.pushInfo(data);
@@ -144,12 +148,11 @@ public class BTree<T extends DataStructure> {
         return text;
     }
 
-    public void toJSON() {
+    public JSONArray toJSON() {
         JSONArray array = new JSONArray();
         array = toJSON(root, array);
 
-        FileManager fileManager = new FileManager(FILENAME, array.toString());
-        fileManager.createFile("json");
+        return array;
     }
 
     private JSONArray toJSON(BNode<T> current, JSONArray array) {

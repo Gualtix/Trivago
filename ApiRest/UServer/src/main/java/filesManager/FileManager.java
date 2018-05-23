@@ -42,16 +42,17 @@ public class FileManager {
     public void encryptFile() {
         String decodeText = "";
         int clave = filename.length();
-        decodeText = cryptogram(decodeText, clave);
+        decodeText = cryptogram(".json", clave);
 
         text = decodeText;
         createFile(".txt");
     }
 
-    private String cryptogram(String decodeText, int clave) {
+    private String cryptogram(String ext, int clave) {
+        String decodeText = "";
         BufferedReader fileReader;
         try {
-            fileReader = new BufferedReader(new FileReader(filename + ".txt"));
+            fileReader = new BufferedReader(new FileReader(filename + ext));
             String leido;
             while ((leido = fileReader.readLine()) != null) {
                 decodeText += vernam(leido, clave);
@@ -87,7 +88,7 @@ public class FileManager {
     public String decryptFile() {
         String encodeText = "";
         int clave = filename.length();
-        encodeText = cryptogram(encodeText, clave);
+        encodeText = cryptogram(".txt", clave);
 
         return encodeText;
     }

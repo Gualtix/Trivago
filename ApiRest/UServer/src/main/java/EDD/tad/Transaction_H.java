@@ -1,5 +1,7 @@
 package EDD.tad;
 
+import org.json.JSONObject;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -28,6 +30,10 @@ public class Transaction_H implements Comparable {
         Hora = getCurrentHour();
 
         ObjetoFecha = new Date();
+    }
+
+    public Transaction_H() {
+
     }
 
     public int getID_Route() {
@@ -77,6 +83,22 @@ public class Transaction_H implements Comparable {
         return Rp;
     }
 
+    public void setID_Route(int ID_Route) {
+        this.ID_Route = ID_Route;
+    }
+
+    public void setID_Ticket(int ID_Ticket) {
+        this.ID_Ticket = ID_Ticket;
+    }
+
+    public void setID_Station(int ID_Station) {
+        this.ID_Station = ID_Station;
+    }
+
+    public void setTransact_Value(double transact_Value) {
+        Transact_Value = transact_Value;
+    }
+
     @Override
     public int compareTo(Object o){
         Date InDATE = (Date)o;
@@ -88,5 +110,16 @@ public class Transaction_H implements Comparable {
             return  -1;
 
         return  0;
+    }
+
+    public JSONObject getJSON() {
+        JSONObject jso = new JSONObject();
+
+        jso.put("id_route", ID_Route);
+        jso.put("id_ticket", ID_Ticket);
+        jso.put("id_station", ID_Station);
+        jso.put("transact_value", Transact_Value);
+
+        return jso;
     }
 }
