@@ -38,6 +38,13 @@ public class TADHash extends DataStructure {
         estaciones = new Ruta();
     }
 
+    public TADHash(int id_rt, String nombre, String color, double precio) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.color = color;
+        this.precio = precio;
+    }
+
     public int getCodigo() {
         return codigo;
     }
@@ -80,6 +87,10 @@ public class TADHash extends DataStructure {
 
     public Ruta getEstaciones() {
         return estaciones;
+    }
+
+    public void setEstaciones(Ruta estaciones) {
+        this.estaciones = estaciones;
     }
 
     public void addRuta(Arista arista) {

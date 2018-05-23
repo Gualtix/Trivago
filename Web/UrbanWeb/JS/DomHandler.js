@@ -84,9 +84,12 @@ function onClickCalculateShortestRoute(permiso) {
             dataType: "json",
             success: function (data, status, jqXHR) 
             {
+                RemovePolylines_Special();
                 $.each(data, function(codigo,Pt) {
                     var Cl = "#ff0000";
-                    LinkStops(Pt.origen_latitud,Pt.origen_longitud,Pt.destino_latitud,Pt.destino_longitud,Cl);
+
+                    LinkStops(Pt.origen_latitud,Pt.origen_longitud,Pt.destino_latitud,Pt.destino_longitud,Cl,true);
+                    //Repaint_Polylines_Special();
                 }); 
             },
 
@@ -99,6 +102,8 @@ function onClickCalculateShortestRoute(permiso) {
     }
 
 }
+
+
 
 function fillStations_to_Selectors(){
     var $dropdown = $("#OriginSelector");
