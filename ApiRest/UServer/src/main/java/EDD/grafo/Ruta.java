@@ -2,6 +2,8 @@ package EDD.grafo;
 
 import EDD.DAO.DataStructure;
 import EDD.list.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.Iterator;
 
@@ -39,7 +41,7 @@ public class Ruta extends DataStructure implements Comparable, Cloneable {
     }
 
     public void addArista(Arista arista) {
-        costo += arista.getData().getDistancia();
+        costo += arista.getData().getDistancia() * arista.getData().getTrafico();
         this.aristaList.push_back(arista);
     }
 
@@ -91,7 +93,22 @@ public class Ruta extends DataStructure implements Comparable, Cloneable {
 
     @Override
     public String getJSON() {
-        return null;
+        JSONArray jsa = new JSONArray();
+
+        Iterator<Arista> iterator = aristaList.iterator();
+        while (iterator.hasNext()) {
+            Arista currentArista = iterator.next();
+
+            JSONObject jso = new JSONObject();
+            jso.put("origen_latitud", currentArista.getOrigen().getData().getLatitud());
+            jso.put("origen_longitud", currentArista.getOrigen().getData().getLongitud());
+            jso.put("destino_latitud", currentArista.getDestino().getData().getLatitud());
+            jso.put("destino_longitud", currentArista.getDestino().getData().getLongitud());
+
+            jsa.put(jso);
+        }
+
+        return jsa.toString();
     }
 
     @Override

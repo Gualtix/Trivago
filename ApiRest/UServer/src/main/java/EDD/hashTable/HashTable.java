@@ -261,4 +261,47 @@ public class HashTable<T extends DataStructure> {
                 ", loadFactor=" + loadFactor +
                 '}';
     }
+
+    public T pop(T oldData) {
+        int index = hashFunction(oldData);
+
+        if (nodes[index] == null)
+            return null;
+
+        if (nodes[index].compareTo(oldData) == 0) {
+            T temp = nodes[index].getData();
+            nodes[index] = null;
+            size--;
+            return temp;
+        }
+        else
+        {
+            int iteration = 1;
+            while (true) {
+                int newIndex = index + sFunction(oldData, iteration);
+
+                while (true) {
+                    int diference = newIndex - capacity;
+                    if (diference < 0) {
+                        index = newIndex;
+                        break;
+                    }
+                    else
+                        newIndex = diference;
+                }
+
+                if (nodes[index] == null)
+                    return null;
+
+                if (nodes[index].compareTo(oldData) == 0) {
+                    T temp = nodes[index].getData();
+                    nodes[index] = null;
+                    size--;
+                    return temp;
+                }
+
+                iteration++;
+            }
+        }
+    }
 }

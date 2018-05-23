@@ -23,6 +23,10 @@ public class FileManager {
         this.text = text;
     }
 
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     public void createFile(String ext) {
         File file = new File(filename + ext);
         BufferedWriter writer;
@@ -38,7 +42,6 @@ public class FileManager {
     public void encryptFile() {
         String decodeText = "";
         int clave = filename.length();
-        BufferedReader fileReader;
         decodeText = cryptogram(decodeText, clave);
 
         text = decodeText;
@@ -48,7 +51,7 @@ public class FileManager {
     private String cryptogram(String decodeText, int clave) {
         BufferedReader fileReader;
         try {
-            fileReader = new BufferedReader(new FileReader(filename + "txt"));
+            fileReader = new BufferedReader(new FileReader(filename + ".txt"));
             String leido;
             while ((leido = fileReader.readLine()) != null) {
                 decodeText += vernam(leido, clave);
@@ -81,10 +84,9 @@ public class FileManager {
         return text;
     }
 
-    public String decryptFile(String ext) {
+    public String decryptFile() {
         String encodeText = "";
         int clave = filename.length();
-        BufferedReader fileReader;
         encodeText = cryptogram(encodeText, clave);
 
         return encodeText;

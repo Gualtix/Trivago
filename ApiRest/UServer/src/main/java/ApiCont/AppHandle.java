@@ -1,28 +1,22 @@
 package ApiCont;
 
 import EDD.Singleton;
-import EDD.grafo.Ruta;
 import EDD.grafo.XRoute;
 import EDD.grafo.XStation;
 import EDD.tad.*;
 import com.google.gson.Gson;
 
-import javax.swing.text.TabableView;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
 
 import javax.ws.rs.Produces;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
-import javax.ws.rs.core.Response;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
 
-import filesManager.FileManager;
 import org.json.*;
 
 @ApplicationPath("/api")
@@ -192,19 +186,13 @@ public class AppHandle extends Application {
     @Path("/getshortestroute")
     @Produces("application/json")
     public String getshortestroute(String Points){
-
-        /*
-
         JSONObject Js = new JSONObject(Points);
 
         int Origen_ID = Js.getInt("origen");
         int Destino_ID = Js.getInt("destino");
 
-        Ruta Rts = Sigi.getGrafo().djkstra(new TADNodo(Origen_ID),new TADNodo(Destino_ID));
-
-
-        */
-        return "";
+        JSONArray jsa = Sigi.shortRoute(new TADNodo(Origen_ID),new TADNodo(Destino_ID));
+        return jsa.toString();
     }
 
 
@@ -218,7 +206,7 @@ public class AppHandle extends Application {
     @Produces("application/json")
     public String get_arbolito_img(){
         String Base64_Tree = Sigi.getArbol().toBase64();
-        String Rs = "{\"contenido\":\""+Base64_Tree+"   \"}";
+        String Rs = "{\"contenido\":\""+Base64_Tree+"\"}";
         return Rs;
     }
 
@@ -228,7 +216,7 @@ public class AppHandle extends Application {
     @Produces("application/json")
     public String get_tabla_hash_img(){
         String Base64_Tree = Sigi.getArbol().toBase64();
-        String Rs = "{\"contenido\":\""+Base64_Tree+"   \"}";
+        String Rs = "{\"contenido\":\""+Base64_Tree+"\"}";
         return Rs;
     }
 
@@ -237,10 +225,8 @@ public class AppHandle extends Application {
     @Path("/grafo_img")
     @Produces("application/json")
     public String get_grafo_img(){
-
-        FileManager fileManager = new FileManager("Mapa");
-        String Base64_graph = fileManager.getImageBase64(".png");
-        String Rs = "{\"contenido\":\""+Base64_graph+"\"}";
+        String Base64_Tree = Sigi.graphvizGraph();
+        String Rs = "{\"contenido\":\""+Base64_Tree+"\"}";
         return Rs;
     }
 
@@ -255,10 +241,10 @@ public class AppHandle extends Application {
         int Origen_ID = Js.getInt("origen");
         int Destino_ID = Js.getInt("destino");
 
-        Sigi.shortRoute(new TADNodo(Origen_ID),new TADNodo(Destino_ID));
-        String shortRoute = Sigi.getShortRoute64();
+        String Base64_Tree = Sigi.shortRouteGraph(new TADNodo(Origen_ID),new TADNodo(Destino_ID));
+        String Rs = "{\"contenido\":\""+Base64_Tree+"\"}";
 
-        return shortRoute;
+        return Rs;
     }
 
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
@@ -574,7 +560,7 @@ public class AppHandle extends Application {
 
         Sigi.fillHashTable();
         Sigi.graphvizGraph();
-        Sigi.shortRoute(nodo_0, nodo_7);
+        Sigi.shortRouteGraph(nodo_0, nodo_7);
     }
 }
 

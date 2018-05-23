@@ -27,8 +27,10 @@ public class Singleton {
 
     private static Singleton instance = null;
 
+    private static final String FILENAME_STATION = "Estaciones";
     private static final String FILENAME_RUTAS = "Rutas";
     private static final String FILENAME_GRAPH = "Mapa";
+    private static final String FILENAME_SHORTROUTE = "ShortRoute";
     private static final String FILENAME_CSV = "Reporte";
 
     public static synchronized Singleton getInstance() {
@@ -48,28 +50,35 @@ public class Singleton {
         TransList = new List<>();
     }
 
+    /* GETTER Y SETTER */
+
     public List<Transaction_H> getTransList(){
         return TransList;
     }
 
-    /* CONTADOR DE TICKETS */
     public int getIdTicket() {
         return idTicket;
     }
+
+    public BTree<TADArbolB> getArbol() {
+        return arbol;
+    }
+
+    public Grafo getGrafo() {
+        return grafo;
+    }
+
+    public HashTable<TADHash> getHashTable() {
+        return hash;
+    }
+
+    /* CONTADOR DE TICKETS */
 
     public void incrementTicket() {
         idTicket++;
     }
 
-    /* MANEJO DE ARBOL */
-    public BTree<TADArbolB> getArbol() {
-        return arbol;
-    }
-
     /* MANEJO DE GRAFO */
-    public Grafo getGrafo() {
-        return grafo;
-    }
 
     public JSONObject getStation(TADNodo data) {
         JSONObject object = new JSONObject();
@@ -88,9 +97,6 @@ public class Singleton {
     }
 
     /* MANEJO DE TABLA HASH */
-    public HashTable<TADHash> getHashTable() {
-        return hash;
-    }
 
     public void fillHashTable() {
         Iterator<XRoute> iterator = XRouteList.iterator();
@@ -118,6 +124,11 @@ public class Singleton {
         }
     }
 
+    public void updateHash(TADHash oldData, TADHash newData) {
+        hash.pop(oldData);
+        hash.put(newData);
+    }
+
     public JSONArray possibleRoutes(TADNodo station) {
         JSONArray array = new JSONArray();
 
@@ -143,6 +154,7 @@ public class Singleton {
     }
 
     /* BACKUP RUTAS */
+
     public void addStation(TADNodo St){
         StationList.push_back(St);
         grafo.addNodo(St);
@@ -161,22 +173,56 @@ public class Singleton {
     }
 
     public void backupRutas() {
-        JSONArray array = new JSONArray();
+        JSONArray text = getJson_RouteList();
 
-        Iterator<XRoute> iterator = XRouteList.iterator();
-        while (iterator.hasNext()) {
-            XRoute current = iterator.next();
-            array.put(new JSONObject(current.getJSON()));
+        FileManager fileManager = new FileManager(FILENAME_RUTAS, text.toString());
+        fileManager.encryptFile();
+    }
+
+    public void loadRutas() {
+        FileManager fileManager = new FileManager(FILENAME_RUTAS);
+        String text = fileManager.decryptFile();
+
+        JSONArray jsa = new JSONArray(text);
+        for (int i = 0; i < jsa.length(); i++) {
+            JSONObject jso = jsa.getJSONObject(i);
+
+            int codigo = jso.getInt("codigo");
+            String nombre = jso.getString("nombre");
+            String color = jso.getString("color");
+            double precio = jso.getDouble("precio");
+
+            XRoute route = new XRoute(codigo, nombre, color, precio);
+            XRouteList.push_front(route);
+
+            JSONArray jsaE = jso.getJSONArray("estaciones");
+            for (int j = 0; j < jsaE.length(); j++) {
+                JSONObject jsoE = jsaE.getJSONObject(j);
+                int origen = jsoE.getInt("origen");
+                int destino = jsoE.getInt("destino");
+                int trafico = jsoE.getInt("trafico");
+
+                XStation station = new XStation(origen, destino, trafico);
+                route.estaciones.push_back(station);
+            }
         }
+    }
 
-        FileManager fileManager = new FileManager(FILENAME_RUTAS, array.toString());
-        fileManager.createFile("json");
+    public void backupStation() {
+        String text = getJson_StationList();
+
+        FileManager fileManager = new FileManager(FILENAME_STATION, text);
+        fileManager.encryptFile();
+    }
+
+    public void loadStation() {
+        FileManager fileManager = new FileManager(FILENAME_STATION);
+        String text = fileManager.decryptFile();
     }
 
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
     //(^< ............ ............ ............ ............ ............ L I S T   M A N A G E M E N T
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
-
 
     public XRoute getRouteByID(int ID){
 
@@ -230,7 +276,7 @@ public class Singleton {
     }
 
     /* GRAPHVIZ GRAFO - RUTAS */
-    public void graphvizGraph() {
+    public String graphvizGraph() {
         String text = hash.graphMap();
 
         FileManager fileManager = new FileManager(FILENAME_GRAPH, text);
@@ -241,9 +287,11 @@ public class Singleton {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return fileManager.getImageBase64(".png");
     }
 
-    public void shortRoute(TADNodo origen, TADNodo destino) {
+    public String shortRouteGraph(TADNodo origen, TADNodo destino) {
         Ruta ruta = grafo.djkstra(origen, destino);
         String text = ruta.graph();
 
@@ -254,6 +302,7 @@ public class Singleton {
         builder.deleteCharAt(builder.lastIndexOf("}"));
         builder.append(text + "}");
 
+        fileManager.setFilename(FILENAME_SHORTROUTE);
         fileManager.setText(builder.toString());
         fileManager.createFile(".dot");
 
@@ -262,8 +311,19 @@ public class Singleton {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return fileManager.getImageBase64(".png");
     }
 
+    public JSONArray shortRoute(TADNodo origen, TADNodo destino) {
+
+        Ruta ruta = grafo.djkstra(origen, destino);
+        JSONArray jsa = new JSONArray(ruta.getJSON());
+
+        return jsa;
+    }
+
+    /* REPORTE */
     public String reportCSV() {
         String text = "";
         StringBuilder builder = new StringBuilder(text);
@@ -290,9 +350,4 @@ public class Singleton {
         return fileManager.getFile(".csv");
     }
 
-    public String getShortRoute64() {
-        FileManager fileManager = new FileManager(FILENAME_GRAPH);
-
-        return fileManager.getImageBase64(".png");
-    }
 }
