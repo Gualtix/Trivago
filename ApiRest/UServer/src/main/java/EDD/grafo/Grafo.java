@@ -40,6 +40,10 @@ public class Grafo {
         return nodo;
     }
 
+    public void clear(){
+        nodos = new List<>();
+    }
+
     public Nodo addNodo(Nodo nodo) {
         nodos.push_back(nodo);
 

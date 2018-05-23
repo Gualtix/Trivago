@@ -289,4 +289,10 @@ public class Singleton {
 
         return fileManager.getFile(".csv");
     }
+
+    public String getShortRoute64() {
+        FileManager fileManager = new FileManager(FILENAME_GRAPH);
+
+        return fileManager.getImageBase64(".png");
+    }
 }

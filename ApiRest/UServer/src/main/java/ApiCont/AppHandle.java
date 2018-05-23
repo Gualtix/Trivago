@@ -1,6 +1,7 @@
 package ApiCont;
 
 import EDD.Singleton;
+import EDD.grafo.Ruta;
 import EDD.grafo.XRoute;
 import EDD.grafo.XStation;
 import EDD.tad.*;
@@ -21,6 +22,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 
+import filesManager.FileManager;
 import org.json.*;
 
 @ApplicationPath("/api")
@@ -146,13 +148,19 @@ public class AppHandle extends Application {
 
         XRoute Tmp = Sigi.getRouteByID(ID_RT);
 
+        String OldName = Tmp.nombre;
+
         Tmp.nombre = Nombre;
         Tmp.precio = Precio;
         Tmp.color = Color;
 
-        //Sigi.getHashTable().get(new TADHash(ID_RT));
+        Sigi.getHashTable().clear();
+        Sigi.getGrafo().clear();
 
-
+        //TADHash Th = Sigi.getHashTable().get(new TADHash(ID_RT,OldName));
+        //Th.setNombre(Nombre);
+        //Th.setPrecio(Precio);
+        //Th.setColor(Color);
 
         return "{\"mensaje\":\"Ok\"}";
     }
@@ -178,12 +186,25 @@ public class AppHandle extends Application {
     //(^< ............ ............ ............ ............ ............ S H O R T E S T   R O U T E
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 
-    @GET
+
+
+    @POST
     @Path("/getshortestroute")
     @Produces("application/json")
-    public String getshortestroute(){
+    public String getshortestroute(String Points){
 
-        return "Ruta mas Corta";
+        /*
+
+        JSONObject Js = new JSONObject(Points);
+
+        int Origen_ID = Js.getInt("origen");
+        int Destino_ID = Js.getInt("destino");
+
+        Ruta Rts = Sigi.getGrafo().djkstra(new TADNodo(Origen_ID),new TADNodo(Destino_ID));
+
+
+        */
+        return "";
     }
 
 
@@ -217,9 +238,27 @@ public class AppHandle extends Application {
     @Produces("application/json")
     public String get_grafo_img(){
 
-        String Base64_graph = "";
+        FileManager fileManager = new FileManager("Mapa");
+        String Base64_graph = fileManager.getImageBase64(".png");
         String Rs = "{\"contenido\":\""+Base64_graph+"\"}";
         return Rs;
+    }
+
+    //(^< ............ ............ ............ ............ ............ getshortestroute_img
+    @POST
+    @Path("/getshortestroute_img")
+    @Produces("application/json")
+    public String getshortestroute_img(String Points){
+
+        JSONObject Js = new JSONObject(Points);
+
+        int Origen_ID = Js.getInt("origen");
+        int Destino_ID = Js.getInt("destino");
+
+        Sigi.shortRoute(new TADNodo(Origen_ID),new TADNodo(Destino_ID));
+        String shortRoute = Sigi.getShortRoute64();
+
+        return shortRoute;
     }
 
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
