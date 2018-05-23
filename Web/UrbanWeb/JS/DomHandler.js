@@ -28,44 +28,76 @@ function OnPageLoad(){
 //(^< ............ ............ ............ ............ ............ E V E N T S
 //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 
-function onClickCalculateShortestRoute() {
+function onClickCalculateShortestRoute(permiso) {
     var OriginCD = $('#OriginSelector').find(":selected").val();
     var DestinyCD = $('#DestinySelector').find(":selected").val();
 
-    var data =
-    {
-        origen:OriginCD,
-        destino:DestinyCD
+    if(permiso && (OriginCD != DestinyCD)){
+
+
+        var data =
+        {
+            origen:OriginCD,
+            destino:DestinyCD
+        }
+
+        $.ajax(
+        {
+            type: "POST",
+            url: "http://localhost:8080/UServer/api/urban/getshortestroute_img",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            dataType: "json",
+            success: function (data, status, jqXHR) 
+            {
+                var cnt = data.contenido;
+
+                if(cnt.contenido != "null"){
+                    var graph_img_in_base64 = "data:image/png;base64,"+cnt;
+
+                    var opened = window.open("");
+                    opened.document.write("<html><head><link rel = \"stylesheet\" href = \"CSS/Style.css\"><title>D I J K S T R A</title></head><body> Ruta Optima: <br> <img id = \"Shortest_IMG_View\" src = "+graph_img_in_base64+" > </body></html>");
+
+                }
+                else{
+                    alert("Info: No Existe Conexion entre las 2 Rutas");
+                }
+                
+            },
+
+            error: function (jqXHR, status)
+            {
+                alert("Error de Comunicacion con /grafo_img");
+            }
+
+        });
+
+
+        $.ajax(
+        {
+            type: "POST",
+            url: "http://localhost:8080/UServer/api/urban/getshortestroute",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            dataType: "json",
+            success: function (data, status, jqXHR) 
+            {
+                $.each(data, function(codigo,Pt) {
+                    var Cl = "#ff0000";
+                    LinkStops(Pt.origen_latitud,Pt.origen_longitud,Pt.destino_latitud,Pt.destino_longitud,Cl);
+                }); 
+            },
+
+            error: function (jqXHR, status)
+            {
+                alert("Error de Comunicacion con /getshortestroute");
+            }
+        });
+
     }
 
-    $.ajax(
-    {
-        type: "POST",
-        url: "http://localhost:8080/UServer/api/urban/grafo_img",
-        data: JSON.stringify(data),
-        contentType: "application/json; charset=utf-8",
-        crossDomain: true,
-        dataType: "json",
-        success: function (data, status, jqXHR) 
-        {
-            //alert(success);
-            //alert("Estacion Actualizada Exitosamente");
-            var cnt = data.contenido;
-            var graph_img_in_base64 = "data:image/png;base64,"+cnt;
-
-            var opened = window.open("");
-            opened.document.write("<html><head><link rel = \"stylesheet\" href = \"CSS/Style.css\"><title>T I K E T S</title></head><body> Arbol de Tickets <br> <img id = \"Shortest_IMG_View\" src = "+graph_img_in_base64+" > </body></html>");
-
-
-        },
-
-        error: function (jqXHR, status)
-        {
-            alert("Error: No Conexion entre las 2 Rutas");
-            //console.log(jqXHR);
-            //alert('fail' + status.code);
-        }
-    });
 }
 
 function fillStations_to_Selectors(){
@@ -81,22 +113,43 @@ function fillStations_to_Selectors(){
 }
 
 function Test() {
+    window.location.href = 'http://localhost:8080/UServer/api/urban/report_csv';
+}
+
+//(^< ............ ............ ............ ............ ............ onClickbtnbtnShow_CompleGraph_IMG
+
+function onClickbtnbtnShow_CompleGraph_IMG(){
 
     const url = 'http://localhost:8080/UServer/api/urban/grafo_img';
 
     $.getJSON(url,function (data){
 
         var cnt = data.contenido;
-        var tree_img_in_base64 = "data:image/png;base64,"+cnt;
+        var graph_img_in_base64 = "data:image/png;base64,"+cnt;
 
         var opened = window.open("");
-        opened.document.write("<html><head><link rel = \"stylesheet\" href = \"CSS/Style.css\"><title>T I K E T S</title></head><body> Arbol de Tickets <br> <img id = \"Tree_IMG_View\" src = "+tree_img_in_base64+" > </body></html>");
+        opened.document.write("<html><head><link rel = \"stylesheet\" href = \"CSS/Style.css\"><title>G P R A P H</title></head><body> Grafo Completo <br> <img id = \"Graph_IMG_View\" src = "+graph_img_in_base64+" > </body></html>");
 
     });
 
-    //CleanRouteSelector();
+}
 
-    //RemovePolylines();
+//(^< ............ ............ ............ ............ ............ onClickbtnbtnShow_Hash_IMG
+
+function onClickbtnbtnShow_Hash_IMG(){
+
+    const url = 'http://localhost:8080/UServer/api/urban/tabla_hash_img';
+
+    $.getJSON(url,function (data){
+
+        var cnt = data.contenido;
+        var hash_img_in_base64 = "data:image/png;base64,"+cnt;
+
+        var opened = window.open("");
+        opened.document.write("<html><head><link rel = \"stylesheet\" href = \"CSS/Style.css\"><title>H A S H   T A B L E</title></head><body> Tabla Hash de Rutas <br> <img id = \"Hash_IMG_View\" src = "+hash_img_in_base64+" > </body></html>");
+
+    });
+
 }
 
 //(^< ............ ............ ............ ............ ............ onClickbtnbtnShow_Tree_IMG

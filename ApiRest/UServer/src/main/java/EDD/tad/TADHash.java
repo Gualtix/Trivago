@@ -88,19 +88,19 @@ public class TADHash extends DataStructure {
 
     @Override
     public String toString() {
-        return String.format("%d : %s\nQ. %.2f",
+        return String.format("%d : %s\\nQ. %.2f",
                             codigo, nombre, precio);
     }
 
     @Override
     public String nodeName() {
-        return String.format("node%s", this.hashCode());
+        return String.format("node%s", this.codigo);
     }
 
     @Override
     public String createNode() {
-        return String.format("%s [label = \"\"]",
-                nodeName());
+        return String.format("%s [label = \"%s\"]",
+                nodeName(), toString());
     }
 
     @Override

@@ -160,8 +160,8 @@ public class HashTable<T extends DataStructure> {
                         "%s\n}",
                 FILENAME, text);
 
-        FileManager fileManager = new FileManager(FILENAME, text);
-        fileManager.createFile("dot");
+        FileManager fileManager = new FileManager(FILENAME, dot);
+        fileManager.createFile(".dot");
 
         String cmd = String.format("dot -Tpng %s.dot -o %s.png",
                 FILENAME, FILENAME);
@@ -174,7 +174,9 @@ public class HashTable<T extends DataStructure> {
     }
 
     public String toBase64() {
+        graph();
         FileManager fileManager = new FileManager(FILENAME);
+
         return fileManager.getImageBase64(".png");
     }
 

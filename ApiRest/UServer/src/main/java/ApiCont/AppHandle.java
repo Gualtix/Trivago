@@ -215,8 +215,8 @@ public class AppHandle extends Application {
     @Path("/tabla_hash_img")
     @Produces("application/json")
     public String get_tabla_hash_img(){
-        String Base64_Tree = Sigi.getArbol().toBase64();
-        String Rs = "{\"contenido\":\""+Base64_Tree+"\"}";
+        String Base64_Hash = Sigi.getHashTable().toBase64();
+        String Rs = "{\"contenido\":\""+Base64_Hash+"\"}";
         return Rs;
     }
 
@@ -225,9 +225,14 @@ public class AppHandle extends Application {
     @Path("/grafo_img")
     @Produces("application/json")
     public String get_grafo_img(){
-        String Base64_Tree = Sigi.graphvizGraph();
-        String Rs = "{\"contenido\":\""+Base64_Tree+"\"}";
-        return Rs;
+        String Base64_Graph = Sigi.graphvizGraph();
+
+        if(Base64_Graph != null){
+            return "{\"contenido\":\""+Base64_Graph+"\"}";
+        }
+        else{
+            return "{\"contenido\":\"null\"}";
+        }
     }
 
     //(^< ............ ............ ............ ............ ............ getshortestroute_img
@@ -241,10 +246,14 @@ public class AppHandle extends Application {
         int Origen_ID = Js.getInt("origen");
         int Destino_ID = Js.getInt("destino");
 
-        String Base64_Tree = Sigi.shortRouteGraph(new TADNodo(Origen_ID),new TADNodo(Destino_ID));
-        String Rs = "{\"contenido\":\""+Base64_Tree+"\"}";
+        String Base64_Graph = Sigi.shortRouteGraph(new TADNodo(Origen_ID),new TADNodo(Destino_ID));
 
-        return Rs;
+        if(Base64_Graph != null){
+            return "{\"contenido\":\""+Base64_Graph+"\"}";
+        }
+        else{
+            return "{\"contenido\":\"null\"}";
+        }
     }
 
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
@@ -256,7 +265,6 @@ public class AppHandle extends Application {
     @Produces("text/csv")
     public String get_report_csv(){
         String report = Sigi.reportCSV();
-
         return report;
     }
 
@@ -559,8 +567,8 @@ public class AppHandle extends Application {
         RouteLoader();
 
         Sigi.fillHashTable();
-        Sigi.graphvizGraph();
-        Sigi.shortRouteGraph(nodo_0, nodo_7);
+        //Sigi.graphvizGraph();
+        //Sigi.shortRouteGraph(nodo_0, nodo_7);
     }
 }
 

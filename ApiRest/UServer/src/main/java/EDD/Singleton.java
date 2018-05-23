@@ -12,6 +12,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 public class Singleton {
 
@@ -307,8 +309,15 @@ public class Singleton {
         fileManager.createFile(".dot");
 
         try {
-            Runtime.getRuntime().exec(String.format("dot -Tpng %s.dot -o %s.png", FILENAME_GRAPH, FILENAME_GRAPH));
+            Runtime.getRuntime().exec(String.format("dot -Tpng %s.dot -o %s.png", FILENAME_SHORTROUTE, FILENAME_SHORTROUTE));
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Timer Tm = new Timer();
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 

@@ -5,6 +5,9 @@
     <link rel = "stylesheet" href = "CSS/Style.css">
     <meta name = "viewport" content = "initial-scale=1.0, user-scalable=no">
     <meta charset = "utf-8">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
     <title>U R B A N</title>
   </head>
 
@@ -24,8 +27,8 @@
     <div id = "TopMenu">
       <button id = "btnShow_Tree_IMG" onclick = "onClickbtnbtnShow_Tree_IMG()" class="btn">Arbol B</button>
       <button id = "btnShow_Hash_IMG" onclick = "onClickbtnbtnShow_Hash_IMG()" class="btn">Tabla Hash</button>
-      <button id = "btnShow_Graph_IMG" onclick = "onClickbtnbtnShow_Graph_IMG()" class="btn">Grafo Completo</button>
-      <button id = "test"  onclick = "Test()" class="btn">Test</button>
+      <button id = "btnShow_Graph_IMG" onclick = "onClickbtnbtnShow_CompleGraph_IMG()" class="btn">Grafo Completo</button>
+      <button id = "btngetCsv"  onclick = "Test()" class="btn">C S V</button>
       <button id = "btnStations_Management" onclick = "Pick_New_Station()" class="btn">Estaciones</button>
       <button id = "btnRoutes_Management" onclick = "Built_New_Route()" class="btn">Rutas</button>
       <button id ="ShowStops" onclick = "Show_StopList_on_Map()" class = "btn">Estaciones</button>
@@ -45,7 +48,7 @@
           
       </select>
       
-      <button id ="btnCalculateShortest" onclick = "onClickCalculateShortestRoute()" class = "btn"> Ruta mas Corta</button>
+      <button id ="btnCalculateShortest" onclick = "onClickCalculateShortestRoute(true)" class = "btn"> Ruta mas Corta</button>
 
     </div>
 
