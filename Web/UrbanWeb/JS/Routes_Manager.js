@@ -120,8 +120,6 @@ function onClick_updateRoute(){
     fill_Routes_Selector();
     CleanRouteTable();
     
-
-
     //Update();
     //CleanMap();
     //Show_StopList_on_Map();
@@ -176,6 +174,7 @@ function fill_Routes_Selector() {
 	$.each(RouteList, function(Dts,Inf) {
 		$dropdown.append($("<option />").val(Inf.codigo).text(Inf.nombre));
 	});
+	
 }
 
 function FillRouteInfo(Route_ID) {
@@ -242,6 +241,20 @@ function CleanRouteSelector() {
     	//.append('<option value="whatever">text</option>')
     	//.val('whatever')
     
+}
+
+function CleanShortestSelectors() {
+	$('#OriginSelector')
+    	.find('option')
+    	.remove()
+    	.end()
+    ;
+
+    $('#DestinySelector')
+    	.find('option')
+    	.remove()
+    	.end()
+    ;   
 }
 
 

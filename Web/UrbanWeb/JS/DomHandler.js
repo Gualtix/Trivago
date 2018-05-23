@@ -7,6 +7,9 @@
 var selected;
 var StopName = undefined;
 
+var OriginSelected;
+var DestinySelected;
+
 window.onload = OnPageLoad;
 function OnPageLoad(){
 
@@ -17,32 +20,22 @@ function OnPageLoad(){
 
     var Btn_U = $('#btn_updateRoute').get(0);
     disableBtn(Btn_U);
+
+    fillStations_to_Selectors();
 }
 
 //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 //(^< ............ ............ ............ ............ ............ E V E N T S
 //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 
-function Test() {
-
-    const url = 'http://localhost:8080/UServer/api/urban/grafo_img';
-
-    $.getJSON(url,function (data){
-
-        var cnt = data.contenido;
-        var tree_img_in_base64 = "data:image/png;base64,"+cnt;
-
-        var opened = window.open("");
-        opened.document.write("<html><head><link rel = \"stylesheet\" href = \"CSS/Style.css\"><title>T I K E T S</title></head><body> Arbol de Tickets <br> <img id = \"Tree_IMG_View\" src = "+tree_img_in_base64+" > </body></html>");
-
-    });
-
-    /*
+function onClickCalculateShortestRoute() {
+    var OriginCD = $('#OriginSelector').find(":selected").val();
+    var DestinyCD = $('#DestinySelector').find(":selected").val();
 
     var data =
     {
-        origen:0,
-        destino:7
+        origen:OriginCD,
+        destino:DestinyCD
     }
 
     $.ajax(
@@ -58,23 +51,48 @@ function Test() {
             //alert(success);
             //alert("Estacion Actualizada Exitosamente");
             var cnt = data.contenido;
-            var tree_img_in_base64 = "data:image/png;base64,"+cnt;
+            var graph_img_in_base64 = "data:image/png;base64,"+cnt;
 
             var opened = window.open("");
-            opened.document.write("<html><head><link rel = \"stylesheet\" href = \"CSS/Style.css\"><title>T I K E T S</title></head><body> Arbol de Tickets <br> <img id = \"Tree_IMG_View\" src = "+tree_img_in_base64+" > </body></html>");
+            opened.document.write("<html><head><link rel = \"stylesheet\" href = \"CSS/Style.css\"><title>T I K E T S</title></head><body> Arbol de Tickets <br> <img id = \"Shortest_IMG_View\" src = "+graph_img_in_base64+" > </body></html>");
 
 
         },
 
         error: function (jqXHR, status)
         {
-            alert("Error: Estacion NO Actualizada");
+            alert("Error: No Conexion entre las 2 Rutas");
             //console.log(jqXHR);
             //alert('fail' + status.code);
         }
     });
+}
 
-    */
+function fillStations_to_Selectors(){
+    var $dropdown = $("#OriginSelector");
+    $.each(StopList, function(Dts,Inf) {
+        $dropdown.append($("<option />").val(Inf.codigo).text(Inf.nombre));
+    });
+
+    var $dropdown = $("#DestinySelector");
+    $.each(StopList, function(Dts,Inf) {
+        $dropdown.append($("<option />").val(Inf.codigo).text(Inf.nombre));
+    });
+}
+
+function Test() {
+
+    const url = 'http://localhost:8080/UServer/api/urban/grafo_img';
+
+    $.getJSON(url,function (data){
+
+        var cnt = data.contenido;
+        var tree_img_in_base64 = "data:image/png;base64,"+cnt;
+
+        var opened = window.open("");
+        opened.document.write("<html><head><link rel = \"stylesheet\" href = \"CSS/Style.css\"><title>T I K E T S</title></head><body> Arbol de Tickets <br> <img id = \"Tree_IMG_View\" src = "+tree_img_in_base64+" > </body></html>");
+
+    });
 
     //CleanRouteSelector();
 

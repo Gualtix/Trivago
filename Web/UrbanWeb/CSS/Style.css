@@ -3,6 +3,11 @@
 	width: 100%
 }
 
+#Shortest_IMG_View{
+	width: 100%;
+	height: auto;
+}
+
 
 header
 {
@@ -31,6 +36,10 @@ header
     color: #090e16;
     font-weight: bold;
     width: 105px;
+
+}
+
+#DosPuntos{
 
 }
 
@@ -164,8 +173,6 @@ th, td  {
 
 }
 
-
-
 #TopMenu
 {
 	float: left;
@@ -174,29 +181,32 @@ th, td  {
 
 	/*display:inline-block;
 
-	
-
 	/*margin-top: 5px;
 	margin-bottom: 5px;
 	margin-left: auto;
     margin-right: auto;*/
 
-	height:300px;
+	height:395px;
 	width: 170px;
 	
 	border-radius: 5px;
-	background-color: #ffeb70;
-	border: 1px solid silver;
+	background-color: #ffffff;
+	/*border: 1px solid silver;*/
 
 	margin-right:10px;
 	margin-top: 0px;
 
 }
 
+.Special{
+	width: 172px;
+	margin-bottom: 10px;
+}
+
 .btn {
 
-	width: 150px;
-	height: 35px;
+	width: 172px;
+	height: 25px;
 
 	margin-bottom: 5px;
 	float: none;
