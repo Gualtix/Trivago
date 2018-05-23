@@ -39,7 +39,7 @@ function LoadRoutes_from_Server(){
                     var Org = StopList[Pt_origen];
                     var Des = StopList[Pt_destino];
 
-                    LinkStops(Org.latitud,Org.longitud,Des.latitud,Des.longitud,Rt_color);
+                    LinkStops(Org.latitud,Org.longitud,Des.latitud,Des.longitud,Rt_color,false);
 
                     var MyPath = new Path(Org,Des,Pt_trafico);
 
@@ -66,6 +66,26 @@ function LoadRoutes_from_Server(){
 //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 //(^< ............ ............ ............ ............ ............ E V E N T S
 //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+
+
+function onClick_newRoute(){
+
+	var Btn_S = $('#btn_newRoute').get(0);
+    disableBtn(Btn_S);
+
+    var Etn_U = $('#btn_updateRoute').get(0);
+    enableBtn(Etn_U);
+
+    RemovePolylines();
+    RemovePolylines_Special();
+
+    wantNewStop = false;
+	wantNewPath = true;
+
+	
+
+}
+
 
 function onClick_updateRoute(){
 
@@ -174,7 +194,7 @@ function fill_Routes_Selector() {
 	$.each(RouteList, function(Dts,Inf) {
 		$dropdown.append($("<option />").val(Inf.codigo).text(Inf.nombre));
 	});
-	
+
 }
 
 function FillRouteInfo(Route_ID) {

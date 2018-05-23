@@ -10,6 +10,8 @@ var PathList = [];
 var markers = [];
 var Mypolylines = [];
 
+var Specialpoly = [];
+
 
 
 
@@ -109,10 +111,9 @@ function initMap() {
 
 		if(wantNewPath){
 
+			//PlaceMarker(LatLong);
+
 			/*
-
-			PlaceMarker(LatLong);
-
 			if(OldStop == null){
 				OldStop = LatLong;
 			}
@@ -120,15 +121,14 @@ function initMap() {
 				NewStop = LatLong;
 				var Latitude = NewStop.lat();
 				var Longitude = NewStop.lng();
-				LinkStops(Latitude,Longitude);
+				var Cl = '#5c00bf';
+				LinkStops(OldStop.lat(),OldStop.lng(),Latitude,Longitude,Cl,false);
 
 				OldStop = NewStop;
-			}
+			}			
 			*/
 		}
 	});
-
-
 }
 
 //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
@@ -203,7 +203,7 @@ function PlaceMarker(LatLong){
 	    }
 	});
 
-	/*
+	
 
 	markers[cnt].addListener('click', function(event) {     
 		var Ps = event.latLng;
@@ -215,7 +215,7 @@ function PlaceMarker(LatLong){
 			//buildSubRoute();
 		}
 	});
-	*/
+	
 
 	SetLatLong_to_TextBox(LatLong);
 }
@@ -272,7 +272,7 @@ function Quit_Last_Marker_Added() {
 }
 
 
-function LinkStops(Bgn_Lat,Bgn_Long,End_Lat,End_Long,color){
+function LinkStops(Bgn_Lat,Bgn_Long,End_Lat,End_Long,color,Special){
 
 	var flightPlanCoordinates =
 	[
@@ -297,16 +297,26 @@ function LinkStops(Bgn_Lat,Bgn_Long,End_Lat,End_Long,color){
 	
 	});
 
-	var cnt = Mypolylines.length;
-	Mypolylines[cnt] = flightPath;
+	
 
-	Mypolylines[cnt].setMap(map);
+	if(Special){
 
+		var cnt = Specialpoly.length;
+		Specialpoly[cnt] = flightPath;
 
+		Specialpoly[cnt].setMap(map);
+		animateCircle(Specialpoly[cnt]);
 
-	//flightPath.setMap(map);
-	//animateCircle(flightPath);
-	animateCircle(Mypolylines[cnt]);
+	}
+	else{
+
+		var cnt = Mypolylines.length;
+		Mypolylines[cnt] = flightPath;
+
+		Mypolylines[cnt].setMap(map);
+		animateCircle(Mypolylines[cnt]);
+
+	}	
 }
 
 
@@ -409,4 +419,28 @@ function RemovePolylines() {
 		cnt++;
 	}
 	Mypolylines = [];
+}
+
+function RemovePolylines_Special() {
+
+	var cnt = 0;
+	var Lm = Specialpoly.length;
+	while(cnt < Lm){
+		console.log(Specialpoly[cnt]);
+		Specialpoly[cnt].setMap(null);
+		cnt++;
+	}
+	//Specialpoly = [];
+}
+
+function Repaint_Polylines_Special() {
+
+	var cnt = 0;
+	var Lm = Specialpoly.length;
+	while(cnt < Lm){
+		console.log(Specialpoly[cnt]);
+		Specialpoly[cnt].setMap(map);
+		cnt++;
+	}
+	//Specialpoly = [];
 }

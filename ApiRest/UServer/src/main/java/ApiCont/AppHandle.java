@@ -567,8 +567,7 @@ public class AppHandle extends Application {
         RouteLoader();
 
         Sigi.fillHashTable();
-        //Sigi.graphvizGraph();
-        //Sigi.shortRouteGraph(nodo_0, nodo_7);
+
     }
 }
 
