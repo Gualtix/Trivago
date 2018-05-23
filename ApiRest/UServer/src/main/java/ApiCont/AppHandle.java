@@ -35,10 +35,7 @@ public class AppHandle extends Application {
     @Path("/default_path")
     @Produces("application/json")
     public String default_path(){
-        Sigi.loadStation();
-        Sigi.loadRutas();
-        Sigi.loadTickets();
-        Sigi.loadTransaction();
+
         return "U R B A N   W E B   S E R V E R";
     }
 
@@ -82,6 +79,11 @@ public class AppHandle extends Application {
     @Path("/getstations")
     @Produces("application/json")
     public String getStations(){
+
+        Sigi.loadStation();
+        Sigi.loadRutas();
+        Sigi.loadTickets();
+        Sigi.loadTransaction();
 
         String Reply = Sigi.getJson_StationList();
 
@@ -577,8 +579,8 @@ public class AppHandle extends Application {
 
         Sigi.fillHashTable();
 
-        Sigi.backupRutas();
         Sigi.backupStation();
+        Sigi.backupRutas();
         Sigi.backupTransacciones();
         Sigi.backupTickets();
     }

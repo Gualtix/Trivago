@@ -125,8 +125,8 @@ public class TADHash extends DataStructure {
             Arista currentArista = iterator.next();
             text += String.format("%s\n", currentArista.getOrigen().getData().createNode());
             text += String.format("%s\n", currentArista.getDestino().getData().createNode());
-            text += String.format("%s -> %s [color = \"%s\"]\n",
-                    currentArista.getOrigen().getData().nodeName(), currentArista.getDestino().getData().nodeName(), color);
+            text += String.format("%s -> %s [color = \"%s\", label = \"%.2f\"]\n",
+                    currentArista.getOrigen().getData().nodeName(), currentArista.getDestino().getData().nodeName(), color, currentArista.getData().getPeso());
         }
 
         return text;
