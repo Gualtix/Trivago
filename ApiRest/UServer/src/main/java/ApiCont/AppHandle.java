@@ -35,6 +35,10 @@ public class AppHandle extends Application {
     @Path("/default_path")
     @Produces("application/json")
     public String default_path(){
+        Sigi.loadStation();
+        Sigi.loadRutas();
+        Sigi.loadTickets();
+        Sigi.loadTransaction();
         return "U R B A N   W E B   S E R V E R";
     }
 
@@ -49,7 +53,7 @@ public class AppHandle extends Application {
         TADNodo StInfo = gson.fromJson(St, TADNodo.class);
         Sigi.addStation(StInfo);
 
-        //return Response.ok("{\"mensaje\":\"Ok\"}").build();
+        Sigi.backupStation();
         return "{\"mensaje\":\"Ok\"}";
     }
 
@@ -68,6 +72,8 @@ public class AppHandle extends Application {
         Tmp.setLatitud(StInfo.getLatitud());
         Tmp.setLongitud(StInfo.getLongitud());
 
+        Sigi.backupStation();
+
         return "{\"mensaje\":\"Ok\"}";
     }
 
@@ -77,11 +83,8 @@ public class AppHandle extends Application {
     @Produces("application/json")
     public String getStations(){
 
-        if(Sigi.getStationList().isEmpty()){
-            StationLoader();
-        }
-
         String Reply = Sigi.getJson_StationList();
+
         return Reply;
     }
 
@@ -124,6 +127,7 @@ public class AppHandle extends Application {
         }
 
         Sigi.addXRoute(Tmp);
+        Sigi.backupRutas();
     }
 
     //(^< ............ ............ ............ ............ ............ update_route
@@ -156,6 +160,7 @@ public class AppHandle extends Application {
         //Th.setPrecio(Precio);
         //Th.setColor(Color);
 
+        Sigi.backupRutas();
         return "{\"mensaje\":\"Ok\"}";
     }
 
@@ -333,6 +338,8 @@ public class AppHandle extends Application {
             Sigi.getTransList().push_back(new Transaction_H(codRuta,Ticket,Estacion,PrecioRuta));
 
             Sigi.getArbol().graph();
+            Sigi.backupTickets();
+            Sigi.backupTransacciones();
             return "{\"le_alcanza\":true}";
         }
         else{
@@ -370,6 +377,7 @@ public class AppHandle extends Application {
         TicketJs = Gs.toJson(NewTicket);
 
         Sigi.getArbol().graph();
+        Sigi.backupTickets();
 
         return TicketJs;
     }
@@ -405,6 +413,7 @@ public class AppHandle extends Application {
 
         TicketJs = Gs.toJson(NewTicket);
         Sigi.getArbol().graph();
+        Sigi.backupTickets();
 
         return TicketJs;
     }
@@ -567,6 +576,7 @@ public class AppHandle extends Application {
         RouteLoader();
 
         Sigi.fillHashTable();
+
 
     }
 }

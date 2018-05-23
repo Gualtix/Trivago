@@ -29,11 +29,14 @@ public class Singleton {
 
     private static Singleton instance = null;
 
-    private static final String FILENAME_STATION = "Estaciones";
     private static final String FILENAME_RUTAS = "Rutas";
     private static final String FILENAME_GRAPH = "Mapa";
     private static final String FILENAME_SHORTROUTE = "ShortRoute";
     private static final String FILENAME_CSV = "Reporte";
+    private static final String FILENAME_BACKUP_STATION = "Backup_Estaciones";
+    private static final String FILENAME_BACKUP_RUTAS = "Backup_Rutas";
+    private static final String FILENAME_BACKUP_TICKETS = "Backup_Tickets";
+    private static final String FILENAME_BACKUP_TRANSACT = "Backup_Transacciones";
 
     public static synchronized Singleton getInstance() {
         if (instance == null)
@@ -155,13 +158,6 @@ public class Singleton {
         return array;
     }
 
-    /* BACKUP RUTAS */
-
-    public void addStation(TADNodo St){
-        StationList.push_back(St);
-        grafo.addNodo(St);
-    }
-
     public List<TADNodo> getStationList(){
         return StationList;
     }
@@ -177,12 +173,48 @@ public class Singleton {
     public void backupRutas() {
         JSONArray text = getJson_RouteList();
 
-        FileManager fileManager = new FileManager(FILENAME_RUTAS, text.toString());
+        FileManager fileManager = new FileManager(FILENAME_BACKUP_RUTAS, text.toString());
+        fileManager.createFile(".json");
         fileManager.encryptFile();
     }
 
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    //(^< ............ ............ ............ ............ ............ B A C K U P ' S  &  L O A D
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+
+    public void backupStation() {
+        String text = getJson_StationList();
+
+        FileManager fileManager = new FileManager(FILENAME_BACKUP_STATION, text);
+        fileManager.createFile(".json");
+        fileManager.encryptFile();
+    }
+
+    public void loadStation() {
+        FileManager fileManager = new FileManager(FILENAME_BACKUP_STATION);
+        String text = fileManager.decryptFile();
+
+        JSONArray jsa = new JSONArray(text);
+        for (int i = 0; i < jsa.length(); i++) {
+            JSONObject jso = jsa.getJSONObject(i);
+            TADNodo nodo = new TADNodo();
+            nodo.setCodigo(jso.getInt("codigo"));
+            nodo.setNombre(jso.getString("nombre"));
+            nodo.setLatitud(jso.getDouble("latitud"));
+            nodo.setLongitud(jso.getDouble("longitud"));
+
+            grafo.addNodo(nodo);
+            StationList.push_front(nodo);
+        }
+    }
+
+    public void addStation(TADNodo St){
+        StationList.push_back(St);
+        grafo.addNodo(St);
+    }
+
     public void loadRutas() {
-        FileManager fileManager = new FileManager(FILENAME_RUTAS);
+        FileManager fileManager = new FileManager(FILENAME_BACKUP_RUTAS);
         String text = fileManager.decryptFile();
 
         JSONArray jsa = new JSONArray(text);
@@ -208,18 +240,67 @@ public class Singleton {
                 route.estaciones.push_back(station);
             }
         }
+
+        fillHashTable();
     }
 
-    public void backupStation() {
-        String text = getJson_StationList();
+    public void backupTransacciones() {
+        JSONArray jsa = new JSONArray();
 
-        FileManager fileManager = new FileManager(FILENAME_STATION, text);
+        Iterator<Transaction_H> iterator = TransList.iterator();
+        while (iterator.hasNext()) {
+            Transaction_H current = iterator.next();
+
+            jsa.put(current.getJSON());
+        }
+
+        FileManager fileManager = new FileManager(FILENAME_BACKUP_TRANSACT, jsa.toString());
+        fileManager.createFile(".json");
         fileManager.encryptFile();
     }
 
-    public void loadStation() {
-        FileManager fileManager = new FileManager(FILENAME_STATION);
+    public void loadTransaction() {
+        FileManager fileManager = new FileManager(FILENAME_BACKUP_TRANSACT);
         String text = fileManager.decryptFile();
+
+        JSONArray jsa = new JSONArray(text);
+        for (int i = 0; i < jsa.length(); i++) {
+            JSONObject jso = jsa.getJSONObject(i);
+            Transaction_H transaction_h = new Transaction_H();
+            transaction_h.setID_Route(jso.getInt("id_route"));
+            transaction_h.setID_Station(jso.getInt("id_ticket"));
+            transaction_h.setID_Ticket(jso.getInt("id_station"));
+            transaction_h.setTransact_Value(jso.getDouble("transact_value"));
+
+            TransList.push_back(transaction_h);
+        }
+    }
+
+    public void backupTickets() {
+        JSONArray jsa = arbol.toJSON();
+
+        FileManager fileManager = new FileManager(FILENAME_BACKUP_TICKETS, jsa.toString());
+        fileManager.createFile(".json");
+        fileManager.encryptFile();
+    }
+
+    public void loadTickets() {
+        FileManager fileManager = new FileManager(FILENAME_BACKUP_TICKETS);
+        String text = fileManager.decryptFile();
+
+        JSONArray jsa = new JSONArray(text);
+        for (int i = 0; i < jsa.length(); i++) {
+            JSONObject jso = jsa.getJSONObject(i);
+            TADArbolB tadArbolB = new TADArbolB(arbol.getK());
+            tadArbolB.setCodigo(jso.getInt("codigo"));
+            tadArbolB.setVerificacion(jso.getString("verificacion"));
+            tadArbolB.setEmision(jso.getString("emision"));
+            tadArbolB.setDevolucion(jso.getString("devolucion"));
+            tadArbolB.setValor(jso.getDouble("valor"));
+            tadArbolB.setSaldo(jso.getDouble("saldo"));
+
+            arbol.add(tadArbolB);
+        }
     }
 
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
