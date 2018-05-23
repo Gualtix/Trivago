@@ -204,6 +204,19 @@ public class AppHandle extends Application {
     }
 
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    //(^< ............ ............ ............ ............ ............ Reporte
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    //(^< ............ ............ ............ ............ ............ reporte csv
+    @GET
+    @Path("/report_csv")
+    @Produces("text/csv")
+    public String get_report_csv(){
+        String report = Sigi.reportCSV();
+
+        return report;
+    }
+
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
     //(^< ............ ............ ............ ............ ............ C + +
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 
@@ -266,6 +279,8 @@ public class AppHandle extends Application {
         if(Tmp.getSaldo() >= PrecioRuta){
             Tmp.setSaldo(SaldoDisponible - PrecioRuta);
             Sigi.getTransList().push_back(new Transaction_H(codRuta,Ticket,Estacion,PrecioRuta));
+
+            Sigi.getArbol().graph();
             return "{\"le_alcanza\":true}";
         }
         else{

@@ -25,9 +25,11 @@ public class Singleton {
 
     private List<Transaction_H> TransList;
 
-    private static String FILENAME_RUTAS = "Rutas";
-    private static final String FILENAME_GRAPH = "Mapa";
     private static Singleton instance = null;
+
+    private static final String FILENAME_RUTAS = "Rutas";
+    private static final String FILENAME_GRAPH = "Mapa";
+    private static final String FILENAME_CSV = "Reporte";
 
     public static synchronized Singleton getInstance() {
         if (instance == null)
@@ -244,5 +246,31 @@ public class Singleton {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String reportCSV() {
+        String text = "";
+        StringBuilder builder = new StringBuilder(text);
+
+        builder.append("\"REPORTE\",,,,,\n");
+        builder.append(",,,,,\n");
+        builder.append("\"ID_RUTA\",\"ID_TICKET\",\"ID_ESTACION\",\"VALOR_TRANSACCION\",\"FECHA\",\"HORA\"\n");
+
+        Iterator<Transaction_H> iterator = TransList.iterator();
+        while(iterator.hasNext()) {
+            Transaction_H current = iterator.next();
+
+            builder.append(current.getID_Route() + "\n");
+            builder.append(current.getID_Ticket() + "\n");
+            builder.append(current.getID_Station() + "\n");
+            builder.append(current.getTransact_Value() + "\n");
+            builder.append(current.getFecha() + "\n");
+            builder.append(current.getHora() + "\n");
+        }
+
+        FileManager fileManager = new FileManager(FILENAME_CSV, text);
+        fileManager.createFile(".csv");
+
+        return fileManager.getFile(".csv");
     }
 }
