@@ -15,11 +15,11 @@
     <script src="JS/MapHandler.js"></script>
     <script src="JS/jquery-3.3.1.js"></script>
     <script src="JS/BLogic.js"></script>
+    <script src="JS/Containers.js"></script>
+
 
     <script src="JS/Stops_Manager.js"></script>
     <script src="JS/Routes_Manager.js"></script>
-    
-    <script src="JS/Containers.js"></script>
 
   
     <div id = "TopMenu">
@@ -97,7 +97,7 @@
 
       <div id = "tblRoutes">
 
-        <table id = tblEstaciones>
+        <table id = "tblMyRoutes">
           <tr>
           <th>Origen</th>
           <th>Destino</th> 
@@ -114,7 +114,7 @@
         Seleccione una Ruta:
         <br>
 
-        <select id="ddlViewBy" class = "aspx">
+        <select id="comboxSelectRoute" class = "MySlector" onchange = "onchangeGetRouteID(this)">
           <!-- 
           <option value="1">test1</option>
           <option value="2" selected="selected">test2</option>
@@ -143,9 +143,9 @@
         <input id = "tboxRtColor" type = "text">
         <br>
 
-        <button id = "btn_createbtnRoutes_Management" class = "btnLong" onclick = "onClick_createbtnRoutes_Management()">Crear Nueva Ruta</button>
-        <br>
-        <button id = "btn_updateRoute" class = "btnLong" onclick = "onClick_updateRoute()" disabled>Actualizar Ruta</button>
+        <button id = "btn_newRoute" class = "btnLong" onclick = "onClick_newRoute()">Nueva Ruta</button>
+    
+        <button id = "btn_updateRoute" class = "btnLong" onclick = "onClick_updateRoute()" disabled>Actualizar</button>
 
       </div>
 

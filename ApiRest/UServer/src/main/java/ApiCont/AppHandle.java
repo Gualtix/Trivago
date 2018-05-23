@@ -134,8 +134,27 @@ public class AppHandle extends Application {
     @POST
     @Path("/update_route")
     @Produces("application/json")
-    public void update_route(String St){
+    public String update_route(String Rt_Up){
 
+        JSONObject Js = new JSONObject(Rt_Up);
+
+        int ID_RT = Js.getInt("codigo");
+
+        String Nombre = Js.getString("nombre");
+        double Precio  = Js.getDouble("precio");
+        String Color = Js.getString("color");
+
+        XRoute Tmp = Sigi.getRouteByID(ID_RT);
+
+        Tmp.nombre = Nombre;
+        Tmp.precio = Precio;
+        Tmp.color = Color;
+
+        Sigi.getHashTable().get(new TADHash(ID_RT));
+
+
+
+        return "{\"mensaje\":\"Ok\"}";
     }
 
     //(^< ............ ............ ............ ............ ............ getroutes

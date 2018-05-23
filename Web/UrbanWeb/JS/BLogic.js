@@ -28,3 +28,29 @@ function validateAddbtnStations_Management() {
 
 	return true;
 }
+
+function validateUpdatebtnRoutes_Management() {
+
+	
+
+	
+
+	var nm = $('#tboxRtName').val();
+	var pc = $('#tboxRtPrice').val();
+	var cl = $('#tboxRtColor').val();
+
+	var Nm_R = nm.replace(/(^\s+|\s+$)/g,'');
+	var Pc_R = pc.replace(/(^\s+|\s+$)/g,'');
+	var Cl_R = cl.replace(/(^\s+|\s+$)/g,'');
+
+	return true;
+	/*
+
+	if(Nm_R == "" || Pc_R == "" || Cl_R = ""){
+
+		alert("Ningun Capo puede ir en Blanco");
+		return false;
+	}
+	return true;
+	*/
+}

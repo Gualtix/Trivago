@@ -34,6 +34,20 @@ header
 
 }
 
+.btnLong{
+
+	border: none; 
+    background-color: #2197b5;
+
+    padding: 5px; 
+    cursor: pointer; 
+    border-radius: 2px;
+    color: #090e16;
+    font-weight: bold;
+    width: 105px;
+
+}
+
 /*
 .ShowBTree {background-color: #4CAF50;} 
 .ShowBTree:hover {background-color: #46a049;}
@@ -82,6 +96,10 @@ th, td  {
     color: #FFF;
 }
 
+.MySlector{
+	width: 175px;
+}
+
 
 #tblEst{
 
@@ -97,7 +115,12 @@ th, td  {
 
 }
 
+
+
+
 #tblRoutes{
+
+	
 
 	margin-right: 5px;
 	overflow: auto;
@@ -108,6 +131,7 @@ th, td  {
 	border-radius: 5px;
 	background-color: #77f442;
 	border: 1px solid silver;
+
 
 }
 

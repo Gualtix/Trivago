@@ -174,6 +174,22 @@ public class Singleton {
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
     //(^< ............ ............ ............ ............ ............ L I S T   M A N A G E M E N T
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+
+
+    public XRoute getRouteByID(int ID){
+
+        XRoute Tmp = new XRoute();
+        Iterator<XRoute> iterator = XRouteList.iterator();
+        while (iterator.hasNext()) {
+            XRoute current = iterator.next();
+            if(current.codigo == ID){
+                return current;
+            }
+        }
+
+        return null;
+    }
+
     public JSONArray getJson_RouteList(){
         JSONArray Reply = new JSONArray();
 
