@@ -131,6 +131,8 @@ public class Singleton {
 
     public void updateHash(TADHash oldData, TADHash newData) {
         hash.pop(oldData);
+        newData.setOrigen(oldData.getOrigen());
+        newData.setEstaciones(oldData.getEstaciones());
         hash.put(newData);
     }
 

@@ -152,13 +152,7 @@ public class AppHandle extends Application {
         Tmp.precio = Precio;
         Tmp.color = Color;
 
-        Sigi.getHashTable().clear();
-        Sigi.getGrafo().clear();
-
-        //TADHash Th = Sigi.getHashTable().get(new TADHash(ID_RT,OldName));
-        //Th.setNombre(Nombre);
-        //Th.setPrecio(Precio);
-        //Th.setColor(Color);
+        Sigi.updateHash(new TADHash(0,Nombre),new TADHash(ID_RT,Nombre,Color,Precio));
 
         Sigi.backupRutas();
         return "{\"mensaje\":\"Ok\"}";
@@ -576,7 +570,6 @@ public class AppHandle extends Application {
         RouteLoader();
 
         Sigi.fillHashTable();
-
 
     }
 }
