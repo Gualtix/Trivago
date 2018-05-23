@@ -72,12 +72,14 @@ public class BTree<T extends DataStructure> {
         for (int i = 0; i < current.size(); i++) {
             if (current.getInfo(i).compareTo(data) == 0)
                 return current.getInfo(i);
+            if (current.getInfo(i).compareTo(data) < 0)
+                continue;
             result = get(data, current.getChild(i));
             if (result != null)
                 break;
         }
         
-        if (result != null)
+        if (result == null)
             result = get(data, current.getChild(current.size()));
 
         return result;

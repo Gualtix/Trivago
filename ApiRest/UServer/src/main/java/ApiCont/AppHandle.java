@@ -150,7 +150,7 @@ public class AppHandle extends Application {
         Tmp.precio = Precio;
         Tmp.color = Color;
 
-        Sigi.getHashTable().get(new TADHash(ID_RT));
+        //Sigi.getHashTable().get(new TADHash(ID_RT));
 
 
 
@@ -223,6 +223,19 @@ public class AppHandle extends Application {
     }
 
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    //(^< ............ ............ ............ ............ ............ Reporte
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
+    //(^< ............ ............ ............ ............ ............ reporte csv
+    @GET
+    @Path("/report_csv")
+    @Produces("text/csv")
+    public String get_report_csv(){
+        String report = Sigi.reportCSV();
+
+        return report;
+    }
+
+    //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
     //(^< ............ ............ ............ ............ ............ C + +
     //(^< ............ ............ ............ ............ ............ ............ ............ ............ ............ ............
 
@@ -266,7 +279,8 @@ public class AppHandle extends Application {
 
         JSONObject Ob = new JSONObject(Tk);
 
-        int Ruta = Ob.getInt("ruta");
+        int codRuta = Ob.getInt("codigo_ruta");
+        String ruta = Ob.getString("ruta");
         int Ticket = Ob.getInt("ticket");
         int Estacion = Ob.getInt("estacion");
 
@@ -276,14 +290,16 @@ public class AppHandle extends Application {
             return "{}";
         }
 
-        TADHash Hs = Sigi.getHashTable().get(new TADHash(Ruta));
+        TADHash Hs = Sigi.getHashTable().get(new TADHash(codRuta, ruta));
 
         double PrecioRuta = Hs.getPrecio();
         double SaldoDisponible = Tmp.getSaldo();
 
         if(Tmp.getSaldo() >= PrecioRuta){
             Tmp.setSaldo(SaldoDisponible - PrecioRuta);
-            Sigi.getTransList().push_back(new Transaction_H(Ruta,Ticket,Estacion,PrecioRuta));
+            Sigi.getTransList().push_back(new Transaction_H(codRuta,Ticket,Estacion,PrecioRuta));
+
+            Sigi.getArbol().graph();
             return "{\"le_alcanza\":true}";
         }
         else{

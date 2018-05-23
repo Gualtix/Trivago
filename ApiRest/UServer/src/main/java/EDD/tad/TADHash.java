@@ -20,12 +20,13 @@ public class TADHash extends DataStructure {
     private Nodo origen;
     Ruta estaciones;
 
-    public TADHash(int codigo) {
-        this.codigo = codigo;
-    }
-
     public TADHash() {
         estaciones = new Ruta();
+    }
+
+    public TADHash(int codigo, String nombre) {
+        this.codigo = codigo;
+        this.nombre = nombre;
     }
 
     public TADHash(int codigo, String nombre, String color, double precio, Nodo origen) {
@@ -141,5 +142,16 @@ public class TADHash extends DataStructure {
     public boolean equals(Object obj) {
         TADHash temp = (TADHash)obj;
         return nombre.equals(temp.getNombre());
+    }
+
+    @Override
+    public int hashCode() {
+        char[] chars = nombre.toCharArray();
+        int hash = 0;
+        for (int i = 0; i < chars.length; i++) {
+            hash += chars[i];
+        }
+
+        return hash;
     }
 }

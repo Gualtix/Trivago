@@ -30,6 +30,30 @@ public class Transaction_H implements Comparable {
         ObjetoFecha = new Date();
     }
 
+    public int getID_Route() {
+        return ID_Route;
+    }
+
+    public int getID_Ticket() {
+        return ID_Ticket;
+    }
+
+    public int getID_Station() {
+        return ID_Station;
+    }
+
+    public double getTransact_Value() {
+        return Transact_Value;
+    }
+
+    public String getFecha() {
+        return Fecha;
+    }
+
+    public String getHora() {
+        return Hora;
+    }
+
     public String getCurrentDate(){
 
         //Fecha
